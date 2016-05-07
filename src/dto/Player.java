@@ -1,24 +1,32 @@
 package dto;
 
-import java.util.ArrayList;
-
-import logic.Card;
-
 public class Player {
 	
-	private int totalPoints;
-	private int totalChips;
+	private int chips,id;
 	private String name;
+	private String password;
 	
-	private ArrayList<Card> hand;
-	
-	public Player(String name){
+	public Player(){
 		
-		this.totalPoints = 0;
-		this.totalChips = 1000;
+	}
+	
+	public Player(int id, int chips, String name, String password){
+		
+		this.id = id;
+		this.chips = chips;
 		this.name = name;
+		this.password = password;
 		
-		this.hand = new ArrayList<Card>();
+	}
+	
+	public int getID(){
+		
+		return id;
+	}
+	
+	public void setID(int id){
+		
+		this.id = id;
 	}
 	
 	public String getName(){
@@ -26,56 +34,27 @@ public class Player {
 		return name;
 	}
 	
-	public int getPlayerPoints(){
+	public void setName(String name){
 		
-		return totalPoints;
+		this.name = name;
 	}
 	
-	public void resetPlayerPoints(){
+	public String getPassword(){
 		
-		this.totalPoints = 0;
-	}
-	
-	public int getTotalChips(){
-		
-		return totalChips;
-		
-	}
-	
-	public ArrayList<Card> getHand(){
-		
-		return hand;
-		
-	}
-	
-	public void addCard(Card c){
-		
-		hand.add(c);
+		return password;
 	}
 
-	public void addChips(int chips){
+	public void setPassword(String password){
 		
-		this.totalChips += chips;
+		this.password = password;
 	}
 	
-	public void removeChips(int chips){
-		
-		this.totalChips -= chips;
+	public int getChips(){	
+		return chips;	
 	}
 	
-	public boolean playerBusted(){
-		
-		return this.totalPoints > 21;
-	}
-	
-	public boolean playerBlackJack(){
-		
-		return this.totalPoints == 21;
-	}
-
-	public void addPlayerPoints(int points){
-		
-		this.totalPoints += points;
+	public void setChips(int chips){	
+		this.chips = chips;	
 	}
 
 }

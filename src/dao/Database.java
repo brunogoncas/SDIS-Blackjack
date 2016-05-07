@@ -5,15 +5,17 @@ import java.sql.DriverManager;
 
 public class Database {
 	public Connection getConnection() throws Exception {
-		try {
-			String connectionURL = "jdbc:mysql://localhost:3306/codezone4";
-			Connection connection = null;
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			connection = DriverManager.getConnection(connectionURL, "root", "");
-			return connection;
-		} catch (Exception e) {
-			throw e;
-		}
+		
+		String url = "jdbc:mysql://127.0.0.1:3306/blackjack";
+		String user = "root";
+		String password = "root";
+
+		// Load the Connector/J driver
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		// Establish connection to MySQL
+		Connection conn = DriverManager.getConnection(url, user, password);
+		
+		return conn;
 
 	}
 

@@ -11,23 +11,24 @@ import com.google.gson.Gson;
 //import model.AccessManager;
 
 import dto.Game;
+import dto.Player;
 import model.AccessManager;
 
-@Path("/gameService")
-public class GameService {
+@Path("/playerService")
+public class PlayerService {
 	@GET
-	@Path("/games")
+	@Path("/players")
 	@Produces("application/json")
 	public String games() {
-		String courses = null;
-		ArrayList<Game> courseList = new ArrayList<Game>();
+		String players = null;
+		ArrayList<Player> courseList = new ArrayList<Player>();
 		try {
-			courseList = new AccessManager().getGames();
+			courseList = new AccessManager().getPlayers();
 			Gson gson = new Gson();
-			courses = gson.toJson(courseList);
+			players = gson.toJson(courseList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return courses;
+		return players;
 	}
 }

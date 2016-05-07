@@ -7,23 +7,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dto.Game;
+import dto.Player;
 
 public class Access {
 
-	public ArrayList<Game> getCourses(Connection con) throws SQLException {
-		ArrayList<Game> courseList = new ArrayList<Game>();
-		PreparedStatement stmt = con.prepareStatement("SELECT * FROM Games");
+	public ArrayList<Player> getPlayers(Connection con) throws SQLException {
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		PreparedStatement stmt = con.prepareStatement("SELECT * FROM players");
 		ResultSet rs = stmt.executeQuery();
 		try {
 			while (rs.next()) {
-				Game gameObj = new Game();
-				gameObj.setId(rs.getInt("id"));
-				courseList.add(gameObj);
+				Player newPlayer = new Player();
+				newPlayer.setID(rs.getInt("idplayers"));
+				newPlayer.setName(rs.getString("name"));
+				newPlayer.setPassword(rs.getString("password"));
+				newPlayer.setChips(rs.getInt("chips"));
+				playerList.add(newPlayer);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return courseList;
+		return playerList;
 
 	}
 

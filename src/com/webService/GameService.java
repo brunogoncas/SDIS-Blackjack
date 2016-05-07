@@ -1,4 +1,4 @@
-package webService;
+package com.webService;
 
 import java.util.ArrayList;
 
@@ -11,17 +11,18 @@ import com.google.gson.Gson;
 //import model.AccessManager;
 
 import dto.Game;
+import model.AccessManager;
 
-@Path("/courseService")
+@Path("/gameService")
 public class GameService {
 	@GET
-	@Path("/courses")
+	@Path("/games")
 	@Produces("application/json")
-	public String courses() {
+	public String games() {
 		String courses = null;
 		ArrayList<Game> courseList = new ArrayList<Game>();
 		try {
-			// courseList = new AccessManager().getCourses();
+			courseList = new AccessManager().getGames();
 			Gson gson = new Gson();
 			courses = gson.toJson(courseList);
 		} catch (Exception e) {

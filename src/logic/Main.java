@@ -1,7 +1,10 @@
 package logic;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+
+import javax.crypto.SecretKey;
 
 public class Main {
 
@@ -26,12 +29,22 @@ public class Main {
 
 			switch (choice) {
 			case 1: {
-				Login();
+				try {
+					Login();
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			}
 
 			case 2: {
-				Register();
+				try {
+					Register();
+				} catch (NoSuchAlgorithmException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			}
 
@@ -43,7 +56,7 @@ public class Main {
 		}
 	}
 	
-	public void Login() throws IOException {
+	public void Login() throws IOException, NoSuchAlgorithmException {
 		
 		String username = "";
 		String password = "";
@@ -64,7 +77,7 @@ public class Main {
 	
 	}
 	
-	public void Register() throws IOException {
+	public void Register() throws IOException, NoSuchAlgorithmException {
 		
 		String username = "";
 		String password = "";
@@ -88,7 +101,9 @@ public class Main {
 			System.out.println("1. Jogar numa sala existente");
 			System.out.println("2. Criar uma nova sala para jogar");
 			System.out.println("3. Ver saldo disponivel");
-			System.out.println("4. Sair\n");
+			System.out.println("4. Depositar dinheiro");
+			System.out.println("5. Levantar dinheiro");
+			System.out.println("6. Sair\n");
 
 			System.out.print("Escolha: ");
 
@@ -105,7 +120,7 @@ public class Main {
 
 			switch (choice) {
 			case 1: {
-
+				
 				break;
 			}
 
@@ -118,8 +133,15 @@ public class Main {
 
 				break;
 			}
-
 			case 4: {
+
+				break;
+			}
+			case 5: {
+
+				break;
+			}
+			case 6: {
 				System.out.println("\nA fechar...");
 				System.exit(0);
 				break;

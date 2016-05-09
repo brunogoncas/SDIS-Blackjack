@@ -1,4 +1,4 @@
-package logic;
+package teste;
 
 public class Game {
 	

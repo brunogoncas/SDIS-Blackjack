@@ -4,7 +4,7 @@ public class Register {
 	
 public static Boolean register(String username, String pass){
 					
-		String response = "";
+		int response = 0;
 		
 		String[] paramName = { "name", "password", "chips" };
 		String[] paramVal = { username, pass, "2500" };
@@ -14,10 +14,16 @@ public static Boolean register(String username, String pass){
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(response.toLowerCase().contains("success"))
+		
+		if(response == 200){
+			System.out.println("HELLOOOOO1" + response);
 			return true;
-		else
+		}
+			
+		else{
+			System.out.println("HELLOOOOO2" + response);
 			return false;
+		}
 	}
 	
 }

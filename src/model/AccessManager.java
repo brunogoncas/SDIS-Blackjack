@@ -17,11 +17,12 @@ public class AccessManager {
 		return playerList;
 	}
 	
-	public void insertPlayer(String name, String password, int chips) throws Exception {
+	public boolean insertPlayer(String name, String password, int chips) throws Exception {
 		Database db = new Database();
 		Connection con = db.getConnection();
 		Access access = new Access();
-		access.NewPlayer(con, name, password, chips);
+		boolean result = access.NewPlayer(con, name, password, chips);
+		return result;
 	}
 	
 	public boolean loginPlayer(String name, String password) throws Exception {

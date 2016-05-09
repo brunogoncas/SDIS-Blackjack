@@ -29,21 +29,32 @@ public class Access {
 		return playerList;
 	}
 	
-	public void NewPlayer(Connection con, String name, String password, int chips) throws SQLException {
-		
-		String query = "insert into players (name, password, chips) "
-				+ "values (?, ?, ?)";
+	public boolean NewPlayer(Connection con, String name, String password, int chips) {
+		String query = "INSERT INTO players (name, chips, password)"
+				+ "VALUES (?, ?, ?)";
 		
 		  // create the mysql insert preparedstatement
-	      PreparedStatement preparedStmt = con.prepareStatement(query);
-	      preparedStmt.setString (1, name);
-	      preparedStmt.setString (2, password);
-	      preparedStmt.setInt    (3, chips);
-	 
-	      // execute the preparedstatement
-	      preparedStmt.execute();
-	       
-	      con.close();
+	      PreparedStatement Stmt;
+		try {
+			Stmt = con.prepareStatement(query);
+			Stmt.setString (1, name);
+			Stmt.setInt    (2, chips);
+	        Stmt.setString (3, password);
+	        
+	        Stmt.executeUpdate();
+	        con.close();
+
+            System.out.println("Insert query(REGISTER) Successful!");
+            return true;
+
+	        
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+        	System.out.println("Insert query(REGISTER) Failed!");
+            return false;
+		}
+
 	}
 
 	
@@ -60,6 +71,7 @@ public class Access {
             System.out.println("Login Errado"); //prints this message if your resultset is empty
         }
 		
+		con.close();
 		return val;
 	}
 	

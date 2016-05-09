@@ -9,7 +9,6 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Scanner;
 
 public class Communication {
 	
@@ -25,6 +24,8 @@ public class Communication {
 		  if (conn.getResponseCode() != 200) {
 		    throw new IOException(conn.getResponseMessage());
 		  }
+		  
+		  System.out.println("GET request returned:" + conn.getResponseCode());
 
 		  // Buffer the result into a string
 		  BufferedReader rd = new BufferedReader(
@@ -40,7 +41,7 @@ public class Communication {
 		  return sb.toString();
 	}
 	
-	public static String POST(String path, String[] paramName, String[] paramVal) throws IOException {
+	public static int POST(String path, String[] paramName, String[] paramVal) throws IOException {
 	 
 		 // Define the server endpoint to send the HTTP request to
 	    URL serverUrl = 
@@ -62,14 +63,13 @@ public class Communication {
 	    }
 	    writer.close();
 	    out.close();
-	 
-	    // Reading from the HTTP response body
-	    Scanner httpResponseScanner = new Scanner(urlConnection.getInputStream());
-	    while(httpResponseScanner.hasNextLine()) {
-	        System.out.println(httpResponseScanner.nextLine());
-	    }
-	    httpResponseScanner.close();
 	    
-	    return "success";
+	    int response = urlConnection.getResponseCode();
+		
+		//print result
+		System.out.println("POST request returned:" + response);
+	    
+		urlConnection.disconnect();
+	    return response;
 	}
 }

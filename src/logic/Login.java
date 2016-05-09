@@ -4,7 +4,7 @@ public class Login {
 	
 	public static boolean login(String username, String pass){
 			
-		String response = "";
+		int response = 0;
 		
 		String[] paramName = { "name", "password"};
 		String[] paramVal = { username, pass };
@@ -14,11 +14,18 @@ public class Login {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(response.toLowerCase().contains("success"))
-			return true;
-		else
-			return false;
 		
+		
+		if(response == 200){
+			System.out.println("HELLOOOOO1" + response);
+			return true;
+		}
+			
+		else{
+			System.out.println("HELLOOOOO2" + response);
+			return false;
+		}
+
 	}
 	
 }

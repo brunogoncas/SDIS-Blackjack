@@ -8,6 +8,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
@@ -37,27 +39,35 @@ public class PlayerService {
 	@POST
 	@Path("/register")
 	@Produces("application/json")
-	public static String newPlayer(@FormParam("name") String name, 
+	public static Response newPlayer(@FormParam("name") String name, 
 			@FormParam("password") String password, 
 			@FormParam("chips") int chips) throws Exception {
 	
-		new AccessManager().insertPlayer(name, password, chips);
-		return "success";
+		boolean result = new AccessManager().insertPlayer(name, password, chips);
+		
+		if(result==false){
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Register Failed for: " + name).build();
+		}
+		
+		else {
+			return Response.ok("Register Successful", MediaType.APPLICATION_JSON).build();
+		}
 	}
 	
 	@POST
 	@Path("/login")
 	@Produces("application/json")
-	public static String newPlayer(@FormParam("name") String name, 
+	public static Response  newPlayer(@FormParam("name") String name, 
 			@FormParam("password") String password) throws Exception {
 	
 		boolean result = new AccessManager().loginPlayer(name, password);
 		
 		if(result==false){
-			return "Error";
+			return Response.status(Response.Status.NOT_FOUND).entity("Login Failed for: " + name).build();
 		}
+		
 		else {
-			return "success";
+			return Response.ok("Login Successful", MediaType.APPLICATION_JSON).build();
 		}
 	}
 	

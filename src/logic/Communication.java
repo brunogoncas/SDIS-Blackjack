@@ -17,7 +17,7 @@ public class Communication {
 	
 	static String urlStandard = "http://localhost:8080/SDIS_BlackJack/rest/";
 	
-	public String GET(String path) throws IOException {
+	public static String GET(String path) throws IOException {
 			
 		  URL url = new URL(urlStandard + path);
 		  

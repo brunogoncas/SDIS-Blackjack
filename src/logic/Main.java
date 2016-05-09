@@ -9,6 +9,7 @@ import javax.crypto.SecretKey;
 public class Main {
 
 	Scanner reader = new Scanner(System.in);
+	String usernameLogged=null;
 	
 	public void loginMenu() throws IOException {
 		while (true) {
@@ -67,7 +68,9 @@ public class Main {
 	    
 		System.out.println("Password:");
 		password = reader.nextLine();
-				
+		
+		usernameLogged = username;
+		
 		if (!Login.login(username, password))
 			System.out.println("Username/Password Erradas");
 		else { 
@@ -130,15 +133,54 @@ public class Main {
 			}
 
 			case 3: {
-
+				String response = null;
+				try {
+					response = Communication.GET("playerService/getMoney?name="+usernameLogged);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Tens " + response + " chips.");
 				break;
 			}
 			case 4: {
-
+				int AddChips = 0;
+				String input;
+				System.out.println("Quanto pretende depositar: ");
+				reader.nextLine();
+				input = reader.nextLine();
+				AddChips = Integer.parseInt(input);
+				
+				String[] paramName = { "name", "addChips"};
+				String[] paramVal = { usernameLogged, Integer.toString(AddChips) };
+				
+				int response = 0;
+				try {
+					response = Communication.POST("playerService/addChips", paramName, paramVal);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				break;
 			}
 			case 5: {
-
+				int RemoveChips = 0;
+				String input;
+				System.out.println("Quanto pretende levantar: ");
+				reader.nextLine();
+				input = reader.nextLine();
+				RemoveChips = Integer.parseInt(input);
+				
+				String[] paramName = { "name", "removeChips"};
+				String[] paramVal = { usernameLogged, Integer.toString(RemoveChips) };
+				
+				int response = 0;
+				try {
+					response = Communication.POST("playerService/removeChips", paramName, paramVal);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				break;
 			}
 			case 6: {

@@ -39,4 +39,27 @@ public class AccessManager {
 		Access access = new Access();
 		access.updatePlayer(con, Playername, ChipsNewValue);
 	}
+	
+	public int getMoneyPlayer(String Playername) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		int chips = access.getPlayerMoney(con, Playername);
+		return chips;
+	}
+	
+	public void AddChips(String name, int addChips) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		access.addChips(con, name, addChips);		
+	}
+	
+	public boolean RemoveChips(String name, int removeChips) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		boolean result = access.removeChips(con, name, removeChips);	
+		return result;
+	}
 }

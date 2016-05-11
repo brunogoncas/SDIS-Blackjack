@@ -73,15 +73,16 @@ public class Access {
 
 	}
 	
-	public boolean NewRoom(Connection con, String name) {
-		String query = "INSERT INTO room (name)" + "VALUES (?)";
+	public boolean NewRoom(Connection con, String name, int dealer) {
+		String query = "INSERT INTO room (name)" + "VALUES (?, ?)";
 
 		// create the mysql insert preparedstatement
 		PreparedStatement Stmt;
 		try {
 			Stmt = con.prepareStatement(query);
 			Stmt.setString(1, name);
-
+			Stmt.setInt(2, dealer);
+			
 			Stmt.executeUpdate();
 			con.close();
 

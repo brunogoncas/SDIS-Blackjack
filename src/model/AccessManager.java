@@ -45,11 +45,11 @@ public class AccessManager {
 		return result;
 	}
 	
-	public boolean insertRoom(String name) throws Exception {
+	public boolean insertRoom(String name, int dealer) throws Exception {
 		Database db = new Database();
 		Connection con = db.getConnection();
 		Access access = new Access();
-		boolean result = access.NewRoom(con, name);
+		boolean result = access.NewRoom(con, name, dealer);
 		return result;
 	}
 	

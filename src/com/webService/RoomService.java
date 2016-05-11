@@ -51,9 +51,9 @@ public class RoomService {
 	@POST
 	@Path("/room")
 	@Produces("application/json")
-	public static Response newRoom(@FormParam("name") String name) throws Exception {
+	public static Response newRoom(@FormParam("name") String name, @FormParam("idDealer") int dealer) throws Exception {
 	
-		boolean result = new AccessManager().insertRoom(name);
+		boolean result = new AccessManager().insertRoom(name, dealer);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed").build();

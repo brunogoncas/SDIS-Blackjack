@@ -19,11 +19,14 @@ public class Communication {
 	
 	public static String GET(String path) throws IOException {
 			
-		  URL url = new URL(urlStandard + path);
+		  String pathh = urlStandard + path;
+		  pathh = pathh.replace(" ", "%20");
+		  URL url = new URL(pathh);
 		  
+		 
 		  HttpURLConnection conn =
 		      (HttpURLConnection) url.openConnection();
-
+		  
 		  if (conn.getResponseCode() != 200 && conn.getResponseCode() != 404) {
 		    throw new IOException(conn.getResponseMessage());
 		  }

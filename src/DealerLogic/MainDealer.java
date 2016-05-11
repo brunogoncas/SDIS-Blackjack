@@ -103,6 +103,7 @@ public class MainDealer {
 			}
 
 			System.out.println(" ===== Dealer - BLACKJACK ===== ");
+			break;
 			// menu começar jogo -> "place your bets"
 			//POST(place your bets);
 			

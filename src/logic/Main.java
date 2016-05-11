@@ -2,10 +2,13 @@ package logic;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
 import java.util.Scanner;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import jdk.nashorn.internal.parser.JSONParser;
 
 public class Main {
 
@@ -204,15 +207,15 @@ public class Main {
 		}
 		
 		System.out.println(response);
+	
+		JSONArray jArray = new JSONArray(response);
+		 for(int i = 0; i < jArray.length(); i++){
+			 int idroom = jArray.getJSONObject(i).getInt("id");
+			 String nameroom = jArray.getJSONObject(i).getString("name");
+			 System.out.println(idroom + " -> " + nameroom); 
+		  }
+	
 		
-		final JSONObject obj = new JSONObject(response);
-	    final JSONArray geodata = obj.getJSONArray("geodata");
-	    final int n = geodata.length();
-	    for (int i = 0; i < n; ++i) {
-	      final JSONObject room = geodata.getJSONObject(i);
-	      System.out.println(room.getInt("id") + " - " + room.getString("name"));
-	    }
-	    
 	    while(!skip) {
 			int RoomChoose = 0;
 			String input;
@@ -225,13 +228,24 @@ public class Main {
 				mainMenu();
 				skip=true;
 			}
-			else if ( geodata.toString().contains("\"id\":\""+RoomChoose+"\"")) {
+			else  { //verificar aqui se contem!!!!!!!!!!!!!!!!!!1
 				skip=true;
+				
+				String[] paramName = { "name", "idRoom"};
+				String[] paramVal = { usernameLogged, Integer.toString(RoomChoose) };
+				
+				int response2 = 0;
+				try {
+					response2 = Communication.POST("roomService/room/{idRoom}/player/{name}", paramName, paramVal);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				PlayPlayer.Player();
 			}
-			else{
+			/*else{
 				System.out.println("Escolha uma sala válida! ");
-			}
+			}*/
 	    }
 	}
 

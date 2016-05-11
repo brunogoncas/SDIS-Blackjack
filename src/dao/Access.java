@@ -74,7 +74,7 @@ public class Access {
 
 	}
 	
-	public boolean NewRoom(Connection con, String name, String dealer) {
+	public boolean NewRoom(Connection con, String name, String dealer) throws SQLException {
 		
 		
 		String query = "INSERT INTO dealer (name)" + "VALUES (?)";
@@ -82,45 +82,45 @@ public class Access {
 
 		// create the mysql insert preparedstatement
 		PreparedStatement Stmt;
+
+		Stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+		Stmt.setString(1, dealer);
+		
+		Stmt.executeUpdate();
+		
+		int idd = getIdDealer(con, dealer);
+		
+		String query2 = "INSERT INTO room (name, iddealer)" + "VALUES (?, ?)";
+		PreparedStatement Stmt2;
 		try {
-			Stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-			Stmt.setString(1, dealer);
+			Stmt2 = con.prepareStatement(query2);
+			Stmt2.setString(1, name);
+			Stmt2.setInt(2, idd);
 			
-			Stmt.executeUpdate();
-			
-			int idd = 0;
-			ResultSet iddealer = Stmt.getGeneratedKeys();
-				if(iddealer.next())
-					idd = iddealer.getInt(1);
-				else{
-					System.out.println("Insert query(REGISTER Room) Failed!");
-					return false;
-				}
-			String query2 = "INSERT INTO room (name)" + "VALUES (?, ?)";
-			
-			PreparedStatement Stmt2;
-			try {
-				Stmt2 = con.prepareStatement(query2);
-				Stmt2.setString(1, name);
-				Stmt2.setInt(2, idd);
-				
-				Stmt2.executeUpdate();
-			}
-			catch (SQLException e2){
-				e2.printStackTrace();
-			}
-			con.close();
-
-			System.out.println("Insert query(REGISTER Room) Successful!");
-			return true;
-
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			System.out.println("Insert query(REGISTER Room) Failed!");
-			return false;
+			Stmt2.executeUpdate();
 		}
+		catch (SQLException e2){
+			e2.printStackTrace();
+		}
+		con.close();
+		return true;
+	}
+	
+	public int getIdDealer(Connection con, String Dealername) throws SQLException {
+		
+		// create the java mysql update preparedstatement
+		String query = "SELECT iddealer FROM dealer where name = ?";
+		PreparedStatement preparedStmt = con.prepareStatement(query);
+		preparedStmt.setString(1, Dealername);
 
+		// execute the java preparedstatement
+		ResultSet rs = preparedStmt.executeQuery();
+		int idd = 0;
+		while (rs.next()) {
+			idd = rs.getInt(1);
+		}
+		
+		return idd;
 	}
 
 	public boolean LoginPlayer(Connection con, String name, String password) throws SQLException {
@@ -218,16 +218,28 @@ public class Access {
 		con.close();
 	}
 	
-	public boolean addPlayerRoom(Connection con, String Playername, int idRoom) {
+	public boolean addPlayerRoom(Connection con, String Playername, int idRoom) throws SQLException {
 
 		// create the java mysql update preparedstatement
-		String query = "insert into room_player (idroom, idplayer) values ((select idroom from room where idroom = ?),(select idplayers from players where name = ?));";
+		String query2 = "SELECT idplayers FROM players where name = ?";
+		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+		preparedStmt2.setString(1, Playername);
+
+		// execute the java preparedstatement
+		ResultSet rs2 = preparedStmt2.executeQuery();
+		int idPlayer = 0;
+		while (rs2.next()) {
+			idPlayer = rs2.getInt(1);
+		}
+		System.out.println("CRKID : " + idPlayer);
+		// create the java mysql update preparedstatement
+		String query = "insert into room_player (idroom, idplayer) values (?,?)";
 			
 		PreparedStatement preparedStmt;
 		try {
 			preparedStmt = con.prepareStatement(query);
 			preparedStmt.setInt(1, idRoom);
-			preparedStmt.setString(2, Playername);
+			preparedStmt.setInt(2, idPlayer);
 			
 			// execute the java preparedstatement
 			int rs = preparedStmt.executeUpdate();

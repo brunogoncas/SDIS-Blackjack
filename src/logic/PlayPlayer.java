@@ -4,11 +4,11 @@ public class PlayPlayer {
 	
 	public static void Player() {
 		
-		while(true) {
+		/*while(true) {
 					
 					
-				}
-		
+				}*/
+		System.out.println("OK");
 	}
 	
 }

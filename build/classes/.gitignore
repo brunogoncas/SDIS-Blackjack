@@ -1,4 +1,6 @@
 /com/
-/dao/
-/model/
 /logic/
+/dto/
+/model/
+/dao/
+/database/

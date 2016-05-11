@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
-import javax.crypto.SecretKey;
-
 public class Main {
 
 	Scanner reader = new Scanner(System.in);
@@ -102,11 +100,10 @@ public class Main {
 		System.out.println("\n\n ===== BLACKJACK ===== ");
 		while (true) {
 			System.out.println("1. Jogar numa sala existente");
-			System.out.println("2. Criar uma nova sala para jogar");
-			System.out.println("3. Ver saldo disponivel");
-			System.out.println("4. Depositar dinheiro");
-			System.out.println("5. Levantar dinheiro");
-			System.out.println("6. Sair\n");
+			System.out.println("2. Ver saldo disponivel");
+			System.out.println("3. Depositar dinheiro");
+			System.out.println("4. Levantar dinheiro");
+			System.out.println("5. Sair\n");
 
 			System.out.print("Escolha: ");
 
@@ -123,16 +120,18 @@ public class Main {
 
 			switch (choice) {
 			case 1: {
-				
+				String response = null;
+				try {
+					response = Communication.GET("roomService/room");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Existem estas salas: " + response);
 				break;
 			}
 
 			case 2: {
-
-				break;
-			}
-
-			case 3: {
 				String response = null;
 				try {
 					response = Communication.GET("playerService/getMoney?name="+usernameLogged);
@@ -143,7 +142,7 @@ public class Main {
 				System.out.println("Tens " + response + " chips.");
 				break;
 			}
-			case 4: {
+			case 3: {
 				int AddChips = 0;
 				String input;
 				System.out.println("Quanto pretende depositar: ");
@@ -163,7 +162,7 @@ public class Main {
 				
 				break;
 			}
-			case 5: {
+			case 4: {
 				int RemoveChips = 0;
 				String input;
 				System.out.println("Quanto pretende levantar: ");
@@ -183,7 +182,7 @@ public class Main {
 				
 				break;
 			}
-			case 6: {
+			case 5: {
 				System.out.println("\nA fechar...");
 				System.exit(0);
 				break;

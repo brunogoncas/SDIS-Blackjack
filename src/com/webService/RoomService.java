@@ -36,12 +36,12 @@ public class RoomService {
 	}
 	
 	@GET
-	@Path("/room/{idRoom}/player")
-	public int PlayerByRoom(@PathParam("idRoom") int idRoom) {
+	@Path("/room/{name}/player")
+	public int PlayerByRoom(@PathParam("name") String nameRoom) {
 		int players = 0;
-		String id = String.valueOf(idRoom);
+		//String id = String.valueOf(idRoom);
 		try {
-			players = new AccessManager().getPlayersByRoom(id);
+			players = new AccessManager().getPlayersByRoom(nameRoom);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,9 +51,9 @@ public class RoomService {
 	@POST
 	@Path("/room")
 	@Produces("application/json")
-	public static Response newRoom(@FormParam("name") String name, @FormParam("idDealer") int dealer) throws Exception {
+	public static Response newRoom(@FormParam("roomname") String roomname, @FormParam("dealername") String dealername) throws Exception {
 	
-		boolean result = new AccessManager().insertRoom(name, dealer);
+		boolean result = new AccessManager().insertRoom(roomname, dealername);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed").build();

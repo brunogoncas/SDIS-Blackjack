@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import dto.Player;
@@ -73,17 +74,41 @@ public class Access {
 
 	}
 	
-	public boolean NewRoom(Connection con, String name, int dealer) {
-		String query = "INSERT INTO room (name)" + "VALUES (?, ?)";
+	public boolean NewRoom(Connection con, String name, String dealer) {
+		
+		
+		String query = "INSERT INTO dealer (name)" + "VALUES (?)";
+		//String query = "INSERT INTO room (name)" + "VALUES (?, ?)";
 
 		// create the mysql insert preparedstatement
 		PreparedStatement Stmt;
 		try {
-			Stmt = con.prepareStatement(query);
-			Stmt.setString(1, name);
-			Stmt.setInt(2, dealer);
+			Stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			Stmt.setString(1, dealer);
 			
 			Stmt.executeUpdate();
+			
+			int idd = 0;
+			ResultSet iddealer = Stmt.getGeneratedKeys();
+				if(iddealer.next())
+					idd = iddealer.getInt(1);
+				else{
+					System.out.println("Insert query(REGISTER Room) Failed!");
+					return false;
+				}
+			String query2 = "INSERT INTO room (name)" + "VALUES (?, ?)";
+			
+			PreparedStatement Stmt2;
+			try {
+				Stmt2 = con.prepareStatement(query2);
+				Stmt2.setString(1, name);
+				Stmt2.setInt(2, idd);
+				
+				Stmt2.executeUpdate();
+			}
+			catch (SQLException e2){
+				e2.printStackTrace();
+			}
 			con.close();
 
 			System.out.println("Insert query(REGISTER Room) Successful!");
@@ -149,12 +174,12 @@ public class Access {
 		return result;
 	}
 	
-	public int getPlayersByRoom(Connection con, String idRoom) throws SQLException {
+	public int getPlayersByRoom(Connection con, String nameRoom) throws SQLException {
 
 		// create the java mysql update preparedstatement
-		String query = "SELECT COUNT(t1.name) FROM players t1, room_player t2  where t2.idroom = ? AND t2.idplayer = t1.idplayers";
+		String query = "SELECT COUNT(t1.name) FROM players t1, room_player t2, room t3  where t3.room = ? t2.idroom = t3.idroom AND t2.idplayer = t1.idplayers";
 		PreparedStatement preparedStmt = con.prepareStatement(query);
-		preparedStmt.setString(1, idRoom);
+		preparedStmt.setString(1, nameRoom);
 
 		// execute the java preparedstatement
 		ResultSet rs = preparedStmt.executeQuery();

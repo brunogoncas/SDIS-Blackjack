@@ -28,12 +28,12 @@ public class AccessManager {
 		return roomList;
 	}
 	
-	public int getPlayersByRoom(String idPlayer) throws Exception {
+	public int getPlayersByRoom(String nameRoom) throws Exception {
 		int playerList = 0;
 		Database db = new Database();
 		Connection con = db.getConnection();
 		Access access = new Access();
-		playerList = access.getPlayersByRoom(con,idPlayer);
+		playerList = access.getPlayersByRoom(con,nameRoom);
 		return playerList;
 	}
 
@@ -45,7 +45,7 @@ public class AccessManager {
 		return result;
 	}
 	
-	public boolean insertRoom(String name, int dealer) throws Exception {
+	public boolean insertRoom(String name, String dealer) throws Exception {
 		Database db = new Database();
 		Connection con = db.getConnection();
 		Access access = new Access();

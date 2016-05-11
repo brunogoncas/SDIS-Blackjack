@@ -17,8 +17,7 @@ public class Login {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+				
 		if(response == 200){
 			System.out.println("HELLOOOOO1" + response);
 			//String usernameAndPassword = "username" + ":" + "pass";

@@ -3,6 +3,9 @@ package logic;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Main {
 
@@ -120,14 +123,7 @@ public class Main {
 
 			switch (choice) {
 			case 1: {
-				String response = null;
-				try {
-					response = Communication.GET("roomService/room");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.out.println("Existem estas salas: " + response);
+				ListRooms();
 				break;
 			}
 
@@ -194,6 +190,49 @@ public class Main {
 			}
 			}
 		}
+	}
+	
+	public void ListRooms() {
+		
+		String response = null;
+		boolean skip=false;
+		try {
+			response = Communication.GET("roomService/room");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(response);
+		
+		final JSONObject obj = new JSONObject(response);
+	    final JSONArray geodata = obj.getJSONArray("geodata");
+	    final int n = geodata.length();
+	    for (int i = 0; i < n; ++i) {
+	      final JSONObject room = geodata.getJSONObject(i);
+	      System.out.println(room.getInt("id") + " - " + room.getString("name"));
+	    }
+	    
+	    while(!skip) {
+			int RoomChoose = 0;
+			String input;
+			System.out.println("Qual a Room pretende escolher? (0-Exit) : ");
+			reader.nextLine();
+			input = reader.nextLine();
+			RoomChoose = Integer.parseInt(input);
+			
+			if(RoomChoose == 0) {
+				mainMenu();
+				skip=true;
+			}
+			else if ( geodata.toString().contains("\"id\":\""+RoomChoose+"\"")) {
+				skip=true;
+				PlayPlayer.Player();
+			}
+			else{
+				System.out.println("Escolha uma sala válida! ");
+			}
+	    }
 	}
 
 	public static void main(String[] args) throws IOException {

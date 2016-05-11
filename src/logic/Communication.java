@@ -24,7 +24,7 @@ public class Communication {
 		  HttpURLConnection conn =
 		      (HttpURLConnection) url.openConnection();
 
-		  if (conn.getResponseCode() != 200) {
+		  if (conn.getResponseCode() != 200 && conn.getResponseCode() != 404) {
 		    throw new IOException(conn.getResponseMessage());
 		  }
 		  

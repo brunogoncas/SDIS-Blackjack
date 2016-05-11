@@ -19,20 +19,6 @@ public class DealerService {
 	
 	@Path("/dealerService")
 	public class PlayerService {
-		@GET
-		@Path("/players")
-		@Produces("application/json")
-		public String games() {
-			String players = null;
-			ArrayList<Player> playersList = new ArrayList<Player>();
-			try {
-				playersList = new AccessManager().getPlayers();
-				Gson gson = new Gson();
-				players = gson.toJson(playersList);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return players;
-		}
+		
 	}
 }

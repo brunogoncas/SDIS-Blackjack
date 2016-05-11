@@ -1,6 +1,7 @@
-/com/
 /logic/
+/DealerLogic/
 /dto/
-/model/
 /dao/
-/database/
+/model/
+/com/
+/sources.txt

@@ -60,7 +60,7 @@ public class RoomService {
 		}
 		
 		else {
-			return Response.ok("Room Creation Successful", MediaType.APPLICATION_JSON).build();
+			return Response.ok("Adding user to Room Successful", MediaType.APPLICATION_JSON).build();
 		}
 	}
 	
@@ -79,6 +79,39 @@ public class RoomService {
 		else {
 			return Response.ok("Room Creation Successful", MediaType.APPLICATION_JSON).build();
 		}
+	}
+	
+	@POST
+	@Path("/room/{nameRoom}/state/{state}")
+	@Produces("application/json")
+	public static Response UpdateState(@PathParam("nameRoom") String nameRoom,
+			@PathParam("state") String stateRoom) throws Exception {
+	
+		boolean result = new AccessManager().updateRoomState(nameRoom, stateRoom);
+		
+		if(result==false){
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to update room state").build();
+		}
+		
+		else {
+			return Response.ok("Updated state successfully", MediaType.APPLICATION_JSON).build();
+		}
+	}
+	
+	@GET
+	@Path("room/{idRoom}")
+	public Response getState(@PathParam("idRoom") int idRoom) throws Exception {
+		
+		String state = new AccessManager().getStateRoom(idRoom);
+		
+		if(state.isEmpty()){
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to get room state").build();
+		}
+		
+		else {
+			return Response.ok(state, MediaType.APPLICATION_JSON).build();
+		}
+
 	}
 	
 }

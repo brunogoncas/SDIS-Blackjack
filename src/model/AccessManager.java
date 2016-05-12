@@ -99,4 +99,22 @@ public class AccessManager {
 		
 		return result;
 	}
+	
+	public boolean updateRoomState(String nameRoom, String stateRoom) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		boolean result = access.updateRoom(con, nameRoom, stateRoom);
+		
+		return result;
+	}
+	
+	public String getStateRoom(int idRoom) throws Exception {
+		Database db = new Database();
+		Connection con = db.getConnection();
+		Access access = new Access();
+		String result = access.getRoomState(con, idRoom);
+		
+		return result;
+	}
 }

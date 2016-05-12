@@ -3,10 +3,7 @@ package DealerLogic;
 import java.io.IOException;
 import java.util.Scanner;
 
-import javax.ws.rs.Path;
-
 import logic.Communication;
-import logic.Main;
 
 public class MainDealer {
 	
@@ -83,7 +80,8 @@ public class MainDealer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("fAS: " + numJogadoresMesa);
+			System.out.println("NUM: " + numJogadoresMesa);
+			
 			while(numJogadoresMesa == 0) {
 				
 				try {
@@ -102,11 +100,18 @@ public class MainDealer {
 				System.out.println("fAsfasfasS: " + numJogadoresMesa);
 			}
 
-			System.out.println(" ===== Dealer - BLACKJACK ===== ");
-			break;
 			// menu começar jogo -> "place your bets"
 			//POST(place your bets);
+			String[] paramName = {};
+			String[] paramVal = {};
 			
+			int response2 = 0;
+			try {
+				response2 = Communication.POST("roomService/room/"+name+"/state/"+"Bet", paramName , paramVal);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			break;
 			/*try {
 			    Thread.sleep(10000);//ten second.
 			} catch(InterruptedException ex) {

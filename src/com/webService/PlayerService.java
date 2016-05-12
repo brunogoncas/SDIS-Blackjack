@@ -115,4 +115,5 @@ public class PlayerService {
 			return Response.ok("Levantamento efetuado com sucesso!", MediaType.APPLICATION_JSON).build();
 		}
 	}
+	
 }

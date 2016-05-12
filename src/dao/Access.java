@@ -177,7 +177,7 @@ public class Access {
 	public int getPlayersByRoom(Connection con, String nameRoom) throws SQLException {
 
 		// create the java mysql update preparedstatement
-		String query = "SELECT COUNT(t1.name) FROM players t1, room_player t2, room t3  where t3.room = ? t2.idroom = t3.idroom AND t2.idplayer = t1.idplayers";
+		String query = "SELECT COUNT(t1.name) FROM players as t1, room_player as t2, room as t3  where t3.name = ? AND t2.idroom = t3.idroom AND t2.idplayer = t1.idplayers";
 		PreparedStatement preparedStmt = con.prepareStatement(query);
 		preparedStmt.setString(1, nameRoom);
 
@@ -231,7 +231,7 @@ public class Access {
 		while (rs2.next()) {
 			idPlayer = rs2.getInt(1);
 		}
-		System.out.println("CRKID : " + idPlayer);
+		
 		// create the java mysql update preparedstatement
 		String query = "insert into room_player (idroom, idplayer) values (?,?)";
 			
@@ -286,5 +286,50 @@ public class Access {
 		con.close();
 		
 		return remove;
+	} 
+	
+	public boolean updateRoom(Connection con, String nameRoom, String stateRoom) {
+
+		// create the java mysql update preparedstatement
+		String query = "update room set state = ? where name = ?";
+		try {
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			preparedStmt.setString(1, stateRoom);
+			preparedStmt.setString(2, nameRoom);
+			// execute the java preparedstatement
+			preparedStmt.executeUpdate();
+			con.close();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}	
+	}
+	
+	public String getRoomState(Connection con, int idRoom) {
+
+		// create the java mysql update preparedstatement
+		String query = "SELECT state FROM room where idroom = ?";
+		PreparedStatement preparedStmt;
+		String state = null;
+		try {
+			preparedStmt = con.prepareStatement(query);
+			preparedStmt.setInt(1, idRoom);
+
+			// execute the java preparedstatement
+			ResultSet rs = preparedStmt.executeQuery();
+		
+			while (rs.next()) {
+				state = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return state;
+				
 	}
 }

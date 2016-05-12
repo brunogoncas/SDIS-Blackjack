@@ -2,13 +2,8 @@ package logic;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
 import java.util.Scanner;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import jdk.nashorn.internal.parser.JSONParser;
 
 public class Main {
 
@@ -231,17 +226,17 @@ public class Main {
 			else  { //verificar aqui se contem!!!!!!!!!!!!!!!!!!1
 				skip=true;
 				
-				String[] paramName = { "name", "idRoom"};
-				String[] paramVal = { usernameLogged, Integer.toString(RoomChoose) };
+				String[] paramName = { };
+				String[] paramVal = { };
 				
 				int response2 = 0;
 				try {
-					response2 = Communication.POST("roomService/room/{idRoom}/player/{name}", paramName, paramVal);
+					response2 = Communication.POST("roomService/room/"+RoomChoose+"/player/"+usernameLogged, paramName , paramVal);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
-				PlayPlayer.Player();
+				PlayPlayer.Player(RoomChoose);
 			}
 			/*else{
 				System.out.println("Escolha uma sala válida! ");

@@ -16,29 +16,36 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `card`
+-- Table structure for table `hand`
 --
 
-DROP TABLE IF EXISTS `card`;
+DROP TABLE IF EXISTS `hand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `card` (
-  `idcard` int(11) NOT NULL AUTO_INCREMENT,
-  `suit` varchar(45) NOT NULL,
-  `figure` varchar(45) NOT NULL,
-  PRIMARY KEY (`idcard`),
-  UNIQUE KEY `idcard_UNIQUE` (`idcard`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+CREATE TABLE `hand` (
+  `idhand` int(11) NOT NULL AUTO_INCREMENT,
+  `idcard` int(11) NOT NULL,
+  `idplayer` int(11) NOT NULL,
+  `idroom` int(11) NOT NULL,
+  PRIMARY KEY (`idhand`),
+  UNIQUE KEY `idhand_UNIQUE` (`idhand`),
+  KEY `idroom_idx` (`idroom`),
+  KEY `idplayer_idx` (`idplayer`),
+  KEY `cardid_idx` (`idcard`),
+  CONSTRAINT `cardid` FOREIGN KEY (`idcard`) REFERENCES `card` (`idcard`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `playersid` FOREIGN KEY (`idplayer`) REFERENCES `players` (`idplayers`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `roomid` FOREIGN KEY (`idroom`) REFERENCES `room` (`idroom`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `card`
+-- Dumping data for table `hand`
 --
 
-LOCK TABLES `card` WRITE;
-/*!40000 ALTER TABLE `card` DISABLE KEYS */;
-INSERT INTO `card` VALUES (1,'H','A'),(2,'H','K'),(3,'H','Q'),(4,'H','J'),(5,'H','10'),(6,'H','9'),(7,'H','8'),(8,'H','7'),(9,'H','6'),(10,'H','5'),(11,'H','4'),(12,'H','3'),(13,'H','2'),(14,'D','A'),(15,'D','K'),(16,'D','Q'),(17,'D','J'),(18,'D','10'),(19,'D','9'),(20,'D','8'),(21,'D','7'),(22,'D','6'),(23,'D','5'),(24,'D','4'),(25,'D','3'),(26,'D','2'),(27,'C','A'),(28,'C','K'),(29,'C','Q'),(30,'C','J'),(31,'C','10'),(32,'C','9'),(33,'C','8'),(34,'C','7'),(35,'C','6'),(36,'C','5'),(37,'C','4'),(38,'C','3'),(39,'C','2'),(40,'S','A'),(41,'S','K'),(42,'S','Q'),(43,'S','J'),(44,'S','10'),(45,'S','9'),(46,'S','8'),(47,'S','7'),(48,'S','6'),(49,'S','5'),(50,'S','4'),(51,'S','3'),(52,'S','2');
-/*!40000 ALTER TABLE `card` ENABLE KEYS */;
+LOCK TABLES `hand` WRITE;
+/*!40000 ALTER TABLE `hand` DISABLE KEYS */;
+INSERT INTO `hand` VALUES (1,22,19,15),(3,22,19,15),(10,32,19,16),(11,32,19,16),(12,41,21,18),(13,41,21,18),(14,45,21,19),(15,45,21,19),(16,15,21,20),(17,15,21,20),(18,9,19,16),(19,9,19,16),(20,47,19,17),(21,47,19,17),(22,14,19,17),(23,14,19,17),(24,44,19,17),(25,44,19,17),(26,32,21,21),(27,17,21,21);
+/*!40000 ALTER TABLE `hand` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-12 17:35:59
+-- Dump completed on 2016-05-12 17:36:00

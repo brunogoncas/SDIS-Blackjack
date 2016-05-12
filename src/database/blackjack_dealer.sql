@@ -23,10 +23,10 @@ DROP TABLE IF EXISTS `dealer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dealer` (
-  `iddealer` int(11) NOT NULL,
+  `iddealer` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`iddealer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,6 +35,7 @@ CREATE TABLE `dealer` (
 
 LOCK TABLES `dealer` WRITE;
 /*!40000 ALTER TABLE `dealer` DISABLE KEYS */;
+INSERT INTO `dealer` VALUES (1,'siga'),(2,'fdf'),(3,'f'),(4,'fsa'),(5,'hdghd'),(6,'AQUIIIIII'),(7,'asfa'),(8,'DealerZe'),(9,'DealerZee'),(10,'DealerT'),(11,'DealerTa'),(12,'DealerTasdsadas'),(13,'DIALER'),(14,'DIjALER'),(15,'DIjALERassa'),(16,'DIjALERadasdasssa'),(17,'AQUIII'),(18,'gfd'),(19,'lkj'),(20,'ola'),(21,'allee'),(22,'gfd'),(23,'fdhf'),(24,'dfhf'),(25,'AQUIIII'),(26,'AQIIOIII'),(27,'AUQIII'),(28,'AQUIFDP'),(29,'CRLll'),(30,'hHGFS'),(31,'dhfHDFHDFHDF'),(32,'ghgjkljhgfds'),(33,'fsdgghgjkghfdsffgh'),(34,'ds'),(35,'i'),(36,'CRLL');
 /*!40000 ALTER TABLE `dealer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -47,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-11 17:20:12
+-- Dump completed on 2016-05-12 17:35:59

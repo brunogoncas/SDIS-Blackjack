@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import dto.Player;
 import dto.Room;
@@ -23,6 +27,7 @@ public class Access {
 				newPlayer.setName(rs.getString("name"));
 				newPlayer.setPassword(rs.getString("password"));
 				newPlayer.setChips(rs.getInt("chips"));
+				newPlayer.setBetMoney(rs.getInt("betmoney"));
 				playerList.add(newPlayer);
 			}
 		} catch (SQLException e) {
@@ -329,7 +334,122 @@ public class Access {
 			e.printStackTrace();
 		}
 		
-		return state;
-				
+		return state;			
+	}
+	
+	public boolean Addbet(Connection con, String Playername, int betmoney) throws SQLException {
+
+		// create the java mysql update preparedstatement
+		String query = "SELECT chips FROM players where name = ?";
+		PreparedStatement preparedStmt = con.prepareStatement(query);
+		preparedStmt.setString(1, Playername);
+
+		// execute the java preparedstatement
+		ResultSet rs = preparedStmt.executeQuery();
+		int result = 0;
+		while (rs.next()) {
+			result = rs.getInt(1);
+		}
+		
+		if(result >= betmoney) {
+			// create the java mysql update preparedstatement
+			String query2 = "update players set betmoney = ?, chips = ? where name = ?";
+			PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+			preparedStmt2.setInt(1, betmoney);
+			preparedStmt2.setInt(2, result - betmoney);
+			preparedStmt2.setString(3, Playername);
+	
+			// execute the java preparedstatement
+			preparedStmt2.executeUpdate();
+			con.close();
+			return true;
+		}
+		else {
+			System.out.println("Nao tem dinheiro para essa aposta");
+			con.close();
+			return false;
+		}
+	}
+	
+	public JSONArray getCards(Connection con, String Playername, int  idRoom) throws SQLException {
+		
+		// create the java mysql update preparedstatement
+		String query2 = "SELECT idplayers FROM players where name = ?";
+		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+		preparedStmt2.setString(1, Playername);
+
+		// execute the java preparedstatement
+		ResultSet rs2 = preparedStmt2.executeQuery();
+		int idPlayer = 0;
+		while (rs2.next()) {
+			idPlayer = rs2.getInt(1);
+		}
+		
+		JSONArray ja = new JSONArray();
+
+		try {
+			PreparedStatement stmt = con.prepareStatement("SELECT t1.suit, t1.figure FROM card as t1, hand as t2 where t1.idcard = t2.idcard AND t2.idroom = ? AND t2.idplayer = ?");
+			stmt.setInt(1, idRoom);
+			stmt.setInt(2, idPlayer);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				JSONObject jo = new JSONObject();
+				jo.put("suit",rs.getString("suit"));
+				jo.put("figure",rs.getString("figure"));
+				ja.put(jo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ja;
+	}
+	
+	public boolean AddCards(Connection con, String Playername, int idRoom) throws SQLException {
+
+		// create the java mysql update preparedstatement
+		String query1 = "SELECT idplayers FROM players where name = ?";
+		PreparedStatement preparedStmt1 = con.prepareStatement(query1);
+		preparedStmt1.setString(1, Playername);
+
+		// execute the java preparedstatement
+		ResultSet rs2 = preparedStmt1.executeQuery();
+		int idPlayer = 0;
+		while (rs2.next()) {
+			idPlayer = rs2.getInt(1);
+		}
+		
+		Random r = new Random();
+		int max = 52;
+		int min = 1;
+		int c1 = r.nextInt((max - min) + 1) + min;
+		int c2 = r.nextInt((max - min) + 1) + min;
+		//System.out.println("SFA  " + idPlayer + " " + c1 + " " + c2 + " " + idRoom);
+		// create the java mysql update preparedstatement
+		String query2 = "insert into hand (idcard, idplayer, idroom) values (?,?,?)";
+		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+	
+		preparedStmt2.setInt(1, c1);
+	
+		preparedStmt2.setInt(2, idPlayer);
+		preparedStmt2.setInt(3, idRoom);
+		// execute the java preparedstatement
+		preparedStmt2.executeUpdate();
+		
+		// create the java mysql update preparedstatement
+		String query3 = "insert into hand (idcard, idplayer, idroom) values (?,?,?)";
+		PreparedStatement preparedStmt3 = con.prepareStatement(query3);
+	
+		preparedStmt3.setInt(1, c2);
+		
+		preparedStmt3.setInt(2, idPlayer);
+		preparedStmt3.setInt(3, idRoom);
+		// execute the java preparedstatement
+		preparedStmt3.executeUpdate();
+	
+		con.close();
+		
+		return true;
+	
 	}
 }

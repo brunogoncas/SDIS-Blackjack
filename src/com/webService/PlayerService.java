@@ -7,10 +7,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.json.JSONArray;
 
 import com.google.gson.Gson;
 
@@ -116,4 +119,45 @@ public class PlayerService {
 		}
 	}
 	
+	@POST
+	@Path("/addBet")
+	@Produces("application/json")
+	public static Response addBet(@FormParam("name") String name, 
+			@FormParam("addBet") int addBet) throws Exception {
+	
+		Boolean result = new AccessManager().AddBet(name, addBet);
+		
+		if(result==false){
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Não têm saldo suficiente para efetuar a aposta que pretende.").build();
+		}
+		
+		else {
+			return Response.ok("Bet efetuado com sucesso!", MediaType.APPLICATION_JSON).build();
+		}
+	}
+	
+	@GET
+	@Path("/getCards/{idRoom}/{name}")
+	@Produces("application/json")
+	public String getCards(@PathParam("name") String name, @PathParam("idRoom") int idRoom) throws Exception {
+		
+		JSONArray cards = new AccessManager().getCards(name, idRoom);
+		return cards.toString();
+	}
+	
+	@POST
+	@Path("/addCards/{idRoom}/{name}")
+	@Produces("application/json")
+	public static Response AddCards(@PathParam("name") String name, 
+			@PathParam("idRoom") int idRoom) throws Exception {
+	
+		boolean result = new AccessManager().addCards(name, idRoom);
+		if(result==false){
+			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas.").build();
+		}
+		
+		else {
+			return Response.ok("Cartas dadas com sucesso!", MediaType.APPLICATION_JSON).build();
+		}
+	}
 }

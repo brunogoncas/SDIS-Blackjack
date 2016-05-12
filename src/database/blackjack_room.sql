@@ -25,10 +25,14 @@ DROP TABLE IF EXISTS `room`;
 CREATE TABLE `room` (
   `idroom` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
+  `iddealer` int(11) NOT NULL,
+  `state` varchar(100) NOT NULL DEFAULT 'nobets',
   PRIMARY KEY (`idroom`),
   UNIQUE KEY `idroom_UNIQUE` (`idroom`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `name_UNIQUE` (`name`),
+  KEY `iddealer_idx` (`iddealer`),
+  CONSTRAINT `iddealer` FOREIGN KEY (`iddealer`) REFERENCES `dealer` (`iddealer`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +41,7 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
-INSERT INTO `room` VALUES (1,'Sala do Rui');
+INSERT INTO `room` VALUES (2,'SalaON',14,'nobets'),(3,'SalaONsas',15,'nobets'),(4,'basda',16,'nobets'),(5,'ZEZE	',17,'nobets'),(6,'asfas',18,'nobets'),(7,'fghjk',19,'nobets'),(8,'ole',20,'nobets'),(9,'olee',21,'nobets'),(10,'dsdgsd',22,'nobets'),(11,'fdsfd',23,'nobets'),(12,'sfsafas',24,'nobets'),(13,'EU',25,'nobets'),(14,'AQUIIIII',29,'Bet'),(15,'DASDASDA',30,'Bet'),(16,'DSGDFHDHFDHDF',31,'getcards'),(17,'fasgfdhg',32,'getcards'),(18,'asfshnmhkjlkçkjhgfdsfd',33,'getcards'),(19,'dghgjfd',34,'getcards'),(20,'p',35,'getcards'),(21,'CRL',36,'getcards');
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-11 17:20:11
+-- Dump completed on 2016-05-12 17:35:59

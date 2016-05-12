@@ -107,11 +107,9 @@ public class RoomService {
 		if(state.isEmpty()){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to get room state").build();
 		}
-		
 		else {
 			return Response.ok(state, MediaType.APPLICATION_JSON).build();
 		}
-
 	}
 	
 }

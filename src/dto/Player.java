@@ -2,7 +2,7 @@ package dto;
 
 public class Player {
 	
-	private int chips,id;
+	private int chips,id, betmoney;
 	private String name;
 	private String password;
 	
@@ -10,13 +10,13 @@ public class Player {
 		
 	}
 	
-	public Player(int id, int chips, String name, String password){
+	public Player(int id, int chips, String name, String password, int betmoney){
 		
 		this.id = id;
 		this.chips = chips;
 		this.name = name;
 		this.password = password;
-		
+		this.betmoney = betmoney;
 	}
 	
 	public int getID(){
@@ -55,6 +55,10 @@ public class Player {
 	
 	public void setChips(int chips){	
 		this.chips = chips;	
+	}
+	
+	public void setBetMoney(int betmoney){	
+		this.betmoney = betmoney;	
 	}
 
 }

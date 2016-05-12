@@ -236,7 +236,7 @@ public class Main {
 					e.printStackTrace();
 				}
 				
-				PlayPlayer.Player(RoomChoose);
+				PlayPlayer.Player(RoomChoose,usernameLogged);
 			}
 			/*else{
 				System.out.println("Escolha uma sala válida! ");

@@ -51,7 +51,15 @@ public class MainDealer {
 					e.printStackTrace();
 				}
 				
-				LogicDealer();
+				try {
+					LogicDealer();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			}
 			case 2: {
@@ -67,7 +75,7 @@ public class MainDealer {
 		}
 	}
 	
-	public void LogicDealer() {
+	public void LogicDealer() throws IOException, InterruptedException {
 		
 		while(true) {
 			
@@ -83,20 +91,12 @@ public class MainDealer {
 			System.out.println("NUM: " + numJogadoresMesa);
 			
 			while(numJogadoresMesa == 0) {
+								
+				Thread.sleep(2000);//two second.				
+								
+				response = Communication.GET("roomService/room/"+name+"/player");
+				numJogadoresMesa = Integer.parseInt(response);
 				
-				try {
-				    Thread.sleep(2000);//two second.
-				} catch(InterruptedException ex) {
-				    Thread.currentThread().interrupt();
-				}
-				
-				try {
-					response = Communication.GET("roomService/room/"+name+"/player");
-					numJogadoresMesa = Integer.parseInt(response);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				System.out.println("fAsfasfasS: " + numJogadoresMesa);
 			}
 
@@ -106,22 +106,18 @@ public class MainDealer {
 			String[] paramVal = {};
 			
 			int response2 = 0;
-			try {
-				response2 = Communication.POST("roomService/room/"+name+"/state/"+"Bet", paramName , paramVal);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			response2 = Communication.POST("roomService/room/"+name+"/state/"+"Bet", paramName , paramVal);
+		
+			Thread.sleep(10000);//ten second.
+				
+			// dar 2 cartas a cada jogador que apostou  -> mudar 
+			int response3 = 0;
+			response3 = Communication.POST("roomService/room/"+name+"/state/"+"getcards", paramName , paramVal);
+			Thread.sleep(2000);//2 second.
+			
+			// dar duas (mostrar uma) carta ao dealer -> mostrar uma carta do dealer
+			
 			break;
-			/*try {
-			    Thread.sleep(10000);//ten second.
-			} catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
-			}*/
-			
-			// dar 2 cartas a cada jogador que apostou 
-			
-			// dar uma carta ao dealer -> mostrar uma carta do dealer
-			
 			// desistencias (fazer só no fim)
 			// ir jogador a jogador para tomar decisão (pedir, ficar , dobrar)
 			

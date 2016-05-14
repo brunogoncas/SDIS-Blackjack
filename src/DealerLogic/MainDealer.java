@@ -3,6 +3,8 @@ package DealerLogic;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.json.JSONArray;
+
 import logic.Communication;
 
 public class MainDealer {
@@ -116,13 +118,37 @@ public class MainDealer {
 			Thread.sleep(2000);//2 second.
 			
 			// dar duas (mostrar uma) carta ao dealer -> mostrar uma carta do dealer
+			int response4 = 0;
+			//post para atribuir cartas ao jgoador	
+			try {
+				response4 = Communication.POST("playerService/addCards/"+NameRoom+"/"+name, paramName , paramVal);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Thread.sleep(1000);//1 second.
 			
-			break;
+			
 			// desistencias (fazer só no fim)
 			// ir jogador a jogador para tomar decisão (pedir, ficar , dobrar)
 			
 			// mostrar a segunda carta do dealer -> jogar dealer
+			//get cartas dealer
+			String cardsDealer=null;
+			try {
+				cardsDealer = Communication.GET("playerService/getCards/"+NameRoom+"/"+name);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
+			JSONArray jArray = new JSONArray(cardsDealer);
+			 for(int i = 0; i < jArray.length(); i++){
+				 String suit = jArray.getJSONObject(i).getString("suit");
+				 String figure = jArray.getJSONObject(i).getString("figure");
+				 System.out.println("You got an"+ figure + " of " + suit); 
+			  }
+			
+			break;
 			// resultados
 			
 			// terminar jogo -> novo jogo

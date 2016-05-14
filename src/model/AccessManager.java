@@ -109,9 +109,21 @@ public class AccessManager {
 		return cards;
 	}
 	
+	public JSONArray getCardsDealer(String Playername, String nameRoom) throws Exception {
+		Connection con = db.getConnection();
+		JSONArray cards = access.getCardsDealer(con, Playername, nameRoom);
+		return cards;
+	}
+	
 	public Boolean addCards(String name, int idRoom) throws Exception {
 		Connection con = db.getConnection();
 		boolean result = access.AddCards(con, name, idRoom);
+		return result;
+	}
+	
+	public Boolean AddCardsDealer(String name, String nameRoom) throws Exception {
+		Connection con = db.getConnection();
+		boolean result = access.AddCardsDealer(con, name, nameRoom);
 		return result;
 	}
 	

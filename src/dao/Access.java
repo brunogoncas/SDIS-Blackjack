@@ -405,6 +405,52 @@ public class Access {
 		return ja;
 	}
 	
+	public JSONArray getCardsDealer(Connection con, String Playername, String  nameRoom) throws SQLException {
+		
+		// create the java mysql update preparedstatement
+		String query2 = "SELECT idplayers FROM players where name = ?";
+		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+		preparedStmt2.setString(1, Playername);
+
+		// execute the java preparedstatement
+		ResultSet rs2 = preparedStmt2.executeQuery();
+		int idPlayer = 0;
+		while (rs2.next()) {
+			idPlayer = rs2.getInt(1);
+		}
+		
+		// create the java mysql update preparedstatement
+		String query4 = "SELECT idrrom FROM room where name = ?";
+		PreparedStatement preparedStmt4 = con.prepareStatement(query4);
+		preparedStmt4.setString(1, nameRoom);
+
+		// execute the java preparedstatement
+		ResultSet rs4 = preparedStmt4.executeQuery();
+		int idRoom = 0;
+		while (rs4.next()) {
+			idRoom = rs4.getInt(1);
+		}
+		
+		JSONArray ja = new JSONArray();
+
+		try {
+			PreparedStatement stmt = con.prepareStatement("SELECT t1.suit, t1.figure FROM card as t1, hand as t2 where t1.idcard = t2.idcard AND t2.idroom = ? AND t2.idplayer = ?");
+			stmt.setInt(1, idRoom);
+			stmt.setInt(2, idPlayer);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				JSONObject jo = new JSONObject();
+				jo.put("suit",rs.getString("suit"));
+				jo.put("figure",rs.getString("figure"));
+				ja.put(jo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ja;
+	}
+	
 	public boolean AddCards(Connection con, String Playername, int idRoom) throws SQLException {
 
 		// create the java mysql update preparedstatement
@@ -448,8 +494,64 @@ public class Access {
 		preparedStmt3.executeUpdate();
 	
 		con.close();
-		
 		return true;
+	}
 	
+	public boolean AddCardsDealer(Connection con, String Dealername, String nameRoom) throws SQLException {
+
+		// create the java mysql update preparedstatement
+		String query1 = "SELECT iddealer FROM dealer where name = ?";
+		PreparedStatement preparedStmt1 = con.prepareStatement(query1);
+		preparedStmt1.setString(1, Dealername);
+
+		// execute the java preparedstatement
+		ResultSet rs2 = preparedStmt1.executeQuery();
+		int idPlayer = 0;
+		while (rs2.next()) {
+			idPlayer = rs2.getInt(1);
+		}
+		
+		// create the java mysql update preparedstatement
+		String query4 = "SELECT idrrom FROM room where name = ?";
+		PreparedStatement preparedStmt4 = con.prepareStatement(query4);
+		preparedStmt4.setString(1, nameRoom);
+
+		// execute the java preparedstatement
+		ResultSet rs4 = preparedStmt4.executeQuery();
+		int idRoom = 0;
+		while (rs4.next()) {
+			idRoom = rs4.getInt(1);
+		}
+		
+		Random r = new Random();
+		int max = 52;
+		int min = 1;
+		int c1 = r.nextInt((max - min) + 1) + min;
+		int c2 = r.nextInt((max - min) + 1) + min;
+		//System.out.println("SFA  " + idPlayer + " " + c1 + " " + c2 + " " + idRoom);
+		// create the java mysql update preparedstatement
+		String query2 = "insert into hand (idcard, idplayer, idroom) values (?,?,?)";
+		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+	
+		preparedStmt2.setInt(1, c1);
+	
+		preparedStmt2.setInt(2, idPlayer);
+		preparedStmt2.setInt(3, idRoom);
+		// execute the java preparedstatement
+		preparedStmt2.executeUpdate();
+		
+		// create the java mysql update preparedstatement
+		String query3 = "insert into hand (idcard, idplayer, idroom) values (?,?,?)";
+		PreparedStatement preparedStmt3 = con.prepareStatement(query3);
+	
+		preparedStmt3.setInt(1, c2);
+		
+		preparedStmt3.setInt(2, idPlayer);
+		preparedStmt3.setInt(3, idRoom);
+		// execute the java preparedstatement
+		preparedStmt3.executeUpdate();
+	
+		con.close();
+		return true;
 	}
 }

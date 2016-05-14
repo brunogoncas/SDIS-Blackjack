@@ -32,7 +32,7 @@ CREATE TABLE `room_player` (
   KEY `idroom_idx` (`idroom`),
   CONSTRAINT `idplayer` FOREIGN KEY (`idplayer`) REFERENCES `players` (`idplayers`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `idroom` FOREIGN KEY (`idroom`) REFERENCES `room` (`idroom`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,6 @@ CREATE TABLE `room_player` (
 
 LOCK TABLES `room_player` WRITE;
 /*!40000 ALTER TABLE `room_player` DISABLE KEYS */;
-INSERT INTO `room_player` VALUES (14,7,21),(15,8,21),(16,9,21),(17,11,21),(21,12,21),(22,13,21),(23,13,21),(24,13,21),(25,14,21),(26,15,21),(27,16,21),(28,17,21),(29,18,21),(30,19,21),(31,20,21),(32,21,21);
 /*!40000 ALTER TABLE `room_player` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-12 17:35:59
+-- Dump completed on 2016-05-14 15:40:25

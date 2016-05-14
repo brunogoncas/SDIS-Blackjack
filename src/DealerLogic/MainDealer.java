@@ -43,7 +43,7 @@ public class MainDealer {
 				
 				int response=0;
 				String[] paramName = { "roomname", "dealername"};
-				String[] paramVal = { name, NameRoom };
+				String[] paramVal = { NameRoom ,name};
 				
 				try {
 					response = Communication.POST("roomService/room", paramName, paramVal);
@@ -82,7 +82,7 @@ public class MainDealer {
 			// ver se tem jogadores na mesa -> se retornar >0
 			String response=null;
 			try {
-				response = Communication.GET("roomService/room/"+name+"/player");
+				response = Communication.GET("roomService/room/"+NameRoom+"/player");
 				numJogadoresMesa = Integer.parseInt(response);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -94,10 +94,10 @@ public class MainDealer {
 								
 				Thread.sleep(2000);//two second.				
 								
-				response = Communication.GET("roomService/room/"+name+"/player");
+				response = Communication.GET("roomService/room/"+NameRoom+"/player");
 				numJogadoresMesa = Integer.parseInt(response);
 				
-				System.out.println("fAsfasfasS: " + numJogadoresMesa);
+				System.out.println("Players in the room: " + NameRoom + ":" + numJogadoresMesa);
 			}
 
 			// menu começar jogo -> "place your bets"
@@ -106,13 +106,13 @@ public class MainDealer {
 			String[] paramVal = {};
 			
 			int response2 = 0;
-			response2 = Communication.POST("roomService/room/"+name+"/state/"+"Bet", paramName , paramVal);
+			response2 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"Bet", paramName , paramVal);
 		
 			Thread.sleep(10000);//ten second.
 				
 			// dar 2 cartas a cada jogador que apostou  -> mudar 
 			int response3 = 0;
-			response3 = Communication.POST("roomService/room/"+name+"/state/"+"getcards", paramName , paramVal);
+			response3 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"getcards", paramName , paramVal);
 			Thread.sleep(2000);//2 second.
 			
 			// dar duas (mostrar uma) carta ao dealer -> mostrar uma carta do dealer

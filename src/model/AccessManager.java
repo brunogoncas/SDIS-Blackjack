@@ -109,10 +109,16 @@ public class AccessManager {
 		return cards;
 	}
 	
-	public JSONArray getCardsDealer(String Playername, String nameRoom) throws Exception {
+	public JSONArray getCardsDealer(String Playername) throws Exception {
 		Connection con = db.getConnection();
-		JSONArray cards = access.getCardsDealer(con, Playername, nameRoom);
+		JSONArray cards = access.getCardsDealer(con, Playername);
 		return cards;
+	}
+	
+	public int getPointsDealer(int idRoom) throws Exception {
+		Connection con = db.getConnection();
+		int points = access.getPointsDealer(con, idRoom);
+		return points;
 	}
 	
 	public Boolean addCards(String name, int idRoom) throws Exception {
@@ -121,9 +127,9 @@ public class AccessManager {
 		return result;
 	}
 	
-	public Boolean AddCardsDealer(String name, String nameRoom) throws Exception {
+	public Boolean AddCardsDealer(String name,int numberofCards) throws Exception {
 		Connection con = db.getConnection();
-		boolean result = access.AddCardsDealer(con, name, nameRoom);
+		boolean result = access.AddCardsDealer(con, name,numberofCards);
 		return result;
 	}
 	

@@ -121,7 +121,7 @@ public class MainDealer {
 			int response4 = 0;
 			//post para atribuir cartas ao jgoador	
 			try {
-				response4 = Communication.POST("playerService/addCards/"+NameRoom+"/"+name, paramName , paramVal);
+				response4 = Communication.POST("dealerService/addCards/"+name+"/"+2, paramName , paramVal);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -135,23 +135,55 @@ public class MainDealer {
 			//get cartas dealer
 			String cardsDealer=null;
 			try {
-				cardsDealer = Communication.GET("playerService/getCards/"+NameRoom+"/"+name);
+				cardsDealer = Communication.GET("dealerService/getCards/"+name);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+			int points = 0;
 			JSONArray jArray = new JSONArray(cardsDealer);
-			 for(int i = 0; i < jArray.length(); i++){
+			for(int i = 0; i < jArray.length(); i++){
 				 String suit = jArray.getJSONObject(i).getString("suit");
 				 String figure = jArray.getJSONObject(i).getString("figure");
-				 System.out.println("You got an"+ figure + " of " + suit); 
-			  }
+				 points += jArray.getJSONObject(i).getInt("card_value");
+				 System.out.println("You got an"+ figure + " of " + suit + " Points: " + points +"PRINT 1"); 
+			}
 			
-			break;
+			
+			while(points < 17) {
+				points = 0;
+				cardsDealer = "";
+				//pedir +1 carta
+				int response5 = 0;
+				//post para atribuir cartas ao dealer	
+				try {
+					response5 = Communication.POST("dealerService/addCards/"+name+"/"+1, paramName , paramVal);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					cardsDealer = Communication.GET("dealerService/getCards/"+name);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				jArray = new JSONArray(cardsDealer);
+				for(int i = 0; i < jArray.length(); i++){
+					 String suit = jArray.getJSONObject(i).getString("suit");
+					 String figure = jArray.getJSONObject(i).getString("figure");
+					 points += jArray.getJSONObject(i).getInt("card_value");
+					 System.out.println("You got an"+ figure + " of " + suit + " Points: " + points +"PRINT 2"); 
+				}		
+			}
+			
 			// resultados
+			int response6 = 0;
+			response6 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"results", paramName , paramVal);
 			
 			// terminar jogo -> novo jogo
+			break;
 		}
 		
 	}

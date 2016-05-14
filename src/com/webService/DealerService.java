@@ -1,6 +1,5 @@
 package com.webService;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,39 +10,42 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONArray;
 
-import com.google.gson.Gson;
-
-import dto.Player;
 import model.AccessManager;
 
+@Path("/dealerService")
 public class DealerService {
 	
-	@Path("/dealerService")
-	public class PlayerService {
-		
-		@POST
-		@Path("/addCards/{nameRoom}/{namedealer}")
-		@Produces("application/json")
-		public Response AddCardsDealer(@PathParam("namedealer") String namedealer, 
-				@PathParam("nameRoom") String nameRoom) throws Exception {
-		
-			boolean result = new AccessManager().AddCardsDealer(namedealer, nameRoom);
-			if(result==false){
-				return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas ao dealer.").build();
-			}
-			
-			else {
-				return Response.ok("Cartas dadas com sucesso ao dealer!", MediaType.APPLICATION_JSON).build();
-			}
+	@POST
+	@Path("/addCards/{namedealer}/{numberCards}")
+	@Produces("application/json")
+	public Response AddCardsDealer(@PathParam("namedealer") String namedealer,
+			@PathParam("numberCards") int numberCards) throws Exception {
+	
+		boolean result = new AccessManager().AddCardsDealer(namedealer, numberCards);
+		if(result==false){
+			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas ao dealer.").build();
 		}
 		
-		@GET
-		@Path("/getCards/{nameRoom}/{name}")
-		@Produces("application/json")
-		public String getCards(@PathParam("name") String name, @PathParam("nameRoom") String nameRoom) throws Exception {
-			
-			JSONArray cards = new AccessManager().getCardsDealer(name, nameRoom);
-			return cards.toString();
+		else {
+			return Response.ok("Cartas dadas com sucesso ao dealer!", MediaType.APPLICATION_JSON).build();
 		}
 	}
+	
+	@GET
+	@Path("/getCards/{name}")
+	@Produces("application/json")
+	public String getCards(@PathParam("name") String name) throws Exception {
+		System.out.println("NAMEEEEEEEEEE" + name);
+		JSONArray cards = new AccessManager().getCardsDealer(name);
+		return cards.toString();
+	}
+	
+	@GET
+	@Path("/getDPoints/{idRoom}")
+	public int getPoints(@PathParam("idRoom") int idRoom) throws Exception {
+		System.out.println("NAMEEEEEEEEEE" + idRoom);
+		int points = new AccessManager().getPointsDealer(idRoom);
+		return points;
+	}
 }
+

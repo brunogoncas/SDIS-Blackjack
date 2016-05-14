@@ -16,6 +16,8 @@ public class PlayPlayer {
 	private static String str = "";
 	static ArrayList<String> states = new ArrayList<String>();
 	
+	private static int pPoints = 0, betmoney;
+	
 	public static void Player(int idRoom, String usernameLogged) {
 		
 		while(true) {
@@ -25,6 +27,8 @@ public class PlayPlayer {
 			String response=null;
 			try {
 				response = Communication.GET("roomService/room/"+idRoom);
+				System.out.println("response:" + response);
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -50,7 +54,7 @@ public class PlayPlayer {
 
 		        timer.cancel();
 		        System.out.println( "you have entered: "+ str ); 
-		        int betmoney = Integer.parseInt(str);
+		        betmoney = Integer.parseInt(str);
 				
 		        String[] paramName = {"name","addBet"};
 				String[] paramVal = {usernameLogged , Integer.toString(betmoney)};
@@ -89,10 +93,61 @@ public class PlayPlayer {
 				 for(int i = 0; i < jArray.length(); i++){
 					 String suit = jArray.getJSONObject(i).getString("suit");
 					 String figure = jArray.getJSONObject(i).getString("figure");
+					 pPoints += jArray.getJSONObject(i).getInt("card_value");
 					 System.out.println("You got an"+ figure + " of " + suit); 
 				  }
 				
 				states.add("getcards");
+			}
+			else if(response.equals("results") && !states.contains("results")) {
+				//ver os pontos do dealer e comparar com os meus e atribuir dinheiro ou tirar
+				String dDealer = null;
+				try {
+					dDealer = Communication.GET("dealerService/getDPoints/"+idRoom);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if(Integer.parseInt(dDealer) < pPoints){
+					
+					String[] paramName = {"name", "addChips"};
+					String[] paramVal = {usernameLogged, String.valueOf(2*betmoney)};
+					
+					int response2 = 0;
+					try {
+						response2 = Communication.POST("playerService/addChips", paramName , paramVal);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					System.out.println("Ganhou! Ganhou: " + 2*betmoney + "chips com:" + pPoints);
+					
+				}
+				
+				else if (Integer.parseInt(dDealer) == pPoints){
+					
+					String[] paramName = {"name", "addChips"};
+					String[] paramVal = {usernameLogged, String.valueOf(betmoney)};
+					
+					int response2 = 0;
+					try {
+						response2 = Communication.POST("playerService/addChips", paramName , paramVal);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					System.out.println("Empatou!");
+				}
+				
+				else{
+					
+					System.out.println("Perdeu!");
+				}
+				
+				states.add("results");
 				break;
 			}
 			else{

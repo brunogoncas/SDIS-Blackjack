@@ -547,4 +547,68 @@ public class Access {
 		con.close();
 		return true;
 	}
+	
+	public boolean updatePlayerState(Connection con, int idRoom, String statePlayer, String namePlayer) {
+
+		// create the java mysql update preparedstatement
+		String query = "update room_player as t1 INNER JOIN players as t2 ON (t2.name = ? AND t1.idplayer = t2.idplayers) set t1.state = ? where t1.idroom = ?";
+		try {
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			preparedStmt.setString(1, namePlayer);
+			preparedStmt.setString(2, statePlayer);
+			preparedStmt.setInt(3, idRoom);
+			// execute the java preparedstatement
+			preparedStmt.executeUpdate();
+			con.close();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}	
+	}
+	
+	public String getPlayerState(Connection con, int idRoom, String namePlayer) {
+		
+		// create the java mysql update preparedstatement
+		String query1 = "SELECT idplayers FROM players where name = ?";
+		PreparedStatement preparedStmt1;
+		int idPlayer=0;
+		try {
+			preparedStmt1 = con.prepareStatement(query1);
+			preparedStmt1.setString(1, namePlayer);
+
+			// execute the java preparedstatement
+			ResultSet rs2 = preparedStmt1.executeQuery();
+			while (rs2.next()) {
+				idPlayer = rs2.getInt(1);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		// create the java mysql update preparedstatement
+		String query = "SELECT state FROM room_player where idroom = ? AND idplayer = ?";
+		PreparedStatement preparedStmt;
+		String state = null;
+		try {
+			preparedStmt = con.prepareStatement(query);
+			preparedStmt.setInt(1, idRoom);
+			preparedStmt.setInt(2, idPlayer);
+
+			// execute the java preparedstatement
+			ResultSet rs = preparedStmt.executeQuery();
+		
+			while (rs.next()) {
+				state = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return state;			
+	}
 }

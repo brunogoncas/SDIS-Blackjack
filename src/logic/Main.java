@@ -238,9 +238,6 @@ public class Main {
 				
 				PlayPlayer.Player(RoomChoose,usernameLogged);
 			}
-			/*else{
-				System.out.println("Escolha uma sala válida! ");
-			}*/
 	    }
 	}
 

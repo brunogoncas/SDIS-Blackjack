@@ -101,13 +101,15 @@ public class MainDealer {
 				
 				System.out.println("Players in the room: " + NameRoom + ":" + numJogadoresMesa);
 			}
-
-			// menu começar jogo -> "place your bets"
-			//POST(place your bets);
+			
+			// menu começar jogo -> "begin"
+			int response2 = 0;
 			String[] paramName = {};
 			String[] paramVal = {};
+			response2 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"begin", paramName , paramVal);
+			Thread.sleep(4000);//4 second.
 			
-			int response2 = 0;
+			//POST(place your bets);
 			response2 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"Bet", paramName , paramVal);
 		
 			Thread.sleep(10000);//ten second.
@@ -182,8 +184,17 @@ public class MainDealer {
 			int response6 = 0;
 			response6 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"results", paramName , paramVal);
 			
+			Thread.sleep(3000);//3 second.
 			// terminar jogo -> novo jogo
-			break;
+			int response7 = 0;
+			response7 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"done", paramName , paramVal);
+			
+			Thread.sleep(4000);//4 second.
+			//começar novo jogo
+			numJogadoresMesa=0;
+			response7 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"begin", paramName , paramVal);
+			Thread.sleep(2000);//2 second.
+	
 		}
 		
 	}

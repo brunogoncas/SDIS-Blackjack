@@ -160,4 +160,37 @@ public class PlayerService {
 			return Response.ok("Cartas dadas com sucesso!", MediaType.APPLICATION_JSON).build();
 		}
 	}
+	
+	@POST
+	@Path("/updateState/{idRoom}/{namePlayer}/{state}")
+	@Produces("application/json")
+	public static Response UpdateState(@PathParam("idRoom") int idRoom,
+				@PathParam("namePlayer") String namePlayer,
+			@PathParam("state") String stateRoom) throws Exception {
+	
+		boolean result = new AccessManager().updatePlayerState(idRoom, stateRoom, namePlayer);
+		
+		if(result==false){
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to update player state").build();
+		}
+		
+		else {
+			return Response.ok("Updated player state successfully", MediaType.APPLICATION_JSON).build();
+		}
+	}
+	
+	@GET
+	@Path("/getState/{idRoom}/{namePlayer}")
+	public Response getState(@PathParam("idRoom") int idRoom, @PathParam("namePlayer") String namePlayer) throws Exception {
+		
+		String state = new AccessManager().getStatePlayer(idRoom, namePlayer);
+		
+		if(state.isEmpty()){
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to get player state").build();
+		}
+		else {
+			return Response.ok(state, MediaType.APPLICATION_JSON).build();
+		}
+	}
+	
 }

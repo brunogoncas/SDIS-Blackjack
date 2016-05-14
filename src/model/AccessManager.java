@@ -133,4 +133,17 @@ public class AccessManager {
 		return result;
 	}
 	
+	public boolean updatePlayerState(int idRoom, String statePlayer, String namePlayer) throws Exception {
+		Connection con = db.getConnection();
+		boolean result = access.updatePlayerState(con, idRoom, statePlayer, namePlayer);
+		
+		return result;
+	}
+	
+	public String getStatePlayer(int idRoom, String namePlayer) throws Exception {
+		Connection con = db.getConnection();
+		String result = access.getPlayerState(con, idRoom, namePlayer);
+		
+		return result;
+	}
 }

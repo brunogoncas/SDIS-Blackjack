@@ -1,8 +1,11 @@
 package logic;
 
+import java.security.Key;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 public class AESsecurity {
@@ -73,6 +76,43 @@ public class AESsecurity {
 	 */
 	static String bytesToHex(byte[] hash) {
 		return DatatypeConverter.printHexBinary(hash);
+	}
+	
+	public static byte[] encryptMessage(String message) {
+	     /*
+	    Encrypt and decrypt string
+	    https://stackoverflow.com/questions/23561104/how-to-encrypt-and-decrypt-string-with-my-passphrase-in-java-pc-not-mobile-plat
+	    */
+	    try {
+	        String key = "Bar12345Bar12345"; // 128 bit key
+	        // Create key and cipher
+	        Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+	        Cipher cipher = Cipher.getInstance("AES");
+	        // encrypt the text
+	        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+	        return cipher.doFinal(message.getBytes());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return null;
+	}
+	
+	public static String dencryptMessage(byte[] encrypted) {
+	    try {
+	        String key = "Bar12345Bar12345"; // 128 bit key
+	        // Create key and cipher
+	        Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+	        Cipher cipher = Cipher.getInstance("AES");
+
+	        // decrypt the text
+	        cipher.init(Cipher.DECRYPT_MODE, aesKey);
+	        return new String(cipher.doFinal(encrypted));
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return null;
 	}
 	
 	//MAIN DISTO

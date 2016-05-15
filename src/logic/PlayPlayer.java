@@ -3,10 +3,17 @@ package logic;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import org.json.JSONArray;
 
@@ -16,7 +23,7 @@ public class PlayPlayer {
 	private static String str = "";
 	private static int pPoints = 0, betmoney;
 	
-	public static void Player(int idRoom, String usernameLogged) {
+	public static void Player(int idRoom, String usernameLogged) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		
 		while(true) {
 			

@@ -1,7 +1,15 @@
 package DealerLogic;
 
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import org.json.JSONArray;
 
@@ -15,7 +23,7 @@ public class MainDealer {
 	String name="";
 	String NameRoom="";
 	
-	public void mainMenu() {
+	public void mainMenu() throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		
 		while (true) {
 			System.out.println("1. Criar uma sala de jogo");
@@ -77,7 +85,7 @@ public class MainDealer {
 		}
 	}
 	
-	public void LogicDealer() throws IOException, InterruptedException {
+	public void LogicDealer() throws IOException, InterruptedException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		
 		while(true) {
 			
@@ -199,8 +207,7 @@ public class MainDealer {
 		
 	}
 	
-	public static void main(String[] args) throws IOException {
-		System.out.println(" ===== Dealer - BLACKJACK ===== ");
+	public static void main(String[] args) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		MainDealer Menu = new MainDealer();
 		Menu.mainMenu();
 	}

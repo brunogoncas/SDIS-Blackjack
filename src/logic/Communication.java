@@ -2,6 +2,7 @@ package logic;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -9,9 +10,15 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class Communication {
 	
@@ -47,7 +54,7 @@ public class Communication {
 		  return sb.toString();
 	}
 	
-	public static int POST(String path, String[] paramName, String[] paramVal) throws IOException {
+	public static int POST(String path, String[] paramName, String[] paramVal) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 	 
 		 // Define the server endpoint to send the HTTP request to
 	    URL serverUrl = 
@@ -60,11 +67,21 @@ public class Communication {
 	 	    
 	    // Create the form content
 	    OutputStream out = urlConnection.getOutputStream();
-	    Writer writer = new OutputStreamWriter(out, "UTF-8");
+	    Writer writer = new OutputStreamWriter(out, "ISO-8859-1");
 	    for (int i = 0; i < paramName.length; i++) {
 	      writer.write(paramName[i]);
 	      writer.write("=");
-	      writer.write(URLEncoder.encode(paramVal[i], "UTF-8"));
+  
+	      String value = null;
+	      
+	      if(paramName[i].equals("password"))
+	    	 value = paramVal[i];
+	      
+	      else
+	    	  value = MessagesEncrypter.encrypt(paramVal[i]);
+	      
+	      writer.write(value);
+	        
 	      writer.write("&");
 	    }
 	    writer.close();
@@ -73,7 +90,7 @@ public class Communication {
 	    int response = urlConnection.getResponseCode();
 		
 		//print result
-		System.out.println("POST request returned:" + response);
+		System.out.println("POST request returned" + response);
 	    
 		urlConnection.disconnect();
 	    return response;

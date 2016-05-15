@@ -1,8 +1,16 @@
 package logic;
 
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import org.json.JSONArray;
 
 public class Main {
@@ -10,7 +18,7 @@ public class Main {
 	Scanner reader = new Scanner(System.in);
 	String usernameLogged=null;
 	
-	public void loginMenu() throws IOException {
+	public void loginMenu() throws IOException, InvalidKeyException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		while (true) {
 			System.out.println("1. Login");
 			System.out.println("2. Registar");
@@ -56,7 +64,7 @@ public class Main {
 		}
 	}
 	
-	public void Login() throws IOException, NoSuchAlgorithmException {
+	public void Login() throws IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		
 		String username = "";
 		String password = "";
@@ -97,7 +105,7 @@ public class Main {
 			System.out.println("Registado");
 	}
 	
-	public void mainMenu() {
+	public void mainMenu() throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		System.out.println("\n\n ===== BLACKJACK ===== ");
 		while (true) {
 			System.out.println("1. Jogar numa sala existente");
@@ -190,7 +198,7 @@ public class Main {
 		}
 	}
 	
-	public void ListRooms() {
+	public void ListRooms() throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		
 		String response = null;
 		boolean skip=false;
@@ -241,7 +249,7 @@ public class Main {
 	    }
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InvalidKeyException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		System.out.println(" ===== BLACKJACK ===== ");
 		Main Menu = new Main();
 		Menu.loginMenu();

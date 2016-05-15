@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
+import dto.Player;
 import dto.Room;
 import model.AccessManager;
 
@@ -110,6 +111,22 @@ public class RoomService {
 		else {
 			return Response.ok(state, MediaType.APPLICATION_JSON).build();
 		}
+	}
+	
+	@GET
+	@Path("/room/getPlayers/{nameRoom}")
+	@Produces("application/json")
+	public String GetPlayersRoom(@PathParam("nameRoom") String nameRoom) {
+		String Players = null;
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		try {
+			playerList = new AccessManager().getPlayerRoom(nameRoom);
+			Gson gson = new Gson();
+			Players = gson.toJson(playerList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Players;
 	}
 	
 }

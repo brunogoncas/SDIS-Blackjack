@@ -109,14 +109,34 @@ public class PlayPlayer {
 					 pPoints += jArray.getJSONObject(i).getInt("card_value");
 					 System.out.println("You got an"+ figure + " of " + suit); 
 				  }
-				
+				 
 				 try {
+					response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"myturn", paramName , paramVal);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+									
+			}
+			else if(response.equals(usernameLogged) && responseP.equals("myturn") ) {
+				
+				//ciclo player
+				String resp="";
+				//while (resp != "s" || resp != "S"){
+					System.out.println("You got " + pPoints +"! O que queres fazer? ( S(Stand) ; H (Hit); D (Double) ).");
+					//reader.nextLine();
+					//resp = reader.nextLine();
+					
+					//se for hit -> pedir +1carta
+					//se double -> pedir só +1 carta e tirar dinheiro da aposta inciial e avançar
+				//}
+				
+				try {
 					response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"results", paramName , paramVal);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-					
 			}
 			else if(response.equals("results") && responseP.equals("results")) {
 				//ver os pontos do dealer e comparar com os meus e atribuir dinheiro ou tirar
@@ -171,7 +191,7 @@ public class PlayPlayer {
 					e.printStackTrace();
 				}
 			}
-			else if(response.equals("done") && responseP.equals("done")) {
+			else if(response.equals("done")) {
 				pPoints = 0;
 				betmoney = 0;
 				try {
@@ -200,7 +220,7 @@ public class PlayPlayer {
 	        if( str.equals("") )
 	        {
 	            System.out.println( "you input nothing. exit..." );
-	            System.exit( 0 );
+	            task.cancel();
 	        }
 	    }    
     };

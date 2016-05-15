@@ -611,4 +611,22 @@ public class Access {
 		
 		return state;			
 	}
+	
+	public ArrayList<Player> getPlayerRoom(Connection con, String nameRoom) throws SQLException {
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		PreparedStatement stmt = con.prepareStatement("SELECT t3.name FROM room_player as t1 INNER JOIN room as t2 ON(t1.idroom = t2.idroom AND t2.name = ?)INNER JOIN players as t3 ON(t3.idplayers = t1.idplayer) where t1.state = ? ");
+		stmt.setString(1, nameRoom);
+		stmt.setString(2, "myturn");
+		ResultSet rs = stmt.executeQuery();
+		try {
+			while (rs.next()) {
+				Player newPlayer = new Player();
+				newPlayer.setName(rs.getString("name"));
+				playerList.add(newPlayer);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return playerList;
+	}
 }

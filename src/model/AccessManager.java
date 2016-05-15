@@ -146,4 +146,11 @@ public class AccessManager {
 		
 		return result;
 	}
+
+	public ArrayList<Player> getPlayerRoom(String nameRoom) throws Exception {
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		Connection con = db.getConnection();
+		playerList = access.getPlayerRoom(con, nameRoom);
+		return playerList;
+	}
 }

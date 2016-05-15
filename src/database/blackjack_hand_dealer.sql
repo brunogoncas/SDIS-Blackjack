@@ -32,7 +32,7 @@ CREATE TABLE `hand_dealer` (
   KEY `card_id_idx` (`idcards`),
   CONSTRAINT `card_id` FOREIGN KEY (`idcards`) REFERENCES `card` (`idcard`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `dealer_id` FOREIGN KEY (`iddealer`) REFERENCES `dealer` (`iddealer`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `hand_dealer` (
 
 LOCK TABLES `hand_dealer` WRITE;
 /*!40000 ALTER TABLE `hand_dealer` DISABLE KEYS */;
+INSERT INTO `hand_dealer` VALUES (1,1,20),(2,1,24),(3,1,17),(4,3,12),(5,3,52),(6,3,46),(7,3,42),(8,4,46),(9,4,20),(10,4,13),(11,6,3),(12,6,32),(13,7,23),(14,7,25),(15,7,23),(16,7,44),(17,8,3),(18,8,35),(19,8,24),(20,9,31),(21,9,31),(22,10,26),(23,10,1),(24,10,40),(25,11,44),(26,11,10),(27,11,16),(28,12,44),(29,12,1),(30,13,38),(31,13,38),(32,13,48),(33,13,38),(34,13,31),(35,14,40),(36,14,50),(37,15,6),(38,15,6),(39,16,51),(40,16,35),(41,16,24),(42,16,19),(43,16,46),(44,16,49),(45,16,6),(46,16,37),(47,16,10),(48,16,32),(49,16,9),(50,16,43),(51,17,19),(52,17,45),(53,17,5),(54,17,3);
 /*!40000 ALTER TABLE `hand_dealer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-14 15:40:25
+-- Dump completed on 2016-05-15 19:47:05

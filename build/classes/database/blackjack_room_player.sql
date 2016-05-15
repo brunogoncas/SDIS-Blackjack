@@ -26,13 +26,14 @@ CREATE TABLE `room_player` (
   `idroom_player` int(11) NOT NULL AUTO_INCREMENT,
   `idroom` int(11) NOT NULL,
   `idplayer` int(11) NOT NULL,
+  `state` varchar(100) NOT NULL DEFAULT 'begin',
   PRIMARY KEY (`idroom_player`),
   UNIQUE KEY `idroom_player_UNIQUE` (`idroom_player`),
   KEY `idplayer_idx` (`idplayer`),
   KEY `idroom_idx` (`idroom`),
   CONSTRAINT `idplayer` FOREIGN KEY (`idplayer`) REFERENCES `players` (`idplayers`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `idroom` FOREIGN KEY (`idroom`) REFERENCES `room` (`idroom`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +42,7 @@ CREATE TABLE `room_player` (
 
 LOCK TABLES `room_player` WRITE;
 /*!40000 ALTER TABLE `room_player` DISABLE KEYS */;
-INSERT INTO `room_player` VALUES (14,7,21),(15,8,21),(16,9,21),(17,11,21),(21,12,21),(22,13,21),(23,13,21),(24,13,21),(25,14,21),(26,15,21),(27,16,21),(28,17,21),(29,18,21),(30,19,21),(31,20,21),(32,21,21);
+INSERT INTO `room_player` VALUES (1,1,3,'begin'),(2,1,2,'begin'),(3,1,4,'bet'),(4,3,2,'Bet'),(5,4,3,'getcards'),(6,6,2,'Bet'),(7,7,3,'getcards'),(8,8,2,'begin'),(9,9,2,'begin'),(10,10,2,'begin'),(11,11,2,'begin'),(12,12,2,'results'),(13,13,2,'done'),(14,14,2,'getcards'),(15,15,2,'myturn'),(16,16,2,'begin'),(17,17,2,'myturn');
 /*!40000 ALTER TABLE `room_player` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-12 17:35:59
+-- Dump completed on 2016-05-15 19:47:05

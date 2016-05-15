@@ -131,7 +131,27 @@ public class MainDealer {
 			
 			
 			// desistencias (fazer só no fim)
-			// ir jogador a jogador para tomar decisão (pedir, ficar , dobrar)
+			// ir jogador a jogador para tomar decisão (pedir, ficar , dobrar) 
+			//-> buscar jogadores da sala ativos -> mudar state para nome do jogador a jogar
+			String players = null;
+			try {
+				players = Communication.GET("roomService/room/getPlayers/"+NameRoom);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			System.out.println(players);
+			int response8 = 0;
+			JSONArray jArrays = new JSONArray(players);
+			 for(int i = 0; i < jArrays.length(); i++){
+				String nameplayer = jArrays.getJSONObject(i).getString("name");
+				 
+				response8 = Communication.POST("roomService/room/"+NameRoom+"/state/"+nameplayer, paramName , paramVal);
+				Thread.sleep(5000);//5 second.
+				System.out.println(nameplayer); 
+			  }
+		
 			
 			// mostrar a segunda carta do dealer -> jogar dealer
 			//get cartas dealer
@@ -194,7 +214,7 @@ public class MainDealer {
 			numJogadoresMesa=0;
 			response7 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"begin", paramName , paramVal);
 			Thread.sleep(2000);//2 second.
-	
+			break;
 		}
 		
 	}

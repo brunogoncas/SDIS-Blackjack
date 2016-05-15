@@ -26,7 +26,7 @@ CREATE TABLE `dealer` (
   `iddealer` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`iddealer`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,6 +35,7 @@ CREATE TABLE `dealer` (
 
 LOCK TABLES `dealer` WRITE;
 /*!40000 ALTER TABLE `dealer` DISABLE KEYS */;
+INSERT INTO `dealer` VALUES (1,'ze'),(2,'ze'),(3,'zeee'),(4,'dasd'),(5,'c'),(6,'epaa'),(7,'sda'),(8,'gfl'),(9,'sfa'),(10,'gsd'),(11,'pi'),(12,'lk'),(13,'hj'),(14,'poi'),(15,'lkj'),(16,'fgfd'),(17,'asfafas');
 /*!40000 ALTER TABLE `dealer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -47,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-14 15:40:25
+-- Dump completed on 2016-05-15 19:47:05

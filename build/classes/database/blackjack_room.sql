@@ -26,13 +26,13 @@ CREATE TABLE `room` (
   `idroom` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `iddealer` int(11) NOT NULL,
-  `state` varchar(100) NOT NULL DEFAULT 'nobets',
+  `state` varchar(100) NOT NULL DEFAULT 'begin',
   PRIMARY KEY (`idroom`),
   UNIQUE KEY `idroom_UNIQUE` (`idroom`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `iddealer_idx` (`iddealer`),
   CONSTRAINT `iddealer` FOREIGN KEY (`iddealer`) REFERENCES `dealer` (`iddealer`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
-INSERT INTO `room` VALUES (2,'SalaON',14,'nobets'),(3,'SalaONsas',15,'nobets'),(4,'basda',16,'nobets'),(5,'ZEZE	',17,'nobets'),(6,'asfas',18,'nobets'),(7,'fghjk',19,'nobets'),(8,'ole',20,'nobets'),(9,'olee',21,'nobets'),(10,'dsdgsd',22,'nobets'),(11,'fdsfd',23,'nobets'),(12,'sfsafas',24,'nobets'),(13,'EU',25,'nobets'),(14,'AQUIIIII',29,'Bet'),(15,'DASDASDA',30,'Bet'),(16,'DSGDFHDHFDHDF',31,'getcards'),(17,'fasgfdhg',32,'getcards'),(18,'asfshnmhkjlkçkjhgfdsfd',33,'getcards'),(19,'dghgjfd',34,'getcards'),(20,'p',35,'getcards'),(21,'CRL',36,'getcards');
+INSERT INTO `room` VALUES (1,'AQUI',1,'results'),(2,'',2,'begin'),(3,'zraq',3,'done'),(4,'fds',4,'done'),(6,'aquija',6,'done'),(7,'sas',7,'done'),(8,'k',8,'done'),(9,'gd',9,'done'),(10,'hd',10,'done'),(11,'iy',11,'done'),(12,'jj',12,'done'),(13,'hg',13,'done'),(14,'iop',14,'getcards'),(15,'jkl',15,'getcards'),(16,'fdgfd',16,'done'),(17,'gsaga',17,'Bet');
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-12 17:35:59
+-- Dump completed on 2016-05-15 19:47:05

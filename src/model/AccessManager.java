@@ -115,15 +115,21 @@ public class AccessManager {
 		return cards;
 	}
 	
+	public JSONArray getCardDealer(int idRoom) throws Exception {
+		Connection con = db.getConnection();
+		JSONArray cards = access.getCardDealer(con, idRoom);
+		return cards;
+	}
+	
 	public int getPointsDealer(int idRoom) throws Exception {
 		Connection con = db.getConnection();
 		int points = access.getPointsDealer(con, idRoom);
 		return points;
 	}
 	
-	public Boolean addCards(String name, int idRoom) throws Exception {
+	public Boolean addCards(String name, int idRoom, int numCards) throws Exception {
 		Connection con = db.getConnection();
-		boolean result = access.AddCards(con, name, idRoom);
+		boolean result = access.AddCards(con, name, idRoom, numCards);
 		return result;
 	}
 	
@@ -152,5 +158,12 @@ public class AccessManager {
 		Connection con = db.getConnection();
 		playerList = access.getPlayerRoom(con, nameRoom);
 		return playerList;
+	}
+	
+	public boolean RemoveCardsRoom(String nameRoom) throws Exception {
+		Connection con = db.getConnection();
+		boolean result = access.removeCardsRoom(con,nameRoom);
+		
+		return result;
 	}
 }

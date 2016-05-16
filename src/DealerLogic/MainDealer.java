@@ -113,11 +113,6 @@ public class MainDealer {
 			response2 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"Bet", paramName , paramVal);
 		
 			Thread.sleep(10000);//ten second.
-				
-			// dar 2 cartas a cada jogador que apostou  -> mudar 
-			int response3 = 0;
-			response3 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"getcards", paramName , paramVal);
-			Thread.sleep(2000);//2 second.
 			
 			// dar duas (mostrar uma) carta ao dealer -> mostrar uma carta do dealer
 			int response4 = 0;
@@ -128,7 +123,12 @@ public class MainDealer {
 				e.printStackTrace();
 			}
 			Thread.sleep(1000);//1 second.
-			
+				
+			// dar 2 cartas a cada jogador que apostou  -> mudar 
+			int response3 = 0;
+			response3 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"getcards", paramName , paramVal);
+			Thread.sleep(2000);//2 second.
+						
 			
 			// desistencias (fazer só no fim)
 			// ir jogador a jogador para tomar decisão (pedir, ficar , dobrar) 
@@ -148,7 +148,7 @@ public class MainDealer {
 				String nameplayer = jArrays.getJSONObject(i).getString("name");
 				 
 				response8 = Communication.POST("roomService/room/"+NameRoom+"/state/"+nameplayer, paramName , paramVal);
-				Thread.sleep(5000);//5 second.
+				Thread.sleep(8000);//5 second.
 				System.out.println(nameplayer); 
 			  }
 		
@@ -210,11 +210,13 @@ public class MainDealer {
 			response7 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"done", paramName , paramVal);
 			
 			Thread.sleep(4000);//4 second.
-			//começar novo jogo
+			//começar novo jogo -> limpar dados do jogo atual
+			//limpar cartas do jogo.
+			Communication.DELETE("roomService/removeCards/"+NameRoom);
 			numJogadoresMesa=0;
 			response7 = Communication.POST("roomService/room/"+NameRoom+"/state/"+"begin", paramName , paramVal);
 			Thread.sleep(2000);//2 second.
-			break;
+		
 		}
 		
 	}

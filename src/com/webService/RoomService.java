@@ -2,6 +2,7 @@ package com.webService;
 
 import java.util.ArrayList;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -129,4 +130,18 @@ public class RoomService {
 		return Players;
 	}
 	
+	@DELETE
+	@Path("/removeCards/{nameRoom}")
+	@Produces("application/json")
+	public Response RemoveCardsRoom(@PathParam("nameRoom") String nameRoom) throws Exception {
+	
+		boolean result = new AccessManager().RemoveCardsRoom(nameRoom);
+		if(result==false){
+			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas ao dealer.").build();
+		}
+		
+		else {
+			return Response.ok("Cartas dadas com sucesso ao dealer!", MediaType.APPLICATION_JSON).build();
+		}
+	}
 }

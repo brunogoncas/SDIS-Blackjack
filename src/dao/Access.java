@@ -456,7 +456,7 @@ public class Access {
 		return points;
 	}
 	
-	public boolean AddCards(Connection con, String Playername, int idRoom) throws SQLException {
+	public boolean AddCards(Connection con, String Playername, int idRoom, int numCards) throws SQLException {
 
 		// create the java mysql update preparedstatement
 		String query1 = "SELECT idplayers FROM players where name = ?";
@@ -477,15 +477,17 @@ public class Access {
 		int c2 = r.nextInt((max - min) + 1) + min;
 		//System.out.println("SFA  " + idPlayer + " " + c1 + " " + c2 + " " + idRoom);
 		// create the java mysql update preparedstatement
-		String query2 = "insert into hand (idcard, idplayer, idroom) values (?,?,?)";
-		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
-	
-		preparedStmt2.setInt(1, c1);
-	
-		preparedStmt2.setInt(2, idPlayer);
-		preparedStmt2.setInt(3, idRoom);
-		// execute the java preparedstatement
-		preparedStmt2.executeUpdate();
+		if(numCards == 2) {
+			String query2 = "insert into hand (idcard, idplayer, idroom) values (?,?,?)";
+			PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+		
+			preparedStmt2.setInt(1, c1);
+		
+			preparedStmt2.setInt(2, idPlayer);
+			preparedStmt2.setInt(3, idRoom);
+			// execute the java preparedstatement
+			preparedStmt2.executeUpdate();
+		}
 		
 		// create the java mysql update preparedstatement
 		String query3 = "insert into hand (idcard, idplayer, idroom) values (?,?,?)";
@@ -628,5 +630,50 @@ public class Access {
 			e.printStackTrace();
 		}
 		return playerList;
+	}
+	
+	public boolean removeCardsRoom(Connection con, String nameRoom) {
+
+		// create the java mysql update preparedstatement
+		String query = "delete t1.* from hand as t1 INNER JOIN room as t2 ON (t1.idroom = t2.idroom) WHERE t2.name = ?";
+		String query2 = "delete t1.* from hand_dealer as t1 INNER JOIN room as t2 ON (t2.iddealer = t1.iddealer) WHERE t2.name = ?";
+		try {
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+			preparedStmt.setString(1, nameRoom);
+			preparedStmt2.setString(1, nameRoom);
+			// execute the java preparedstatement
+			preparedStmt.execute();
+			preparedStmt2.execute();
+			con.close();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}	
+	} 
+	
+	public JSONArray getCardDealer(Connection con, int idRoom) throws SQLException {
+
+		JSONArray ja = new JSONArray();
+
+		try {
+			PreparedStatement stmt = con.prepareStatement("SELECT t1.* FROM card as t1,hand_dealer as t2 INNER JOIN room as t3 ON (t3.idroom = ? AND t2.iddealer = t3.iddealer )where t1.idcard = t2.idcards");
+		
+			stmt.setInt(1, idRoom);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				JSONObject jo = new JSONObject();
+				jo.put("suit",rs.getString("suit"));
+				jo.put("figure",rs.getString("figure"));
+				jo.put("card_value",rs.getInt("card_value"));
+				ja.put(jo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return ja;
 	}
 }

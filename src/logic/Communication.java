@@ -79,6 +79,50 @@ public class Communication {
 	    return response;
 	}
 	
+	public void PUT(String path) throws IOException {
+		// Starting HTTP connection
+		URL serverUrl = new URL(urlStandard + path);
+		HttpURLConnection urlConnection = (HttpURLConnection)serverUrl.openConnection();
+
+		urlConnection.setRequestMethod("PUT");
+		urlConnection.setDoOutput(true);
+
+		OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+
+		out.write("Resource content");
+		out.close();
+
+		// check connection response
+		if (urlConnection.getResponseCode() != 200) {
+			throw new IOException(urlConnection.getResponseMessage());
+		}
+
+		// TODO what we need to put in there
+
+		if (urlConnection != null)
+			urlConnection.disconnect();
+	}
+
+	public static void DELETE(String path) throws IOException {
+		// Starting HTTP connection
+		URL serverUrl = new URL(urlStandard + path);
+		HttpURLConnection urlConnection = (HttpURLConnection)serverUrl.openConnection();
+
+		urlConnection.setRequestMethod("DELETE");
+		urlConnection.setDoOutput(true);
+		// TODO put here the requests properties we have to create
+
+		// check connection response
+		if (urlConnection.getResponseCode() != 200) {
+			throw new IOException(urlConnection.getResponseMessage());
+		}
+
+		// TODO what we need to put in there
+
+		if (urlConnection != null)
+			urlConnection.disconnect();
+	}
+	
 	static String sha256(String input) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
         byte[] result = mDigest.digest(input.getBytes());

@@ -146,12 +146,13 @@ public class PlayerService {
 	}
 	
 	@POST
-	@Path("/addCards/{idRoom}/{name}")
+	@Path("/addCards/{idRoom}/{name}/{numCards}")
 	@Produces("application/json")
 	public static Response AddCards(@PathParam("name") String name, 
-			@PathParam("idRoom") int idRoom) throws Exception {
+			@PathParam("idRoom") int idRoom,
+			@PathParam("numCards") int numCards ) throws Exception {
 	
-		boolean result = new AccessManager().addCards(name, idRoom);
+		boolean result = new AccessManager().addCards(name, idRoom, numCards);
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas.").build();
 		}

@@ -1,5 +1,6 @@
 package com.webService;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,7 +36,6 @@ public class DealerService {
 	@Path("/getCards/{name}")
 	@Produces("application/json")
 	public String getCards(@PathParam("name") String name) throws Exception {
-		System.out.println("NAMEEEEEEEEEE" + name);
 		JSONArray cards = new AccessManager().getCardsDealer(name);
 		return cards.toString();
 	}
@@ -47,5 +47,15 @@ public class DealerService {
 		int points = new AccessManager().getPointsDealer(idRoom);
 		return points;
 	}
+	
+
+	@GET
+	@Path("/getCardD/{idRoom}")
+	@Produces("application/json")
+	public String getCards(@PathParam("idRoom") int idRoom) throws Exception {
+		JSONArray cards = new AccessManager().getCardDealer(idRoom);
+		return cards.toString();
+	}
+
 }
 

@@ -236,7 +236,12 @@ public class Main {
 					e.printStackTrace();
 				}
 				
-				PlayPlayer.Player(RoomChoose,usernameLogged);
+				try {
+					PlayPlayer.Player(RoomChoose,usernameLogged);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 	    }
 	}

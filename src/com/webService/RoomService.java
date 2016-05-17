@@ -137,11 +137,27 @@ public class RoomService {
 	
 		boolean result = new AccessManager().RemoveCardsRoom(nameRoom);
 		if(result==false){
-			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas ao dealer.").build();
+			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel remover cartas da sala.").build();
 		}
 		
 		else {
-			return Response.ok("Cartas dadas com sucesso ao dealer!", MediaType.APPLICATION_JSON).build();
+			return Response.ok("Cartas removidas da sala com sucesso!", MediaType.APPLICATION_JSON).build();
+		}
+	}
+	
+	@DELETE
+	@Path("/removePlayer/{namePlayer}/{idRoom}")
+	@Produces("application/json")
+	public Response RemovePlayerRoom(@PathParam("namePlayer") String namePlayer,
+			@PathParam("idRoom") int idRoom) throws Exception {
+	
+		boolean result = new AccessManager().RemovePlayerRoom(namePlayer, idRoom);
+		if(result==false){
+			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel remover o jogador da sala.").build();
+		}
+		
+		else {
+			return Response.ok("Jogador Removido da Sala!", MediaType.APPLICATION_JSON).build();
 		}
 	}
 }

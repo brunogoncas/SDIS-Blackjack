@@ -676,4 +676,25 @@ public class Access {
 
 		return ja;
 	}
+	
+	public boolean RemovePlayerRoom(Connection con, String namePlayer, int idRoom) throws SQLException {
+
+		String query = "delete t1.* from room_player as t1 INNER JOIN players as t2 ON (t1.idplayer = t2.idplayers AND t2.name = ?) WHERE t1.idRoom = ?";
+
+		try {
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			preparedStmt.setString(1, namePlayer);
+			preparedStmt.setInt(2, idRoom);
+			
+			// execute the java preparedstatement
+			preparedStmt.execute();
+			con.close();
+			return true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}	
+	}
 }

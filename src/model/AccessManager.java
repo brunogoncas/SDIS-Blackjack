@@ -166,11 +166,4 @@ public class AccessManager {
 		
 		return result;
 	}
-	
-	public boolean RemovePlayerRoom(String namePlayer, int idRoom) throws Exception {
-		Connection con = db.getConnection();
-		boolean result = access.RemovePlayerRoom(con,namePlayer, idRoom);
-		
-		return result;
-	}
 }

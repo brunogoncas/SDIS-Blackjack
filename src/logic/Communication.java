@@ -31,7 +31,7 @@ public class Communication {
 		    throw new IOException(conn.getResponseMessage());
 		  }
 		  
-		  System.out.println("GET request returned:" + conn.getResponseCode());
+		 // System.out.println("GET request returned:" + conn.getResponseCode());
 
 		  // Buffer the result into a string
 		  BufferedReader rd = new BufferedReader(
@@ -73,7 +73,7 @@ public class Communication {
 	    int response = urlConnection.getResponseCode();
 		
 		//print result
-		System.out.println("POST request returned:" + response);
+		//System.out.println("POST request returned:" + response);
 	    
 		urlConnection.disconnect();
 	    return response;

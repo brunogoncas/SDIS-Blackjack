@@ -279,8 +279,8 @@ public class PlayPlayer {
 				  }
 				System.out.println("Dealer got " + pointsD +" Points!"); 
 				
-				if((Integer.parseInt(dDealer) < pPoints && Integer.parseInt(dDealer) < 22 && pPoints < 22)
-						|| (Integer.parseInt(dDealer) > 21 && pPoints < 22)){
+				if((pointsD < pPoints && pointsD < 22 && pPoints < 22)
+						|| (pointsD > 21 && pPoints < 22)){
 					
 					String[] paramName3 = {"name", "addChips"};
 					String[] paramVal3 = {usernameLogged, String.valueOf(2*betmoney)};
@@ -296,7 +296,7 @@ public class PlayPlayer {
 					
 				}
 				
-				else if (Integer.parseInt(dDealer) == pPoints && Integer.parseInt(dDealer) < 22 && pPoints < 22){
+				else if (pointsD == pPoints && pointsD < 22 && pPoints < 22){
 					
 					String[] paramName4 = {"name", "addChips"};
 					String[] paramVal4 = {usernameLogged, String.valueOf(betmoney)};

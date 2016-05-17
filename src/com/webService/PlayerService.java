@@ -76,10 +76,20 @@ public class PlayerService {
 		}
 	}
 	
+	/*@PUT
+	@Path("/editTimeout")
+	@Produces("application/json")
+	public String editTimeout(@FormParam("name") String name, 
+			@FormParam("idRoom") int idRoom) throws Exception {
+	
+		new AccessManager().updateTPlayer(name, idRoom);
+		return "Sucess";
+	}*/
+	
 	@PUT
 	@Path("/editMoney")
 	@Produces("application/json")
-	public String newPlayer(@FormParam("name") String name, 
+	public String editMoney(@FormParam("name") String name, 
 			@FormParam("chips") int chips) throws Exception {
 	
 		new AccessManager().updatePlayer(name, chips);
@@ -101,6 +111,16 @@ public class PlayerService {
 			@FormParam("addChips") int addChips) throws Exception {
 	
 		new AccessManager().AddChips(name, addChips);
+		return "Sucess";
+	}
+	
+	@POST
+	@Path("/editTimeout")
+	@Produces("application/json")
+	public String editTimeout(@FormParam("name") String name, 
+			@FormParam("idRoom") int idRoom) throws Exception {
+	
+		new AccessManager().updateTPlayer(name, idRoom);
 		return "Sucess";
 	}
 	
@@ -144,6 +164,15 @@ public class PlayerService {
 		
 		JSONArray cards = new AccessManager().getCards(name, idRoom);
 		return cards.toString();
+	}
+	
+	@GET
+	@Path("/getTimeouts/{idRoom}/{namePlayer}")
+	@Produces("application/json")
+	public String getTimeouts(@PathParam("idRoom") int idRoom,@PathParam("namePlayer") String namePlayer) throws Exception {
+		
+		int timeouts = new AccessManager().getTimeouts(namePlayer,idRoom);
+		return String.valueOf(timeouts);
 	}
 	
 	@POST

@@ -31,7 +31,7 @@ CREATE TABLE `players` (
   PRIMARY KEY (`idplayers`),
   UNIQUE KEY `idplayers_UNIQUE` (`idplayers`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,6 @@ CREATE TABLE `players` (
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
-INSERT INTO `players` VALUES (2,'andre',1874,'bd01b0b648c2c64eb1bddd9361d9972ea684b344fedc4d166654a85e8919e7ad',11),(3,'to',1998,'663ea1bfffe5038f3f0cf667f14c4257eff52d77ce7f2a218f72e9286616ea39',52),(4,'a',2500,'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb',NULL);
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-15 19:47:05
+-- Dump completed on 2016-05-17 23:47:57

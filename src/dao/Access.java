@@ -160,6 +160,20 @@ public class Access {
 
 		con.close();
 	}
+	
+	public void updateTPlayer(Connection con, String Playername, int idRoom) throws SQLException {
+
+		// create the java mysql update preparedstatement
+		String query = "update room_player as t1 INNER JOIN players as t2 ON(t1.idplayer = t2.idplayers AND t2.name = ?) set t1.timeouts = t1.timeouts+1 Where idRoom = ?";
+		PreparedStatement preparedStmt = con.prepareStatement(query);
+		preparedStmt.setString(1, Playername);
+		preparedStmt.setInt(2, idRoom);
+
+		// execute the java preparedstatement
+		preparedStmt.executeUpdate();
+
+		con.close();
+	}
 
 	public int getPlayerMoney(Connection con, String Playername) throws SQLException {
 
@@ -179,10 +193,29 @@ public class Access {
 		return result;
 	}
 	
+	public int getTimeouts(Connection con, String Playername, int idRoom) throws SQLException {
+
+		// create the java mysql update preparedstatement
+		String query = "SELECT timeouts FROM room_player as t1 INNER JOIN players as t2 ON (t2.name = ? AND t1.idplayer = t2.idplayers) where t1.idRoom = ?";
+		PreparedStatement preparedStmt = con.prepareStatement(query);
+		preparedStmt.setString(1, Playername);
+		preparedStmt.setInt(2, idRoom);
+
+		// execute the java preparedstatement
+		ResultSet rs = preparedStmt.executeQuery();
+		int result = 0;
+		while (rs.next()) {
+			result = rs.getInt(1);
+		}
+
+		con.close();
+		return result;
+	}
+	
 	public int getPlayersByRoom(Connection con, String nameRoom) throws SQLException {
 
 		// create the java mysql update preparedstatement
-		String query = "SELECT COUNT(t1.name) FROM players as t1, room_player as t2, room as t3  where t3.name = ? AND t2.idroom = t3.idroom AND t2.idplayer = t1.idplayers";
+		String query = "SELECT COUNT(t1.name) FROM players as t1, room_player as t2, room as t3  where t3.name = ? AND t2.idroom = t3.idroom AND t2.idplayer = t1.idplayers AND t2.state <> 'Iddle'";
 		PreparedStatement preparedStmt = con.prepareStatement(query);
 		preparedStmt.setString(1, nameRoom);
 

@@ -10,6 +10,8 @@ public class Main {
 	Scanner reader = new Scanner(System.in);
 	String usernameLogged=null;
 	
+	int rPost = 0;
+	
 	public void loginMenu() throws IOException {
 		while (true) {
 			System.out.println("1. Login");
@@ -147,9 +149,8 @@ public class Main {
 				String[] paramName = { "name", "addChips"};
 				String[] paramVal = { usernameLogged, Integer.toString(AddChips) };
 				
-				int response = 0;
 				try {
-					response = Communication.POST("playerService/addChips", paramName, paramVal);
+					rPost = Communication.POST("playerService/addChips", paramName, paramVal);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -167,9 +168,8 @@ public class Main {
 				String[] paramName = { "name", "removeChips"};
 				String[] paramVal = { usernameLogged, Integer.toString(RemoveChips) };
 				
-				int response = 0;
 				try {
-					response = Communication.POST("playerService/removeChips", paramName, paramVal);
+					rPost = Communication.POST("playerService/removeChips", paramName, paramVal);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -229,9 +229,8 @@ public class Main {
 				String[] paramName = { };
 				String[] paramVal = { };
 				
-				int response2 = 0;
 				try {
-					response2 = Communication.POST("roomService/room/"+RoomChoose+"/player/"+usernameLogged, paramName , paramVal);
+					rPost = Communication.POST("roomService/room/"+RoomChoose+"/player/"+usernameLogged, paramName , paramVal);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

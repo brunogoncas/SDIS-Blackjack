@@ -31,7 +31,7 @@ public class Communication {
 		    throw new IOException(conn.getResponseMessage());
 		  }
 		  
-		 // System.out.println("GET request returned:" + conn.getResponseCode());
+		 //System.out.println("GET request returned:" + conn.getResponseCode());
 
 		  // Buffer the result into a string
 		  BufferedReader rd = new BufferedReader(
@@ -79,7 +79,7 @@ public class Communication {
 	    return response;
 	}
 	
-	public void PUT(String path) throws IOException {
+	public static void PUT(String path) throws IOException {
 		// Starting HTTP connection
 		URL serverUrl = new URL(urlStandard + path);
 		HttpURLConnection urlConnection = (HttpURLConnection)serverUrl.openConnection();

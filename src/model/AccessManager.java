@@ -59,9 +59,20 @@ public class AccessManager {
 		access.updatePlayer(con, Playername, ChipsNewValue);
 	}
 	
+	public void updateTPlayer(String Playername, int idRoom) throws Exception {
+		Connection con = db.getConnection();
+		access.updateTPlayer(con, Playername, idRoom);
+	}
+	
 	public int getMoneyPlayer(String Playername) throws Exception {
 		Connection con = db.getConnection();
 		int chips = access.getPlayerMoney(con, Playername);
+		return chips;
+	}
+	
+	public int getTimeouts(String Playername, int idRoom) throws Exception {
+		Connection con = db.getConnection();
+		int chips = access.getTimeouts(con, Playername,idRoom);
 		return chips;
 	}
 	

@@ -4,16 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import org.json.JSONArray;
 
 public class PlayPlayer {
 	
 	static Scanner reader = new Scanner(System.in);
 	private static String str = "";
-	private static int pPoints = 0, betmoney;
+	static int pPoints = 0, betmoney = 0, numberT = 0;
 	
 	public static void Player(int idRoom, String usernameLogged) throws IOException {
 		
@@ -22,7 +19,7 @@ public class PlayPlayer {
 			//LER MENSAGEM SERVIDOR -> GET STATE (player e room)
 			String[] paramName = {};
 			String[] paramVal = {};
-			String response=null, responseP=null; 
+			String response=null, responseP=null, numberT = null; 
 			int response2;
 			String cardDealer=null;
 			
@@ -30,11 +27,64 @@ public class PlayPlayer {
 				responseP= Communication.GET("playerService/getState/"+idRoom+"/"+usernameLogged);
 				
 				response = Communication.GET("roomService/room/"+idRoom);
-				System.out.println("response:" + response + " " + responseP);
+				
+				numberT = Communication.GET("playerService/getTimeouts/"+idRoom+"/"+usernameLogged);
+				
+				//System.out.println("response:" + response + " " + responseP + " " + numberT);
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			
+			if(responseP.equals("Iddle")){
+				
+				if(Integer.parseInt(numberT) == 2){
+					
+					//SAIR DA SALA
+					
+				}
+				
+				else{
+				
+					int x = 5; // wait 5 seconds at most
+					
+					System.out.println("Please say something!");
+					
+					BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+					long startTime = System.currentTimeMillis();
+					while ((System.currentTimeMillis() - startTime) < x * 1000
+					        && !in.ready()) {
+					}
+		
+					if (in.ready()) {
+						
+					    System.out.println("You are back!!!");
+					    try {
+							response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"begin", paramName , paramVal);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					    
+					    continue;
+					    
+					} else {
+					    System.out.println("You did not enter something! :(");
+					    
+					    String[] paramName3 = {"name", "idRoom"};
+						String[] paramVal3 = {usernameLogged, String.valueOf(idRoom)};
+						
+						try {
+							response2 = Communication.POST("playerService/editTimeout", paramName3 , paramVal3);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						continue;
+					  }
+					}
+				
 			}
 			
 			if(response.equals("begin") && responseP.equals("begin")) {
@@ -61,8 +111,15 @@ public class PlayPlayer {
 				
 				if (in.ready()) {
 					str = in.readLine();
-					if(!isInteger(str)){
-						System.out.println("You did not enter a valid number to bet!");
+
+				    if(!isInteger(str)){
+						System.out.println("You did not enter a valid number to bet! Remember that next round.");
+						try {
+							response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"begin", paramName , paramVal);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						continue;
 					}
 					else{
@@ -88,7 +145,13 @@ public class PlayPlayer {
 					}
 				}
 				else {
-					System.out.println("You did not enter a valid bet!");
+					try {
+						response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"Iddle", paramName , paramVal);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println("Please enter something next time!");
 				    continue;
 				}
 				
@@ -263,7 +326,8 @@ public class PlayPlayer {
 				
 				//get cartas dealer -> todas
 				 try {
-					 cardDealer = Communication.GET("dealerService/getCards/"+idRoom);
+					 cardDealer = Communication.GET("dealerService/getCardD/"+idRoom);
+					 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -345,13 +409,9 @@ public class PlayPlayer {
 	}
 	
 	public static boolean isInteger(String str) {
-	    if (str == null) {
-	        return false;
-	    }
+
 	    int length = str.length();
-	    if (length == 0) {
-	        return false;
-	    }
+
 	    int i = 0;
 	    if (str.charAt(0) == '-') {
 	        if (length == 1) {

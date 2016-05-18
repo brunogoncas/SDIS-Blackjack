@@ -36,6 +36,13 @@ public class AccessManager {
 		return playerList;
 	}
 
+	public int getPlayersByIDRoom(int idRoom) throws Exception {
+		int playerList = 0;
+		Connection con = db.getConnection();
+		playerList = access.getPlayersByIDRoom(con,idRoom);
+		return playerList;
+	}
+	
 	public boolean insertPlayer(String name, String password, int chips) throws Exception {
 		Connection con = db.getConnection();
 		boolean result = access.NewPlayer(con, name, password, chips);
@@ -162,6 +169,14 @@ public class AccessManager {
 		String result = access.getPlayerState(con, idRoom, namePlayer);
 		
 		return result;
+	}
+	
+	public ArrayList<Integer> getAFK() throws Exception {
+		ArrayList<Integer>players = new ArrayList<Integer>();
+		Connection con = db.getConnection();
+		players = access.getAFK(con);
+		
+		return players;
 	}
 
 	public ArrayList<Player> getPlayerRoom(String nameRoom) throws Exception {

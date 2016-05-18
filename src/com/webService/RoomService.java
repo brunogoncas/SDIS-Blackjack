@@ -49,6 +49,19 @@ public class RoomService {
 		}
 		return players;
 	}
+	
+	@GET
+	@Path("/room/{idRoom}/number")
+	public int PlayerByIDRoom(@PathParam("idRoom") int idRoom) {
+		int players = 0;
+		//String id = String.valueOf(idRoom);
+		try {
+			players = new AccessManager().getPlayersByIDRoom(idRoom);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return players;
+	}
 		
 	@POST
 	@Path("/room")

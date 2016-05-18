@@ -3,6 +3,7 @@ package DealerLogic;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,7 +30,7 @@ public class MainDealer extends Observable{
 			System.out.print("Escolha: ");
 
 			int choice;
-
+	
 			try {
 				choice = Integer.parseInt(reader.next());
 			} catch (NumberFormatException e) {
@@ -92,7 +93,7 @@ public class MainDealer extends Observable{
 
 			if (getnumJogadoresMesa() != 0) {
 			    do {
-			    	System.out.println("Existem " + numJogadoresMesa + " jogadores nesta sala!");
+			    	
 					// menu começar jogo -> "begin"
 					String[] paramName = {};
 					String[] paramVal = {};

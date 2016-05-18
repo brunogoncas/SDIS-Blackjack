@@ -20,9 +20,7 @@ public class Login {
 				
 		if(response == 200){
 			System.out.println("HELLOOOOO1" + response);
-			//String usernameAndPassword = "username" + ":" + "pass";
-			//String userCredentials = "Authorization";
-			//String authorizationHeaderValue = "Basic " + java.util.Base64.getEncoder().encodeToString( usernameAndPassword.getBytes() );
+
 	
 			return true;
 		}

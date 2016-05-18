@@ -32,7 +32,7 @@ CREATE TABLE `hand_dealer` (
   KEY `card_id_idx` (`idcards`),
   CONSTRAINT `card_id` FOREIGN KEY (`idcards`) REFERENCES `card` (`idcard`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `dealer_id` FOREIGN KEY (`iddealer`) REFERENCES `dealer` (`iddealer`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=368 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=545 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-17 23:47:58
+-- Dump completed on 2016-05-18 18:23:39

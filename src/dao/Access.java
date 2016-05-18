@@ -229,6 +229,24 @@ public class Access {
 		con.close();
 		return result;
 	}
+	
+	public int getPlayersByIDRoom(Connection con, int idRoom) throws SQLException {
+
+		// create the java mysql update preparedstatement
+		String query = "SELECT COUNT(t1.name) FROM players as t1, room_player as t2 Where t2.idroom = ? AND t2.idplayer = t1.idplayers";
+		PreparedStatement preparedStmt = con.prepareStatement(query);
+		preparedStmt.setInt(1, idRoom);
+
+		// execute the java preparedstatement
+		ResultSet rs = preparedStmt.executeQuery();
+		int result = 0;
+
+		while (rs.next()) {
+			result = rs.getInt(1);
+		}
+		con.close();
+		return result;
+	}
 
 	public void addChips(Connection con, String Playername, int addChips) throws SQLException {
 
@@ -708,6 +726,29 @@ public class Access {
 		}
 
 		return ja;
+	}
+	
+	public ArrayList<Integer> getAFK(Connection con) throws SQLException {
+		
+		ArrayList<Integer>players = new ArrayList<Integer>(); 
+		
+		long time = System.currentTimeMillis();
+		
+		System.out.println("HELLOOOOOOOOOOOOOOOOOOO: " + time);
+
+		try {
+			PreparedStatement stmt = con.prepareStatement("SELECT t1.iduser FROM requests as t1 WHERE (? - t1.lastreq) >= 30000");
+		
+			stmt.setLong(1, time);
+			ResultSet rs2 = stmt.executeQuery();
+			while (rs2.next()) {
+				players.add(rs2.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return players;
 	}
 	
 	  public boolean RemovePlayerRoom(Connection con, String namePlayer, int idRoom) throws SQLException {

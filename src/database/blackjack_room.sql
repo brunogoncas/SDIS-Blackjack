@@ -32,7 +32,7 @@ CREATE TABLE `room` (
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `iddealer_idx` (`iddealer`),
   CONSTRAINT `iddealer` FOREIGN KEY (`iddealer`) REFERENCES `dealer` (`iddealer`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-17 23:47:57
+-- Dump completed on 2016-05-18 18:23:39

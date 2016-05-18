@@ -213,6 +213,7 @@ public class Main {
 		
 	    while(!skip) {
 			int RoomChoose = 0;
+			int temp = 0;
 			String input;
 			System.out.println("Qual a Room pretende escolher? (0-Exit) : ");
 			reader.nextLine();
@@ -226,6 +227,24 @@ public class Main {
 			else  { //verificar aqui se contem!!!!!!!!!!!!!!!!!!1
 				skip=true;
 				
+				response=null;
+				try {
+					response = Communication.GET("roomService/room/"+RoomChoose+"/number");
+					temp = Integer.parseInt(response);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				System.out.println("NUM: " + temp);
+				
+				if(temp >= 6){
+					System.out.println("There are too many players in the room already!");
+					
+				}
+				
+				else{
+				
 				String[] paramName = { };
 				String[] paramVal = { };
 				
@@ -235,11 +254,17 @@ public class Main {
 					e.printStackTrace();
 				}
 				
-				try {
-					PlayPlayer.Player(RoomChoose,usernameLogged);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					PlayPlayer p = new PlayPlayer(RoomChoose,usernameLogged);
+					Thread pLogic = new Thread(p);
+					pLogic.setName(String.valueOf(RoomChoose));
+					pLogic.start();
+					
+					try {
+						pLogic.join();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 	    }

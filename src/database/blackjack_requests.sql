@@ -16,34 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `room_player`
+-- Table structure for table `requests`
 --
 
-DROP TABLE IF EXISTS `room_player`;
+DROP TABLE IF EXISTS `requests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `room_player` (
-  `idroom_player` int(11) NOT NULL AUTO_INCREMENT,
-  `idroom` int(11) NOT NULL,
-  `idplayer` int(11) NOT NULL,
-  `state` varchar(100) NOT NULL DEFAULT 'begin',
-  `timeouts` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`idroom_player`),
-  UNIQUE KEY `idroom_player_UNIQUE` (`idroom_player`),
-  KEY `idplayer_idx` (`idplayer`),
-  KEY `idroom_idx` (`idroom`),
-  CONSTRAINT `idplayer` FOREIGN KEY (`idplayer`) REFERENCES `players` (`idplayers`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `idroom` FOREIGN KEY (`idroom`) REFERENCES `room` (`idroom`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+CREATE TABLE `requests` (
+  `idrequests` int(11) NOT NULL,
+  `iduser` int(11) NOT NULL,
+  `lastreq` int(11) NOT NULL,
+  PRIMARY KEY (`idrequests`),
+  UNIQUE KEY `iduser_UNIQUE` (`iduser`),
+  CONSTRAINT `user_req` FOREIGN KEY (`iduser`) REFERENCES `players` (`idplayers`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `room_player`
+-- Dumping data for table `requests`
 --
 
-LOCK TABLES `room_player` WRITE;
-/*!40000 ALTER TABLE `room_player` DISABLE KEYS */;
-/*!40000 ALTER TABLE `room_player` ENABLE KEYS */;
+LOCK TABLES `requests` WRITE;
+/*!40000 ALTER TABLE `requests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `requests` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-17 23:47:58
+-- Dump completed on 2016-05-18 18:23:40

@@ -76,16 +76,6 @@ public class PlayerService {
 		}
 	}
 	
-	/*@PUT
-	@Path("/editTimeout")
-	@Produces("application/json")
-	public String editTimeout(@FormParam("name") String name, 
-			@FormParam("idRoom") int idRoom) throws Exception {
-	
-		new AccessManager().updateTPlayer(name, idRoom);
-		return "Sucess";
-	}*/
-	
 	@PUT
 	@Path("/editMoney")
 	@Produces("application/json")
@@ -239,5 +229,17 @@ public class PlayerService {
 	       return Response.ok("Jogador Removido da Sala!", MediaType.APPLICATION_JSON).build();
 	      }
 	    }
+	 
+	@GET
+	@Path("/getAFK")
+	public String getAFK() throws Exception {
+	 	ArrayList<Integer>players = new ArrayList<Integer>();
+	 	String plays;
+	 	players = new AccessManager().getAFK();
+	 	Gson gson = new Gson();
+	 	plays = gson.toJson(players);
+	 	
+		return plays;
+	}
 	
 }

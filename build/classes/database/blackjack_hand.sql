@@ -16,30 +16,35 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `card_player`
+-- Table structure for table `hand`
 --
 
-DROP TABLE IF EXISTS `card_player`;
+DROP TABLE IF EXISTS `hand`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `card_player` (
-  `idcard_player` int(11) NOT NULL,
+CREATE TABLE `hand` (
+  `idhand` int(11) NOT NULL AUTO_INCREMENT,
   `idcard` int(11) NOT NULL,
   `idplayer` int(11) NOT NULL,
-  PRIMARY KEY (`idcard_player`),
-  KEY `idcard` (`idcard`),
+  `idroom` int(11) NOT NULL,
+  PRIMARY KEY (`idhand`),
+  UNIQUE KEY `idhand_UNIQUE` (`idhand`),
+  KEY `idroom_idx` (`idroom`),
   KEY `idplayer_idx` (`idplayer`),
-  CONSTRAINT `idcard` FOREIGN KEY (`idcard`) REFERENCES `card` (`idcard`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `cardid_idx` (`idcard`),
+  CONSTRAINT `cardid` FOREIGN KEY (`idcard`) REFERENCES `card` (`idcard`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `playersid` FOREIGN KEY (`idplayer`) REFERENCES `players` (`idplayers`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `roomid` FOREIGN KEY (`idroom`) REFERENCES `room` (`idroom`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `card_player`
+-- Dumping data for table `hand`
 --
 
-LOCK TABLES `card_player` WRITE;
-/*!40000 ALTER TABLE `card_player` DISABLE KEYS */;
-/*!40000 ALTER TABLE `card_player` ENABLE KEYS */;
+LOCK TABLES `hand` WRITE;
+/*!40000 ALTER TABLE `hand` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hand` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

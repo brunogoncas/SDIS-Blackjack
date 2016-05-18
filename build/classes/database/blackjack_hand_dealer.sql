@@ -16,30 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `card_player`
+-- Table structure for table `hand_dealer`
 --
 
-DROP TABLE IF EXISTS `card_player`;
+DROP TABLE IF EXISTS `hand_dealer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `card_player` (
-  `idcard_player` int(11) NOT NULL,
-  `idcard` int(11) NOT NULL,
-  `idplayer` int(11) NOT NULL,
-  PRIMARY KEY (`idcard_player`),
-  KEY `idcard` (`idcard`),
-  KEY `idplayer_idx` (`idplayer`),
-  CONSTRAINT `idcard` FOREIGN KEY (`idcard`) REFERENCES `card` (`idcard`) ON DELETE CASCADE ON UPDATE NO ACTION
+CREATE TABLE `hand_dealer` (
+  `idhand_dealer` int(11) NOT NULL AUTO_INCREMENT,
+  `iddealer` int(11) NOT NULL,
+  `idcards` int(11) NOT NULL,
+  PRIMARY KEY (`idhand_dealer`),
+  UNIQUE KEY `idhand_dealer_UNIQUE` (`idhand_dealer`),
+  KEY `dealer_id_idx` (`iddealer`),
+  KEY `card_id_idx` (`idcards`),
+  CONSTRAINT `card_id` FOREIGN KEY (`idcards`) REFERENCES `card` (`idcard`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `dealer_id` FOREIGN KEY (`iddealer`) REFERENCES `dealer` (`iddealer`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `card_player`
+-- Dumping data for table `hand_dealer`
 --
 
-LOCK TABLES `card_player` WRITE;
-/*!40000 ALTER TABLE `card_player` DISABLE KEYS */;
-/*!40000 ALTER TABLE `card_player` ENABLE KEYS */;
+LOCK TABLES `hand_dealer` WRITE;
+/*!40000 ALTER TABLE `hand_dealer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hand_dealer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-14 15:40:24
+-- Dump completed on 2016-05-14 15:40:25

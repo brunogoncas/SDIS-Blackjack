@@ -128,7 +128,7 @@ public class Access {
 		return idd;
 	}
 
-	public boolean LoginPlayer(Connection con, String name, String password) throws SQLException {
+	public boolean LoginPlayer(Connection con, String name, String password, String token) throws SQLException {
 
 		String query = "select * from players where name = ? and password = ?";
 		PreparedStatement stmt = con.prepareStatement(query);
@@ -142,6 +142,15 @@ public class Access {
 			System.out.println("Login Errado"); // prints this message if your
 												// resultset is empty
 		}
+		
+		String queryUpdate = "update players set token = ? where name = ?";
+		PreparedStatement preparedStmt = con.prepareStatement(queryUpdate);
+		preparedStmt.setString(1, token);
+		preparedStmt.setString(2, name);
+
+		// execute the java preparedstatement
+		preparedStmt.executeUpdate();
+		
 
 		con.close();
 		return val;

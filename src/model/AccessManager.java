@@ -61,9 +61,9 @@ public class AccessManager {
 		return result;
 	}
 	
-	public boolean loginPlayer(String name, String password) throws Exception {
+	public boolean loginPlayer(String name, String password, String token) throws Exception {
 		Connection con = db.getConnection();
-		boolean result = access.LoginPlayer(con, name, password);		
+		boolean result = access.LoginPlayer(con, name, password, token);		
 		con.close();
 		return result;
 	}

@@ -1,7 +1,16 @@
 package com.webService;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -67,12 +76,16 @@ public class PlayerService {
 	@POST
 	@Path("/login")
 	@Produces("application/json")
+	@Consumes("application/x-www-form-urlencoded")
 	public static Response  newPlayer(@FormParam("name") String name, 
 			@FormParam("password") String password) throws Exception {
 	
 		String n = MessagesEncrypter.decrypt(name);
 		
-		boolean result = new AccessManager().loginPlayer(n, password);
+		// Issue a token for the user
+        String token = issueToken(name);
+		
+		boolean result = new AccessManager().loginPlayer(n, password, token);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Login Failed for: " + name).build();
@@ -82,6 +95,21 @@ public class PlayerService {
 			return Response.ok("Login Successful", MediaType.APPLICATION_JSON).build();
 		}
 	}
+	
+	//https://stackoverflow.com/questions/26777083/best-practice-for-rest-token-based-authentication-with-jax-rs-and-jersey
+    private static String issueToken(String username) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
+        // Issue a token (can be a random String persisted to a database or a JWT token)
+        // The issued token must be associated to a user
+        // Return the issued token
+    	
+    	MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
+    	
+    	String token = null;
+    			
+		token = messagesEncrypter.encrypt("blackjack_SDIS_" + username + "_" + new java.util.Date()); 	
+		
+    	return token;
+    }
 	
 	@PUT
 	@Path("/editMoney")

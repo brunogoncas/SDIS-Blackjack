@@ -1,11 +1,19 @@
 package DealerLogic;
 
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Observable;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import org.json.JSONArray;
 
@@ -21,7 +29,7 @@ public class MainDealer extends Observable{
 	static int rPost = 0;
 	static String rGet = "";
 	
-	public void mainMenu() {
+	public void mainMenu() throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		
 		while (true) {
 			System.out.println("1. Criar uma sala de jogo");
@@ -82,7 +90,7 @@ public class MainDealer extends Observable{
 		}
 	}
 	
-	public void LogicDealer() throws IOException, InterruptedException {
+	public void LogicDealer() throws IOException, InterruptedException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		
 		Timer timer = new Timer();
 		timer.schedule(new TestPlayers(), 0, 3500);
@@ -249,7 +257,7 @@ public class MainDealer extends Observable{
 	// And From your main() method or any other method
 
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		System.out.println(" ===== Dealer - BLACKJACK ===== ");
 		MainDealer Menu = new MainDealer();
 		Menu.mainMenu();

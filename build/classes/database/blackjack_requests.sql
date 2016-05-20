@@ -16,31 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `players`
+-- Table structure for table `requests`
 --
 
-DROP TABLE IF EXISTS `players`;
+DROP TABLE IF EXISTS `requests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `players` (
-  `idplayers` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `chips` int(11) DEFAULT NULL,
-  `password` varchar(256) NOT NULL,
-  `betmoney` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idplayers`),
-  UNIQUE KEY `idplayers_UNIQUE` (`idplayers`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+CREATE TABLE `requests` (
+  `idrequests` int(11) NOT NULL,
+  `iduser` int(11) NOT NULL,
+  `lastreq` int(11) NOT NULL,
+  PRIMARY KEY (`idrequests`),
+  UNIQUE KEY `iduser_UNIQUE` (`iduser`),
+  CONSTRAINT `user_req` FOREIGN KEY (`iduser`) REFERENCES `players` (`idplayers`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `players`
+-- Dumping data for table `requests`
 --
 
-LOCK TABLES `players` WRITE;
-/*!40000 ALTER TABLE `players` DISABLE KEYS */;
-/*!40000 ALTER TABLE `players` ENABLE KEYS */;
+LOCK TABLES `requests` WRITE;
+/*!40000 ALTER TABLE `requests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `requests` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-18 18:23:39
+-- Dump completed on 2016-05-18 18:23:40

@@ -56,12 +56,13 @@ public class PlayPlayer implements Runnable{
 			try {
 			
 			responseP= Communication.GET("playerService/getState/"+idRoom+"/"+usernameLogged);
-			
+			Thread.sleep(500);//0,5 second.
 			response = Communication.GET("roomService/room/"+idRoom);
-			
+			Thread.sleep(500);//0,5 second.
 			numberT = Communication.GET("playerService/getTimeouts/"+idRoom+"/"+usernameLogged);
-				
-				//System.out.println("response:" + response + " " + responseP + " " + numberT);
+			Thread.sleep(500);//0,5 second.
+			
+			System.out.println("response:" + response + " " + responseP + " " + numberT);
 				
 			if(responseP.equals("Iddle")){
 				
@@ -71,7 +72,6 @@ public class PlayPlayer implements Runnable{
 					System.out.println("Falhaste 2 tentativas de voltar á sala, a ser removido!");
 					
 					Communication.DELETE("playerService/removePlayer/"+usernameLogged+"/"+idRoom);
-
 					break;
 					
 				}
@@ -95,7 +95,6 @@ public class PlayPlayer implements Runnable{
 						    System.out.println("You are back!!!");
 
 							response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"begin", paramName , paramVal);
-						    
 						    continue;
 						    
 						} else {
@@ -105,7 +104,6 @@ public class PlayPlayer implements Runnable{
 							String[] paramVal3 = {usernameLogged, String.valueOf(idRoom)};
 							
 							response2 = Communication.POST("playerService/editTimeout", paramName3 , paramVal3);
-
 							continue;
 						  }
 					}
@@ -114,7 +112,7 @@ public class PlayPlayer implements Runnable{
 			
 			if(response.equals("begin") && responseP.equals("begin")) {
 				response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"Bet", paramName , paramVal);
-
+				
 			}
 			else if(response.equals("Bet") && responseP.equals("Bet")) {
 		
@@ -179,8 +177,7 @@ public class PlayPlayer implements Runnable{
 				 
 				 System.out.println("Tens " + pPoints + " pontos!");
 				 
-				 response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"myturn", paramName , paramVal);
-									
+				 response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"myturn", paramName , paramVal);					
 			}
 			else if(response.equals(usernameLogged) && responseP.equals("myturn") ) {
 				
@@ -195,7 +192,6 @@ public class PlayPlayer implements Runnable{
 				int pointsD = jArray.getJSONObject(0).getInt("card_value");
 				System.out.println("Dealer got an "+ figure + " of " + suit + " Points: " + pointsD); 
 			
-				
 				
 				if(pPoints >= 21) {
 					
@@ -239,7 +235,7 @@ public class PlayPlayer implements Runnable{
 						pPoints = 0;
 						//se double -> pedir só +1 carta e tirar dinheiro da aposta inciial e avançar
 						response2 = Communication.POST("playerService/addCards/"+idRoom+"/"+usernameLogged+"/"+1, paramName , paramVal);
-						
+								
 						//remove o dinheiro 
 						String[] paramName2 = { "name", "removeChips"};
 						String[] paramVal2 = { usernameLogged, Integer.toString(betmoney) };
@@ -269,7 +265,6 @@ public class PlayPlayer implements Runnable{
 				if(resp.toLowerCase().equals("s")) {
 					
 					response2 = Communication.POST("playerService/updateState/"+idRoom+"/"+usernameLogged+"/"+"results", paramName , paramVal);
-
 					continue;
 				}
 				
@@ -279,7 +274,6 @@ public class PlayPlayer implements Runnable{
 				String dDealer = null;
 				
 				dDealer = Communication.GET("dealerService/getCardD/"+idRoom);
-
 				
 				//get cartas dealer -> todas
 				cardDealer = Communication.GET("dealerService/getCardD/"+idRoom);
@@ -302,7 +296,6 @@ public class PlayPlayer implements Runnable{
 					String[] paramVal3 = {usernameLogged, String.valueOf(2*betmoney)};
 					
 					response2 = Communication.POST("playerService/addChips", paramName3 , paramVal3);
-
 					
 					System.out.println("Ganhou! Ganhou: " + 2*betmoney + "chips com:" + pPoints);
 					
@@ -337,12 +330,15 @@ public class PlayPlayer implements Runnable{
 			else{
 				System.out.println("Esperando para jogar!");
 				try {
-				    Thread.sleep(2000);//two second.
+				    Thread.sleep(1000);//two second.
 				} catch(InterruptedException ex) {
 				    Thread.currentThread().interrupt();
 				}
 			}		
 		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}

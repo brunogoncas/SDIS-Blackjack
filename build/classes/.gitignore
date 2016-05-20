@@ -1,6 +1,6 @@
-/com/
-/logic/
-/DealerLogic/
-/model/
 /dao/
+/dto/
+/logic/
+/model/
 /watcher/
+/DealerLogic/

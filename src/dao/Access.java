@@ -462,7 +462,6 @@ public class Access {
 		JSONArray ja = new JSONArray();
 
 		try {
-			System.out.println("HIIIIIIIIIIi");
 			PreparedStatement stmt = con.prepareStatement("SELECT t1.* FROM card as t1,hand_dealer as t2 INNER JOIN dealer as t3 ON (t3.name = ? AND t2.iddealer = t3.iddealer )where t1.idcard = t2.idcards");
 		
 			stmt.setString(1, Dealername);
@@ -487,7 +486,6 @@ public class Access {
 		int points = 0;
 
 		try {
-			System.out.println("HIIIIIIIIIIi");
 			PreparedStatement stmt = con.prepareStatement("SELECT SUM(t1.card_value) FROM card as t1,hand_dealer as t2 "
 					+ "INNER JOIN room as t3 ON (t3.idroom = ? )"
 					+ "INNER JOIN dealer as t4 ON (t3.iddealer = t4.iddealer AND t2.iddealer = t4.iddealer )"

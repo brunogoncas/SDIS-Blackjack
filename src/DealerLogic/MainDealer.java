@@ -87,9 +87,7 @@ public class MainDealer extends Observable{
 		Timer timer = new Timer();
 		timer.schedule(new TestPlayers(), 0, 3500);
 		
-		while(true) {
-			
-			
+		while(true) {	
 
 			if (getnumJogadoresMesa() != 0) {
 			    do {
@@ -98,7 +96,7 @@ public class MainDealer extends Observable{
 					String[] paramName = {};
 					String[] paramVal = {};
 					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"begin", paramName , paramVal);
-					Thread.sleep(4000);//4 second.
+					Thread.sleep(5000);//5 second.
 					
 					//POST(place your bets);
 					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"Bet", paramName , paramVal);
@@ -113,12 +111,11 @@ public class MainDealer extends Observable{
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					Thread.sleep(1000);//1 second.
+					Thread.sleep(2000);//1 second.
 						
-					// dar 2 cartas a cada jogador que apostou  -> mudar 
-
+					// dar 2 cartas a cada jogador que apostou  -> mudar
 					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"getcards", paramName , paramVal);
-					Thread.sleep(2000);//2 second.
+					Thread.sleep(4000);//2 second.
 								
 					
 					// desistencias (fazer só no fim)
@@ -139,11 +136,10 @@ public class MainDealer extends Observable{
 						String nameplayer = jArrays.getJSONObject(i).getString("name");
 						 
 						rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+nameplayer, paramName , paramVal);
-						Thread.sleep(8000);//5 second.
+						Thread.sleep(6000);//6 second.
 						System.out.println(nameplayer); 
 					  }
 				
-					
 					// mostrar a segunda carta do dealer -> jogar dealer
 					//get cartas dealer
 					String cardsDealer=null;
@@ -162,6 +158,7 @@ public class MainDealer extends Observable{
 						 System.out.println("You got an"+ figure + " of " + suit + " Points: " + points +"PRINT 1"); 
 					}
 					
+					Thread.sleep(1000);//1 second.
 					
 					while(points < 17) {
 						points = 0;
@@ -188,7 +185,8 @@ public class MainDealer extends Observable{
 							 String figure = jArray.getJSONObject(i).getString("figure");
 							 points += jArray.getJSONObject(i).getInt("card_value");
 							 System.out.println("You got an"+ figure + " of " + suit + " Points: " + points +"PRINT 2"); 
-						}		
+						}	
+						Thread.sleep(1000);//two second.
 					}
 					
 					// resultados
@@ -200,18 +198,18 @@ public class MainDealer extends Observable{
 
 					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"done", paramName , paramVal);
 					
-					Thread.sleep(4000);//4 second.
+					Thread.sleep(3000);//4 second.
 					//começar novo jogo -> limpar dados do jogo atual
 					//limpar cartas do jogo.
 					Communication.DELETE("roomService/removeCards/"+NameRoom);
-					numJogadoresMesa=0;
+
 					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"begin", paramName , paramVal);
 					Thread.sleep(2000);//2 second.
 				
 			    } while(getnumJogadoresMesa() != 0);
 			} else {
 			    System.out.println("NOT ENOUGH PLAYERS!!! :(");
-			    Thread.sleep(3000);//3.
+			    Thread.sleep(2000);//2.
 			    continue;
 			}
 		
@@ -238,6 +236,7 @@ public class MainDealer extends Observable{
 			String response=null;
 			try {
 				response = Communication.GET("roomService/room/"+NameRoom+"/player");
+				System.out.println("ASAD " + response);
 				int temp = Integer.parseInt(response);
 				setnumJogadoresMesa(temp);
 			} catch (IOException e) {

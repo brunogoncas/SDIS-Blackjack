@@ -84,10 +84,10 @@ public class RoomService {
 	}
 	
 	@POST
-	@Path("/room/{idRoom}/player/{name}")
+	@Path("/room/player")
 	@Produces("application/json")
-	public static Response addPlayerRoom(@PathParam("name") String Player,
-			@PathParam("idRoom") String idRoom) throws Exception {
+	public static Response addPlayerRoom(@FormParam("name") String Player,
+			@FormParam("idRoom") String idRoom) throws Exception {
 	
 		String player = MessagesEncrypter.decrypt(Player);
 		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
@@ -104,10 +104,10 @@ public class RoomService {
 	}
 	
 	@POST
-	@Path("/room/{nameRoom}/state/{state}")
+	@Path("/room/state")
 	@Produces("application/json")
-	public static Response UpdateState(@PathParam("nameRoom") String nameRoom,
-			@PathParam("state") String stateRoom) throws Exception {
+	public static Response UpdateState(@FormParam("nameRoom") String nameRoom,
+			@FormParam("state") String stateRoom) throws Exception {
 		
 		String nR = MessagesEncrypter.decrypt(nameRoom);
 		String sR = MessagesEncrypter.decrypt(stateRoom);

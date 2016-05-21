@@ -75,18 +75,6 @@ public class PlayerService {
 	}
 	
 	@POST
-	@Path("/logout")
-	@Produces("application/json")
-	public static String  newPlayer(@FormParam("token") String token) throws Exception {
-	
-		String t = MessagesEncrypter.decrypt(token);
-		
-		new AccessManager().logoutPlayer(token);
-		
-		return "Sucess";
-	}
-	
-	@POST
 	@Path("/login")
 	@Produces("application/json")
 	@Consumes("application/x-www-form-urlencoded")
@@ -154,6 +142,14 @@ public class PlayerService {
 		
 		new AccessManager().AddChips(n, c);
 		return "Sucess";
+	}
+	
+	@GET
+	@Path("/getUserRoom")
+	public String getUserRoom(@QueryParam("name") String name) throws Exception {
+	
+		String roomName = new AccessManager().getUserRoom(name);
+		return roomName;
 	}
 	
 	@POST

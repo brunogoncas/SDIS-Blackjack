@@ -101,13 +101,14 @@ public class MainDealer extends Observable{
 			    do {
 			    	
 					// menu começar jogo -> "begin"
-					String[] paramName = {};
-					String[] paramVal = {};
-					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"begin", paramName , paramVal);
+					String[] paramName = {"nameRoom", "state"};
+					String[] paramVal = {NameRoom, "begin"};
+					rPost = Communication.POST("roomService/room/state", paramName , paramVal);
 					Thread.sleep(5000);//5 second.
 					
 					//POST(place your bets);
-					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"Bet", paramName , paramVal);
+					String[] paramVal2 = {NameRoom, "Bet"};
+					rPost = Communication.POST("roomService/room/state", paramName , paramVal2);
 				
 					Thread.sleep(10000);//ten second.
 					
@@ -115,14 +116,17 @@ public class MainDealer extends Observable{
 
 					//post para atribuir cartas ao jgoador	
 					try {
-						rPost = Communication.POST("dealerService/addCards/"+name+"/"+2, paramName , paramVal);
+						String[] paramNameD = {"namedealer", "numberCards"};
+						String[] paramValD = {name, "2"};
+						rPost = Communication.POST("dealerService/addCards", paramNameD , paramValD);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					Thread.sleep(2000);//1 second.
 						
 					// dar 2 cartas a cada jogador que apostou  -> mudar
-					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"getcards", paramName , paramVal);
+					String[] paramVal3 = {NameRoom, "getcards"};
+					rPost = Communication.POST("roomService/room/state", paramName , paramVal3);
 					Thread.sleep(4000);//2 second.
 								
 					
@@ -143,7 +147,8 @@ public class MainDealer extends Observable{
 					 for(int i = 0; i < jArrays.length(); i++){
 						String nameplayer = jArrays.getJSONObject(i).getString("name");
 						 
-						rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+nameplayer, paramName , paramVal);
+						String[] paramVal4 = {NameRoom, "state"};
+						rPost = Communication.POST("roomService/room/state", paramName , paramVal4);
 						Thread.sleep(6000);//6 second.
 						System.out.println(nameplayer); 
 					  }
@@ -175,7 +180,9 @@ public class MainDealer extends Observable{
 
 						//post para atribuir cartas ao dealer	
 						try {
-							rPost = Communication.POST("dealerService/addCards/"+name+"/"+1, paramName , paramVal);
+							String[] paramNameD1 = {"namedealer", "numberCards"};
+							String[] paramValD1 = {name, "1"};
+							rPost = Communication.POST("dealerService/addCards", paramNameD1 , paramValD1);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -198,20 +205,22 @@ public class MainDealer extends Observable{
 					}
 					
 					// resultados
-
-					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"results", paramName , paramVal);
+					String[] paramVal5 = {NameRoom, "results"};
+					rPost = Communication.POST("roomService/room/state", paramName , paramVal5);
 					
 					Thread.sleep(3000);//3 second.
 					// terminar jogo -> novo jogo
-
-					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"done", paramName , paramVal);
+					
+					String[] paramVal6 = {NameRoom, "done"};
+					rPost = Communication.POST("roomService/room/state", paramName , paramVal6);
 					
 					Thread.sleep(3000);//4 second.
 					//começar novo jogo -> limpar dados do jogo atual
 					//limpar cartas do jogo.
 					Communication.DELETE("roomService/removeCards/"+NameRoom);
-
-					rPost = Communication.POST("roomService/room/"+NameRoom+"/state/"+"begin", paramName , paramVal);
+					
+					String[] paramVal7 = {NameRoom, "begin"};
+					rPost = Communication.POST("roomService/room/state", paramName , paramVal7);
 					Thread.sleep(2000);//2 second.
 				
 			    } while(getnumJogadoresMesa() != 0);

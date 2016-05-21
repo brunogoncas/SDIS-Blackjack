@@ -143,7 +143,7 @@ public class PlayerService {
 	
 	@GET
 	@Path("/getUserRoom")
-	public String getUserRoom(@QueryParam("name") String name) throws Exception {
+	public String getUserRoom(@QueryParam("username") String name) throws Exception {
 	
 		String roomName = new AccessManager().getUserRoom(name);
 		return roomName;

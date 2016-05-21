@@ -14,7 +14,7 @@ public class FindThread extends Thread {
          while (true) {
 			String response = null;
 			try {
-				response = Communication.GET("playerService/getUserRoom?username="+"name");
+				response = Communication.GET("playerService/getUserRoom?username="+name);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

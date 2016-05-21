@@ -12,6 +12,8 @@ public class Main {
 	
 	int rPost = 0;
 	
+	private FindThread findThread;
+	
 	public void loginMenu() throws IOException {
 		while (true) {
 			System.out.println("1. Login");
@@ -100,6 +102,9 @@ public class Main {
 	}
 	
 	public void mainMenu() {
+		findThread = new FindThread("username");
+		findThread.start();
+		
 		System.out.println("\n\n ===== BLACKJACK ===== ");
 		while (true) {
 			System.out.println("1. Jogar numa sala existente");

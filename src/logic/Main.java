@@ -197,6 +197,26 @@ public class Main {
 			
 			case 6: {
 				System.out.println("\nA fechar...");
+				
+				int response = 0;
+				
+				String[] paramName = {"token"};
+				String[] paramVal = {Globals.token};
+				
+				try {
+					response = Communication.POST("playerService/logout", paramName, paramVal);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if(response == 200){
+					System.out.println("Successfully logged out...");
+				}
+					
+				else{
+					System.out.println("Error while logging out!");
+				}
+				
 				System.exit(0);
 				break;
 			}

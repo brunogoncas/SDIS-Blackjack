@@ -68,6 +68,12 @@ public class AccessManager {
 		return result;
 	}
 	
+	public void logoutPlayer(String token) throws Exception {
+		Connection con = db.getConnection();
+		access.LogoutPlayer(con, token);		
+		con.close();
+	}
+	
 	public void updatePlayer(String Playername, int ChipsNewValue) throws Exception {
 		Connection con = db.getConnection();
 		access.updatePlayer(con, Playername, ChipsNewValue);

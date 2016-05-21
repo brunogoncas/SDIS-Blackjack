@@ -155,6 +155,18 @@ public class Access {
 		con.close();
 		return val;
 	}
+	
+	public void LogoutPlayer(Connection con, String token) throws SQLException {
+		String queryUpdate = "update players set token = ? where token = ?";
+		PreparedStatement preparedStmt = con.prepareStatement(queryUpdate);
+		preparedStmt.setString(1, token);
+		preparedStmt.setString(2, null);
+		
+		// execute the java preparedstatement
+		preparedStmt.executeUpdate();
+
+		con.close();
+	}
 
 	public void updatePlayer(Connection con, String Playername, int ChipsNewValue) throws SQLException {
 

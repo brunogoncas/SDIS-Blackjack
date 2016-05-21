@@ -155,6 +155,31 @@ public class Access {
 		con.close();
 		return val;
 	}
+
+	public String getUserRoom(Connection con, String name) throws SQLException {
+
+		//String query = "select * from players where name = ? and password = ?";
+		String query =  "Select r.name from room r, players p, room_player rp where r.idroom = rp.idroom and p.idplayers = rp.idplayer and p.name = ?";
+		PreparedStatement preparedStmt;
+		String roomName = null;
+		try {
+			preparedStmt = con.prepareStatement(query);
+			preparedStmt.setString(1, name);
+
+			// execute the java preparedstatement
+			ResultSet rs = preparedStmt.executeQuery();
+		
+			while (rs.next()) {
+				roomName = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return roomName;		
+	}
 	
 	public void LogoutPlayer(Connection con, String token) throws SQLException {
 		String queryUpdate = "update players set token = ? where token = ?";

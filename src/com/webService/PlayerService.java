@@ -144,6 +144,14 @@ public class PlayerService {
 		return "Sucess";
 	}
 	
+	@GET
+	@Path("/getUserRoom")
+	public String getUserRoom(@QueryParam("name") String name) throws Exception {
+	
+		String roomName = new AccessManager().getUserRoom(name);
+		return roomName;
+	}
+	
 	@POST
 	@Path("/editTimeout")
 	@Produces("application/json")

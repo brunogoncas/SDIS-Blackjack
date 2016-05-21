@@ -1,5 +1,6 @@
 package com.webService;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,10 +18,10 @@ import model.AccessManager;
 public class DealerService {
 	
 	@POST
-	@Path("/addCards/{namedealer}/{numberCards}")
+	@Path("/addCards")
 	@Produces("application/json")
-	public Response AddCardsDealer(@PathParam("namedealer") String namedealer,
-			@PathParam("numberCards") String numberCards) throws Exception {
+	public Response AddCardsDealer(@FormParam("namedealer") String namedealer,
+			@FormParam("numberCards") String numberCards) throws Exception {
 		
 		String n = MessagesEncrypter.decrypt(namedealer);
 		int nC = Integer.parseInt(MessagesEncrypter.decrypt(numberCards));

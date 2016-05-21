@@ -250,11 +250,11 @@ public class Main {
 				
 				else{
 				
-				String[] paramName = { };
-				String[] paramVal = { };
+				String[] paramName3 = { "name", "idRoom" };
+				String[] paramVal3 = {usernameLogged, Integer.toString(RoomChoose) };
 				
 				try {
-					rPost = Communication.POST("roomService/room/"+RoomChoose+"/player/"+usernameLogged, paramName , paramVal);
+					rPost = Communication.POST("roomService/room/player", paramName3 , paramVal3);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -63,7 +63,6 @@ public class PlayPlayer implements Runnable{
 			String cardDealer=null;
 
 			try {
-			
 			responseP= Communication.GET("playerService/getState/"+idRoom+"/"+usernameLogged);
 			Thread.sleep(500);//0,5 second.
 			response = Communication.GET("roomService/room/"+idRoom);

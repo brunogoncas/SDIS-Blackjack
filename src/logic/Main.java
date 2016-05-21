@@ -1,8 +1,16 @@
 package logic;
 
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Scanner;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 import org.json.JSONArray;
 
 public class Main {
@@ -74,11 +82,17 @@ public class Main {
 		
 		usernameLogged = username;
 		
-		if (!Login.login(username, password))
-			System.out.println("Username/Password Erradas");
-		else { 
-			System.out.println("Bem Vindo");
-			mainMenu();
+		try {
+			if (!Login.login(username, password))
+				System.out.println("Username/Password Erradas");
+			else { 
+				System.out.println("Bem Vindo");
+				mainMenu();
+			}
+		} catch (InvalidKeyException | InvalidKeySpecException | NoSuchPaddingException
+				| InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	
 	}

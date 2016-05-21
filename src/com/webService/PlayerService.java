@@ -79,7 +79,7 @@ public class PlayerService {
 	@Produces("application/json")
 	public static String  newPlayer(@FormParam("token") String token) throws Exception {
 	
-		String t = MessagesEncrypter.decrypt(token);
+		//String t = MessagesEncrypter.decrypt(token);
 		
 		new AccessManager().logoutPlayer(token);
 		
@@ -90,22 +90,22 @@ public class PlayerService {
 	@Path("/login")
 	@Produces("application/json")
 	@Consumes("application/x-www-form-urlencoded")
-	public static Response  newPlayer(@FormParam("name") String name, 
-			@FormParam("password") String password) throws Exception {
+	public static Response  newLogin(@FormParam("name") String name, 
+			@FormParam("password") String password, @FormParam("token") String token) throws Exception {
 	
 		String n = MessagesEncrypter.decrypt(name);
-		
+		String t = MessagesEncrypter.decrypt(token);
 		// Issue a token for the user
-        String token = issueToken(name);
+        //String token = issueToken(name);
 		
-		boolean result = new AccessManager().loginPlayer(n, password, token);
+		boolean result = new AccessManager().loginPlayer(n, password, t);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Login Failed for: " + name).build();
 		}
 		
 		else {
-			Globals.token = token;
+			//Globals.token = token;
 			return Response.ok("Login Successful", MediaType.APPLICATION_JSON).build();
 		}
 	}

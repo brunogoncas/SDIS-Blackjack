@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 
 import dto.Player;
 import dto.Room;
+import logic.MessagesEncrypter;
 import model.AccessManager;
 
 @Path("/roomService")
@@ -68,7 +69,10 @@ public class RoomService {
 	@Produces("application/json")
 	public static Response newRoom(@FormParam("roomname") String roomname, @FormParam("dealername") String dealername) throws Exception {
 	
-		boolean result = new AccessManager().insertRoom(roomname, dealername);
+		String roomn = MessagesEncrypter.decrypt(roomname);
+		String dealern = MessagesEncrypter.decrypt(dealername);
+		
+		boolean result = new AccessManager().insertRoom(roomn, dealern);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed").build();
@@ -83,9 +87,12 @@ public class RoomService {
 	@Path("/room/{idRoom}/player/{name}")
 	@Produces("application/json")
 	public static Response addPlayerRoom(@PathParam("name") String Player,
-			@PathParam("idRoom") int idRoom) throws Exception {
+			@PathParam("idRoom") String idRoom) throws Exception {
 	
-		boolean result = new AccessManager().AddPlayerInRoom(Player, idRoom);
+		String player = MessagesEncrypter.decrypt(Player);
+		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
+		
+		boolean result = new AccessManager().AddPlayerInRoom(player, idroom);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed").build();
@@ -101,8 +108,11 @@ public class RoomService {
 	@Produces("application/json")
 	public static Response UpdateState(@PathParam("nameRoom") String nameRoom,
 			@PathParam("state") String stateRoom) throws Exception {
+		
+		String nR = MessagesEncrypter.decrypt(nameRoom);
+		String sR = MessagesEncrypter.decrypt(stateRoom);
 	
-		boolean result = new AccessManager().updateRoomState(nameRoom, stateRoom);
+		boolean result = new AccessManager().updateRoomState(nR, sR);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to update room state").build();

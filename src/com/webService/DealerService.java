@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONArray;
 
+import logic.MessagesEncrypter;
 import model.AccessManager;
 
 @Path("/dealerService")
@@ -19,9 +20,12 @@ public class DealerService {
 	@Path("/addCards/{namedealer}/{numberCards}")
 	@Produces("application/json")
 	public Response AddCardsDealer(@PathParam("namedealer") String namedealer,
-			@PathParam("numberCards") int numberCards) throws Exception {
+			@PathParam("numberCards") String numberCards) throws Exception {
+		
+		String n = MessagesEncrypter.decrypt(namedealer);
+		int nC = Integer.parseInt(MessagesEncrypter.decrypt(numberCards));
 	
-		boolean result = new AccessManager().AddCardsDealer(namedealer, numberCards);
+		boolean result = new AccessManager().AddCardsDealer(n, nC);
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas ao dealer.").build();
 		}

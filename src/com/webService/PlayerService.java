@@ -201,11 +201,11 @@ public class PlayerService {
 		Boolean result = new AccessManager().AddBet(n, c);
 		
 		if(result==false){
-			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Não têm saldo suficiente para efetuar a aposta que pretende.").build();
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Não tem saldo suficiente para efetuar a aposta que pretende.").build();
 		}
 		
 		else {
-			return Response.ok("Bet efetuado com sucesso!", MediaType.APPLICATION_JSON).build();
+			return Response.ok("Aposta efetuada com sucesso!", MediaType.APPLICATION_JSON).build();
 		}
 	}
 	
@@ -228,11 +228,11 @@ public class PlayerService {
 	}
 	
 	@POST
-	@Path("/addCards/{idRoom}/{name}/{numCards}")
+	@Path("/addCards")
 	@Produces("application/json")
-	public static Response AddCards(@PathParam("name") String name, 
-			@PathParam("idRoom") String idRoom,
-			@PathParam("numCards") String numCards ) throws Exception {
+	public static Response AddCards(@FormParam("name") String name, 
+			@FormParam("idRoom") String idRoom,
+			@FormParam("numCards") String numCards ) throws Exception {
 		
 		String n = MessagesEncrypter.decrypt(name);
 		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
@@ -249,11 +249,11 @@ public class PlayerService {
 	}
 	
 	@POST
-	@Path("/updateState/{idRoom}/{namePlayer}/{state}")
+	@Path("/updateState")
 	@Produces("application/json")
-	public static Response UpdateState(@PathParam("idRoom") String idRoom,
-				@PathParam("namePlayer") String namePlayer,
-			@PathParam("state") String stateRoom) throws Exception {
+	public static Response UpdateState(@FormParam("idRoom") String idRoom,
+			@FormParam("namePlayer") String namePlayer,
+			@FormParam("state") String stateRoom) throws Exception {
 		
 		String n = MessagesEncrypter.decrypt(namePlayer);
 		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
@@ -276,7 +276,7 @@ public class PlayerService {
 		
 		String state = new AccessManager().getStatePlayer(idRoom, namePlayer);
 		
-		if(state.isEmpty()){
+		if(state == null){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to get player state").build();
 		}
 		else {
@@ -299,17 +299,5 @@ public class PlayerService {
 	       return Response.ok("Jogador Removido da Sala!", MediaType.APPLICATION_JSON).build();
 	      }
 	    }
-	 
-	@GET
-	@Path("/getAFK")
-	public String getAFK() throws Exception {
-	 	ArrayList<Integer>players = new ArrayList<Integer>();
-	 	String plays;
-	 	players = new AccessManager().getAFK();
-	 	Gson gson = new Gson();
-	 	plays = gson.toJson(players);
-	 	
-		return plays;
-	}
 	
 }

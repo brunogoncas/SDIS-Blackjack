@@ -102,16 +102,14 @@ public class Main {
 	}
 	
 	public void mainMenu() {
-		findThread = new FindThread("username");
-		findThread.start();
-		
 		System.out.println("\n\n ===== BLACKJACK ===== ");
 		while (true) {
 			System.out.println("1. Jogar numa sala existente");
 			System.out.println("2. Ver saldo disponivel");
 			System.out.println("3. Depositar dinheiro");
 			System.out.println("4. Levantar dinheiro");
-			System.out.println("5. Sair\n");
+			System.out.println("5. Ser avisado quando um amigo entrar numa sala");
+			System.out.println("6. Sair\n");
 
 			System.out.print("Escolha: ");
 
@@ -181,7 +179,23 @@ public class Main {
 				
 				break;
 			}
+			
 			case 5: {
+				String username = "";
+						
+				System.out.println("Username:");
+				reader.nextLine();
+			    username = reader.nextLine();
+				
+				findThread = new FindThread(username);
+				findThread.start();
+				
+				mainMenu();
+				
+				break;
+			}
+			
+			case 6: {
 				System.out.println("\nA fechar...");
 				System.exit(0);
 				break;

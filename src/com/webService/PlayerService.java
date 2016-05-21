@@ -156,15 +156,12 @@ public class PlayerService {
 		return "Sucess";
 	}
 	
-	@POST
+	@GET
 	@Path("/getUserRoom")
-	@Produces("application/json")
-	public String AddChips(@FormParam("username") String name) throws Exception {
+	public String getUserRoom(@QueryParam("name") String name) throws Exception {
 	
-		String n = MessagesEncrypter.decrypt(name);
-		
-		new AccessManager().getUserRoom(n);
-		return "Sucess";
+		String roomName = new AccessManager().getUserRoom(name);
+		return roomName;
 	}
 	
 	@POST

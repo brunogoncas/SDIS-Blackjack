@@ -74,10 +74,11 @@ public class AccessManager {
 		con.close();
 	}
 	
-	public void getUserRoom(String username) throws Exception {
+	public String getUserRoom(String username) throws Exception {
 		Connection con = db.getConnection();
-		access.getUserRoom(con, username);		
+		String roomName = access.getUserRoom(con, username);		
 		con.close();
+		return roomName;
 	}
 	
 	public void updatePlayer(String Playername, int ChipsNewValue) throws Exception {

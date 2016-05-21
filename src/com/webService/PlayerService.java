@@ -157,6 +157,17 @@ public class PlayerService {
 	}
 	
 	@POST
+	@Path("/getUserRoom")
+	@Produces("application/json")
+	public String AddChips(@FormParam("username") String name) throws Exception {
+	
+		String n = MessagesEncrypter.decrypt(name);
+		
+		new AccessManager().getUserRoom(n);
+		return "Sucess";
+	}
+	
+	@POST
 	@Path("/editTimeout")
 	@Produces("application/json")
 	public String editTimeout(@FormParam("name") String name, 

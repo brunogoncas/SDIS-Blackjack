@@ -28,6 +28,7 @@ CREATE TABLE `players` (
   `chips` int(11) DEFAULT NULL,
   `password` varchar(256) NOT NULL,
   `betmoney` int(11) DEFAULT NULL,
+  `token` varchar(256),
   PRIMARY KEY (`idplayers`),
   UNIQUE KEY `idplayers_UNIQUE` (`idplayers`),
   UNIQUE KEY `name_UNIQUE` (`name`)

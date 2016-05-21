@@ -30,6 +30,7 @@ import com.google.gson.Gson;
 //import model.AccessManager;
 
 import dto.Player;
+import logic.Globals;
 import logic.MessagesEncrypter;
 import model.AccessManager;
 
@@ -92,6 +93,7 @@ public class PlayerService {
 		}
 		
 		else {
+			Globals.token = token;
 			return Response.ok("Login Successful", MediaType.APPLICATION_JSON).build();
 		}
 	}

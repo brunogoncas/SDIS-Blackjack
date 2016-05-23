@@ -28,17 +28,19 @@ public class Communication {
 		  String pathh = urlStandard + path;
 		  pathh = pathh.replace(" ", "%20");
 		  URL url = new URL(pathh);
-		  
 		 
 		  HttpURLConnection conn =
 		      (HttpURLConnection) url.openConnection();
 		  
-		  if (conn.getResponseCode() != 200 && conn.getResponseCode() != 404) {
+		  if (conn.getResponseCode() != 200 && conn.getResponseCode() != 404 && conn.getResponseCode() != 204) {
 		    throw new IOException(conn.getResponseMessage());
 		  }
 		  
 		 //System.out.println("GET request returned:" + conn.getResponseCode());
 
+		  if(conn.getResponseCode() == 204)
+			  return null;
+		  
 		  // Buffer the result into a string
 		  BufferedReader rd = new BufferedReader(
 		      new InputStreamReader(conn.getInputStream()));

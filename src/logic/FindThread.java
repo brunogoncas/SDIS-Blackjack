@@ -21,7 +21,7 @@ public class FindThread extends Thread {
 			}
 			
 			if(response != null) {
-				System.out.println(name + " is now at room " + response);
+				System.out.println("\n" + name + " is now at room " + response);
 				break;
 			}
 			

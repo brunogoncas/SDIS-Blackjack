@@ -76,7 +76,7 @@ public class AccessManager {
 	
 	public String getUserRoom(String username) throws Exception {
 		Connection con = db.getConnection();
-		String roomName = access.getUserRoom(con, username);		
+		String roomName = access.getUserRoom(con, username);	
 		con.close();
 		return roomName;
 	}

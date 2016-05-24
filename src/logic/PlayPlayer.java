@@ -55,11 +55,7 @@ public class PlayPlayer implements Runnable{
 		
 		while(true) {
 			
-			//LER MENSAGEM SERVIDOR -> GET STATE (player e room)
-			String[] paramName = {};
-			String[] paramVal = {};
 			String response=null, responseP=null, numberT = null; 
-			int response2;
 			String cardDealer=null;
 
 			try {
@@ -104,7 +100,7 @@ public class PlayPlayer implements Runnable{
 						    System.out.println("You are back!!!");
 						    String[] state = {"idRoom","namePlayer","state"};
 							String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin"};
-							response2 = Communication.POST("playerService/updateState", state , stateVal);
+							Communication.POST("playerService/updateState", state , stateVal);
 						    continue;
 						    
 						} else {
@@ -113,7 +109,7 @@ public class PlayPlayer implements Runnable{
 						    String[] paramName3 = {"name", "idRoom"};
 							String[] paramVal3 = {usernameLogged, String.valueOf(idRoom)};
 							
-							response2 = Communication.POST("playerService/editTimeout", paramName3 , paramVal3);
+							Communication.POST("playerService/editTimeout", paramName3 , paramVal3);
 							continue;
 						  }
 					}
@@ -123,7 +119,7 @@ public class PlayPlayer implements Runnable{
 			if(response.equals("begin") && responseP.equals("begin")) {
 				String[] state = {"idRoom","namePlayer","state"};
 				String[] stateVal = {String.valueOf(idRoom),usernameLogged,"Bet"};
-				response2 = Communication.POST("playerService/updateState", state , stateVal);
+				Communication.POST("playerService/updateState", state , stateVal);
 				
 			}
 			else if(response.equals("Bet") && responseP.equals("Bet")) {
@@ -147,7 +143,7 @@ public class PlayPlayer implements Runnable{
 							try {
 								String[] state = {"idRoom","namePlayer","state"};
 								String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin"};
-								response2 = Communication.POST("playerService/updateState", state , stateVal);
+								Communication.POST("playerService/updateState", state , stateVal);
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -163,14 +159,14 @@ public class PlayPlayer implements Runnable{
 							String[] paramVal2 = {usernameLogged , Integer.toString(betmoney)};
 							String[] state = {"idRoom","namePlayer","state"};
 							String[] stateVal = {String.valueOf(idRoom),usernameLogged,"getcards"};
-							response2 = Communication.POST("playerService/addBet", paramName2 , paramVal2);
-							response2 = Communication.POST("playerService/updateState", state , stateVal);
+							Communication.POST("playerService/addBet", paramName2 , paramVal2);
+							Communication.POST("playerService/updateState", state , stateVal);
 						}
 					}
 					else {
 						String[] state = {"idRoom","namePlayer","state"};
 						String[] stateVal = {String.valueOf(idRoom),usernameLogged,"Iddle"};
-						response2 = Communication.POST("playerService/updateState", state , stateVal);
+						Communication.POST("playerService/updateState", state , stateVal);
 						System.out.println("Please enter something next time!");
 					    continue;
 					}
@@ -180,7 +176,7 @@ public class PlayPlayer implements Runnable{
 				//post para atribuir cartas ao jgoador
 				String[] cards = {"name","idRoom","numCards"};
 				String[] cardsVal = {usernameLogged,String.valueOf(idRoom),String.valueOf(2)};
-				response2 = Communication.POST("playerService/addCards", cards , cardsVal);
+				Communication.POST("playerService/addCards", cards , cardsVal);
 				
 				//get cartas jogador
 				String cardsPlayer=null;
@@ -197,7 +193,7 @@ public class PlayPlayer implements Runnable{
 				 System.out.println("Tens " + pPoints + " pontos!");
 				 String[] state = {"idRoom","namePlayer","state"};
 				 String[] stateVal = {String.valueOf(idRoom),usernameLogged,"myturn"};
-				 response2 = Communication.POST("playerService/updateState", state , stateVal);					
+				 Communication.POST("playerService/updateState", state , stateVal);					
 			}
 			else if(response.equals(usernameLogged) && responseP.equals("myturn") ) {
 				
@@ -216,7 +212,7 @@ public class PlayPlayer implements Runnable{
 				if(pPoints >= 21) {
 					String[] state = {"idRoom","namePlayer","state"};
 					String[] stateVal = {String.valueOf(idRoom),usernameLogged,"results"};
-					response2 = Communication.POST("playerService/updateState", state , stateVal);
+					Communication.POST("playerService/updateState", state , stateVal);
 					continue;
 				}
 				
@@ -234,7 +230,7 @@ public class PlayPlayer implements Runnable{
 						String[] cards = {"name","idRoom","numCards"};
 						String[] cardsVal1 = {usernameLogged,String.valueOf(idRoom),String.valueOf(1)};
 						
-						response2 = Communication.POST("playerService/addCards", cards , cardsVal1);
+						Communication.POST("playerService/addCards", cards , cardsVal1);
 						
 						//get cartas jogador
 						String cardsPlayer2=null;
@@ -260,15 +256,13 @@ public class PlayPlayer implements Runnable{
 						//se double -> pedir só +1 carta e tirar dinheiro da aposta inciial e avançar
 						String[] cards = {"name","idRoom","numCards"};
 						String[] cardsVal = {usernameLogged,String.valueOf(idRoom),String.valueOf(1)};
-						response2 = Communication.POST("playerService/addCards", cards , cardsVal);
+						Communication.POST("playerService/addCards", cards , cardsVal);
 								
 						//remove o dinheiro 
 						String[] paramName2 = { "name", "removeChips"};
 						String[] paramVal2 = { usernameLogged, Integer.toString(betmoney) };
 						
-						int response3 = 0;
-
-						response3 = Communication.POST("playerService/removeChips", paramName2, paramVal2);
+						Communication.POST("playerService/removeChips", paramName2, paramVal2);
 						
 						//get cartas jogador
 						String cardsPlayer3=null;
@@ -291,16 +285,13 @@ public class PlayPlayer implements Runnable{
 				if(resp.toLowerCase().equals("s")) {
 					String[] state = {"idRoom","namePlayer","state"};
 					String[] stateVal = {String.valueOf(idRoom),usernameLogged,"results"};
-					response2 = Communication.POST("playerService/updateState", state , stateVal);
+					Communication.POST("playerService/updateState", state , stateVal);
 					continue;
 				}
 				
 			}
 			else if(response.equals("results") && responseP.equals("results")) {
-				//ver os pontos do dealer e comparar com os meus e atribuir dinheiro ou tirar
-				String dDealer = null;
-				
-				dDealer = Communication.GET("dealerService/getCardD/"+idRoom);
+				Communication.GET("dealerService/getCardD/"+idRoom);
 				
 				//get cartas dealer -> todas
 				cardDealer = Communication.GET("dealerService/getCardD/"+idRoom);
@@ -322,7 +313,7 @@ public class PlayPlayer implements Runnable{
 					String[] paramName3 = {"name", "addChips"};
 					String[] paramVal3 = {usernameLogged, String.valueOf(2*betmoney)};
 					
-					response2 = Communication.POST("playerService/addChips", paramName3 , paramVal3);
+					Communication.POST("playerService/addChips", paramName3 , paramVal3);
 					
 					System.out.println("Ganhou! Ganhou: " + 2*betmoney + "chips com:" + pPoints);
 					
@@ -333,7 +324,7 @@ public class PlayPlayer implements Runnable{
 					String[] paramName4 = {"name", "addChips"};
 					String[] paramVal4 = {usernameLogged, String.valueOf(betmoney)};
 				
-					response2 = Communication.POST("playerService/addChips", paramName4 , paramVal4);
+					Communication.POST("playerService/addChips", paramName4 , paramVal4);
 
 					
 					System.out.println("Empatou!");
@@ -345,7 +336,7 @@ public class PlayPlayer implements Runnable{
 				}
 				String[] state = {"idRoom","namePlayer","state"};
 				String[] stateVal = {String.valueOf(idRoom),usernameLogged,"done"};
-				response2 = Communication.POST("playerService/updateState", state , stateVal);
+				Communication.POST("playerService/updateState", state , stateVal);
 				
 			}
 			else if(response.equals("done") && responseP.equals("done")) {
@@ -353,8 +344,10 @@ public class PlayPlayer implements Runnable{
 				betmoney = 0;
 				String[] state = {"idRoom","namePlayer","state"};
 				String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin"};
-				response2 = Communication.POST("playerService/updateState", state , stateVal);
+				Communication.POST("playerService/updateState", state , stateVal);
 
+				//System.out.print("Se desejar sair pressione e(exit) ou q(quit) !");
+			
 			}
 			else{
 				System.out.println("Esperando para jogar!");

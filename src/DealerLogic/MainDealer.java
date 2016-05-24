@@ -7,7 +7,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Observable;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -147,7 +146,7 @@ public class MainDealer extends Observable{
 					 for(int i = 0; i < jArrays.length(); i++){
 						String nameplayer = jArrays.getJSONObject(i).getString("name");
 						 
-						String[] paramVal4 = {NameRoom, "state"};
+						String[] paramVal4 = {NameRoom, nameplayer};
 						rPost = Communication.POST("roomService/room/state", paramName , paramVal4);
 						Thread.sleep(6000);//6 second.
 						System.out.println(nameplayer); 
@@ -214,7 +213,7 @@ public class MainDealer extends Observable{
 					String[] paramVal6 = {NameRoom, "done"};
 					rPost = Communication.POST("roomService/room/state", paramName , paramVal6);
 					
-					Thread.sleep(3000);//4 second.
+					Thread.sleep(4000);//6 second.
 					//começar novo jogo -> limpar dados do jogo atual
 					//limpar cartas do jogo.
 					Communication.DELETE("roomService/removeCards/"+NameRoom);
@@ -253,7 +252,7 @@ public class MainDealer extends Observable{
 			String response=null;
 			try {
 				response = Communication.GET("roomService/room/"+NameRoom+"/player");
-				System.out.println("ASAD " + response);
+				System.out.println("Numero de Jogadores na Sala: " + response);
 				int temp = Integer.parseInt(response);
 				setnumJogadoresMesa(temp);
 			} catch (IOException e) {

@@ -260,7 +260,15 @@ public class Main {
 		 for(int i = 0; i < jArray.length(); i++){
 			 int idroom = jArray.getJSONObject(i).getInt("id");
 			 String nameroom = jArray.getJSONObject(i).getString("name");
-			 System.out.println(idroom + " -> " + nameroom); 
+			 String capacity = null;
+			 try {
+				 capacity = Communication.GET("roomService/room/"+idroom+"/number");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+			 System.out.println(idroom + " :> (" + capacity + "/6) -> " + nameroom); 
 		  }
 	
 		

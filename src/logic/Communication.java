@@ -8,7 +8,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -73,14 +72,14 @@ public class Communication {
 		      writer.write(paramName[i]);
 		      writer.write("=");
 	  
-		      String value = null;
-		      
+		      String value = paramVal[i];
+		      /*
 		      if(paramName[i].equals("password"))
 		    	 value = paramVal[i];
 		      
 		      else
 		    	  value = MessagesEncrypter.encrypt(paramVal[i]);
-		      
+		      */
 		      writer.write(value);
 		        
 		      writer.write("&");

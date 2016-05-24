@@ -68,11 +68,12 @@ public class RoomService {
 	@Path("/room")
 	@Produces("application/json")
 	public static Response newRoom(@FormParam("roomname") String roomname, @FormParam("dealername") String dealername) throws Exception {
-	
+
+		/*System.out.println("FDPPSAPDPSAP " + roomname + "  " + dealername);
 		String roomn = MessagesEncrypter.decrypt(roomname);
 		String dealern = MessagesEncrypter.decrypt(dealername);
-		
-		boolean result = new AccessManager().insertRoom(roomn, dealern);
+		System.out.println("CRLLLLLLLLLLLLLLLLL " + roomn + "  " + dealern);*/
+		boolean result = new AccessManager().insertRoom(roomname, dealername);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed").build();
@@ -88,11 +89,13 @@ public class RoomService {
 	@Produces("application/json")
 	public static Response addPlayerRoom(@FormParam("name") String Player,
 			@FormParam("idRoom") String idRoom) throws Exception {
-	
+		
+
+		/*System.out.println("SIMMMM " + Player + "  " + idRoom);
 		String player = MessagesEncrypter.decrypt(Player);
 		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
-		
-		boolean result = new AccessManager().AddPlayerInRoom(player, idroom);
+		System.out.println("NAOOOoooo " + player + "  " + idroom);*/
+		boolean result = new AccessManager().AddPlayerInRoom(Player, Integer.parseInt(idRoom));
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed").build();
@@ -109,10 +112,10 @@ public class RoomService {
 	public static Response UpdateState(@FormParam("nameRoom") String nameRoom,
 			@FormParam("state") String stateRoom) throws Exception {
 		
-		String nR = MessagesEncrypter.decrypt(nameRoom);
-		String sR = MessagesEncrypter.decrypt(stateRoom);
+		//String nR = MessagesEncrypter.decrypt(nameRoom);
+		//String sR = MessagesEncrypter.decrypt(stateRoom);
 	
-		boolean result = new AccessManager().updateRoomState(nR, sR);
+		boolean result = new AccessManager().updateRoomState(nameRoom, stateRoom);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to update room state").build();

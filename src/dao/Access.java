@@ -1,5 +1,6 @@
 package dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 
 import dto.Player;
 import dto.Room;
+import logic.Communication;
 
 public class Access {
 
@@ -45,6 +47,7 @@ public class Access {
 				Room newRoom = new Room();
 				newRoom.setID(rs.getInt("idroom"));
 				newRoom.setName(rs.getString("name"));
+				newRoom.setPassword(rs.getString("password"));
 				roomList.add(newRoom);
 			}
 		} catch (SQLException e) {
@@ -79,7 +82,7 @@ public class Access {
 
 	}
 	
-	public boolean NewRoom(Connection con, String name, String dealer) throws SQLException {
+	public boolean NewRoom(Connection con, String name, String dealer, String password) throws SQLException {
 		
 		
 		String query = "INSERT INTO dealer (name)" + "VALUES (?)";
@@ -95,19 +98,44 @@ public class Access {
 		
 		int idd = getIdDealer(con, dealer);
 		
-		String query2 = "INSERT INTO room (name, iddealer)" + "VALUES (?, ?)";
-		PreparedStatement Stmt2;
-		try {
-			Stmt2 = con.prepareStatement(query2);
-			Stmt2.setString(1, name);
-			Stmt2.setInt(2, idd);
-			
-			Stmt2.executeUpdate();
+		if(password == "") {
+			String query2 = "INSERT INTO room (name, iddealer)" + "VALUES (?, ?)";
+			PreparedStatement Stmt2;
+			try {
+				Stmt2 = con.prepareStatement(query2);
+				Stmt2.setString(1, name);
+				Stmt2.setInt(2, idd);
+				
+				Stmt2.executeUpdate();
+			}
+			catch (SQLException e2){
+				e2.printStackTrace();
+			}
+			con.close();
 		}
-		catch (SQLException e2){
-			e2.printStackTrace();
+		else {
+			String passSha256 = null;
+			try {
+				passSha256 = Communication.sha256(password);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String query2 = "INSERT INTO room (name, iddealer, password)" + "VALUES (?, ?, ?)";
+			PreparedStatement Stmt2;
+			try {
+				Stmt2 = con.prepareStatement(query2);
+				Stmt2.setString(1, name);
+				Stmt2.setInt(2, idd);
+				Stmt2.setString(3, passSha256);
+				
+				Stmt2.executeUpdate();
+			}
+			catch (SQLException e2){
+				e2.printStackTrace();
+			}
+			con.close();
 		}
-		con.close();
 		return true;
 	}
 	
@@ -349,6 +377,56 @@ public class Access {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	public String getIdRoom(Connection con, String nameRoom) throws SQLException {
+
+		// create the java mysql update preparedstatement
+		String query2 = "SELECT idroom FROM room where name = ?";
+		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+		String name = null;
+		
+		try {
+			// execute the java preparedstatement
+			preparedStmt2.setString(1, nameRoom);
+			ResultSet rs2 = preparedStmt2.executeQuery();
+			while (rs2.next()) {
+				name = rs2.getString(1);
+			}
+			con.close();
+
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return name;
+	}
+	
+	public String getPassRoom(Connection con, int idRoom) throws SQLException {
+
+		// create the java mysql update preparedstatement
+		String query2 = "SELECT password FROM room where idroom = ?";
+		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+		String pass = null;
+		
+		try {
+			// execute the java preparedstatement
+			preparedStmt2.setInt(1, idRoom);
+			ResultSet rs2 = preparedStmt2.executeQuery();
+			while (rs2.next()) {
+				pass = rs2.getString(1);
+			}
+			con.close();
+
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return pass;
 	}
 
 	public boolean removeChips(Connection con, String Playername, int removeChips) throws SQLException {
@@ -810,4 +888,30 @@ public class Access {
 	        return false;
 	      } 
 	    }
+	  
+	  public boolean CheckRoomPass(Connection con, int idRoom, String password) {
+		  
+		  String query = "select * from room where idroom = ? and password = ?";
+			boolean val = false;
+			try {
+				PreparedStatement stmt = con.prepareStatement(query);
+				stmt.setInt(1, idRoom);
+				stmt.setString(2, password);
+				ResultSet rs = stmt.executeQuery();
+				val = rs.next(); // next() returns false if there are no-rows
+											// retrieved
+				if (val == false) {
+					System.out.println("Login Sala Errado"); // prints this message if your
+														// resultset is empty
+				}
+				
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+					
+			
+			return val;
+	}
 }

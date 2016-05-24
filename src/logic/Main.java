@@ -122,11 +122,11 @@ public class Main {
 		System.out.println("\n\n ===== BLACKJACK ===== ");
 		while (true) {
 			System.out.println("1. Jogar numa sala existente");
-			System.out.println("2. Ver saldo disponivel");
-			System.out.println("3. Depositar dinheiro");
-			System.out.println("4. Levantar dinheiro");
-			System.out.println("5. Ser avisado quando um amigo entrar numa sala");
-			System.out.println("6. Criar sala privada");
+			System.out.println("2. Criar sala privada");
+			System.out.println("3. Ver saldo disponivel");
+			System.out.println("4. Depositar dinheiro");
+			System.out.println("5. Levantar dinheiro");
+			System.out.println("6. Ser avisado quando um amigo entrar numa sala");
 			System.out.println("7. Sair\n");
 
 			System.out.print("Escolha: ");
@@ -149,6 +149,55 @@ public class Main {
 			}
 
 			case 2: {
+				
+				System.out.println("Qual é o nome da sala que pretende criar? ");
+				String NameRoom = reader.nextLine();
+				//LER PASSWORD A DAR À SALA
+				System.out.println("Qual é o password da sala que pretende criar? ");
+				String password = reader.nextLine();
+				
+				String dN = generateDN();
+				
+						
+				String[] paramName = { "roomname", "dealername", "password"};
+				String[] paramVal = { NameRoom ,dN, password};
+				int idRoom = 0;
+				//POST PARA CRIAR SALA PRIVADA
+				try {
+					rPost = Communication.POST("roomService/room", paramName, paramVal);
+					
+					String[] paramName2 = { "roomname"};
+					String[] paramVal2 = { NameRoom};
+					idRoom = Communication.POST("roomService/room/getID", paramName2, paramVal2);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}	
+				
+				//POST PARA ADICIONAR O GAJO QUE CRIA A SALA À SALA
+				String[] paramName3 = { "name", "idRoom" };
+				String[] paramVal3 = {usernameLogged, Integer.toString(idRoom) };
+				
+				try {
+					rPost = Communication.POST("roomService/room/player", paramName3 , paramVal3);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				//CRIAR THREAD COM A LÓGICA DA SALA
+				PlayerDealer p = new PlayerDealer(dN,NameRoom);
+				Thread pLogic = new Thread(p);
+				pLogic.setName(String.valueOf(NameRoom));
+				pLogic.start();
+				
+				try {
+					pLogic.join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+			case 3: {
 				String response = null;
 				try {
 					response = Communication.GET("playerService/getMoney?name="+usernameLogged);
@@ -159,7 +208,7 @@ public class Main {
 				System.out.println("Tens " + response + " chips.");
 				break;
 			}
-			case 3: {
+			case 4: {
 				int AddChips = 0;
 				String input;
 				System.out.println("Quanto pretende depositar: ");
@@ -178,7 +227,7 @@ public class Main {
 				
 				break;
 			}
-			case 4: {
+			case 5: {
 				int RemoveChips = 0;
 				String input;
 				System.out.println("Quanto pretende levantar: ");
@@ -198,7 +247,7 @@ public class Main {
 				break;
 			}
 			
-			case 5: {
+			case 6: {
 				String username = "";
 						
 				System.out.println("Username:");
@@ -212,43 +261,7 @@ public class Main {
 				
 				break;
 			}
-			
-			case 6: {
-				
-				System.out.println("Qual é o nome da sala que pretende criar? ");
-				String NameRoom = reader.nextLine();
-				String dN = generateDN();
-				
-				//LER PASSWORD A DAR À SALA
-				
-				String[] paramName = { "roomname", "dealername"};
-				String[] paramVal = { NameRoom ,dN};
-				
-				//POST PARA CRIAR SALA PRIVADA
-				try {
-					rPost = Communication.POST("roomService/room", paramName, paramVal);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				//POST PARA ADICIONAR O GAJO QUE CRIA A SALA À SALA
-				
-				
-				//CRIAR THREAD COM A LÓGICA DA SALA
-				PlayerDealer p = new PlayerDealer(dN,NameRoom);
-				Thread pLogic = new Thread(p);
-				pLogic.setName(String.valueOf(NameRoom));
-				pLogic.start();
-				
-				try {
-					pLogic.join();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-			}
-			
+						
 			case 7: {
 				System.out.println("\nA fechar...");
 				
@@ -307,8 +320,11 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			 
-			 System.out.println(idroom + " :> (" + capacity + "/6) -> " + nameroom); 
+			 String password = jArray.getJSONObject(i).getString("password");
+			 if(password == null) 
+				 System.out.println(idroom + " :> (" + capacity + "/6) -> " + nameroom);  
+			 else 
+				 System.out.println(idroom + " :> (" + capacity + "/6) -> " + nameroom + "  PRIVATE!"); 
 		  }
 	
 		
@@ -327,6 +343,41 @@ public class Main {
 			}
 			else  { //verificar aqui se contem!!!!!!!!!!!!!!!!!!1
 				skip=true;
+				
+				//verifica se a sala é privada, vendo se tem pass "/room/getPass"
+				String[] paramName = { "idRoom"};
+				String[] paramVal = { Integer.toString(RoomChoose) };
+				int pass=0; 
+				try {
+					pass = Communication.POST("roomService/room/getPass", paramName, paramVal);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				if(Integer.toString(pass) != null) {
+					String input2;
+					System.out.println("Qual é password da Room que pretende escolher (id="+Integer.toString(RoomChoose)+") ?");
+					reader.nextLine();
+					input2 = reader.nextLine();
+					
+					//verificar se a passwor está correta
+					String passSha256 = null;
+					try {
+						passSha256 = Communication.sha256(input2);
+					} catch (NoSuchAlgorithmException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					String[] paramName4 = { "name", "password" };
+					String[] paramVal4 = { Integer.toString(RoomChoose), passSha256 };
+					int respons=0;
+					try {
+						respons = Communication.POST("roomService/room/CheckPass", paramName4, paramVal4);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+								
 				
 				response=null;
 				try {

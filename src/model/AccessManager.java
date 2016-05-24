@@ -54,9 +54,9 @@ public class AccessManager {
 		return result;
 	}
 	
-	public boolean insertRoom(String name, String dealer) throws Exception {
+	public boolean insertRoom(String name, String dealer, String password) throws Exception {
 		Connection con = db.getConnection();
-		boolean result = access.NewRoom(con, name, dealer);
+		boolean result = access.NewRoom(con, name, dealer, password);
 		con.close();
 		return result;
 	}
@@ -123,6 +123,22 @@ public class AccessManager {
 	public boolean AddPlayerInRoom(String Player, int idRoom) throws Exception {
 		Connection con = db.getConnection();
 		boolean result = access.addPlayerRoom(con, Player, idRoom);
+		con.close();
+		
+		return result;
+	}
+	
+	public String getIDroom(String nameRoom) throws Exception {
+		Connection con = db.getConnection();
+		String result = access.getIdRoom(con, nameRoom);
+		con.close();
+		
+		return result;
+	}
+	
+	public String getPass(int idRoom) throws Exception {
+		Connection con = db.getConnection();
+		String result = access.getPassRoom(con, idRoom);
 		con.close();
 		
 		return result;
@@ -234,4 +250,11 @@ public class AccessManager {
       con.close();
       return result;
    }
+	
+	public boolean checkpassRoom(int idRoom, String password) throws Exception {
+		Connection con = db.getConnection();
+		boolean result = access.CheckRoomPass(con, idRoom, password);
+		con.close();
+		return result;
+	}
 }

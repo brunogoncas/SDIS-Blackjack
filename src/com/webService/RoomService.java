@@ -67,13 +67,15 @@ public class RoomService {
 	@POST
 	@Path("/room")
 	@Produces("application/json")
-	public static Response newRoom(@FormParam("roomname") String roomname, @FormParam("dealername") String dealername) throws Exception {
+	public static Response newRoom(@FormParam("roomname") String roomname,
+			@FormParam("dealername") String dealername,
+			@FormParam("password") String password ) throws Exception {
 
 		/*System.out.println("FDPPSAPDPSAP " + roomname + "  " + dealername);
 		String roomn = MessagesEncrypter.decrypt(roomname);
 		String dealern = MessagesEncrypter.decrypt(dealername);
 		System.out.println("CRLLLLLLLLLLLLLLLLL " + roomn + "  " + dealern);*/
-		boolean result = new AccessManager().insertRoom(roomname, dealername);
+		boolean result = new AccessManager().insertRoom(roomname, dealername, password);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed").build();
@@ -168,6 +170,53 @@ public class RoomService {
 		
 		else {
 			return Response.ok("Cartas dadas com sucesso ao dealer!", MediaType.APPLICATION_JSON).build();
+		}
+	}
+	
+	@POST
+	@Path("/room/getID")
+	@Produces("application/json")
+	public static Response getIdRoom(@FormParam("nameRoom") String nameRoom) throws Exception {
+		
+
+		/*System.out.println("SIMMMM " + Player + "  " + idRoom);
+		String player = MessagesEncrypter.decrypt(Player);
+		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
+		System.out.println("NAOOOoooo " + player + "  " + idroom);*/
+		String result = new AccessManager().getIDroom(nameRoom);
+		
+		if(result==null){
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room getID Failed").build();
+		}
+		
+		else {
+			return Response.ok("Room getID Successful", MediaType.APPLICATION_JSON).build();
+		}
+	}
+	
+	@POST
+	@Path("/room/getPass")
+	@Produces("application/json")
+	public static String getPassRoom(@FormParam("idRoom") int idRoom) throws Exception {
+
+		String result = new AccessManager().getPass(idRoom);
+		return result;
+	}
+	
+	@POST
+	@Path("/room/CheckPass")
+	@Produces("application/json")
+	public static Response newPlayer(@FormParam("idRoom") int idRoom, 
+			@FormParam("password") String password) throws Exception {
+	
+		boolean result = new AccessManager().checkpassRoom(idRoom, password);
+		
+		if(result==false){
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Register Room Failed for: " + idRoom).build();
+		}
+		
+		else {
+			return Response.ok("Register Room Successful", MediaType.APPLICATION_JSON).build();
 		}
 	}
 }

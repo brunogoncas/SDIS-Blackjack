@@ -140,7 +140,7 @@ public class Communication {
 			urlConnection.disconnect();
 	}
 	
-	static String sha256(String input) throws NoSuchAlgorithmException {
+	public static String sha256(String input) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
         byte[] result = mDigest.digest(input.getBytes());
         StringBuffer sb = new StringBuffer();

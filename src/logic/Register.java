@@ -19,12 +19,10 @@ public static Boolean register(String username, String pass) throws NoSuchAlgori
 		}
 		
 		if(response == 200){
-			System.out.println("HELLOOOOO1" + response);
 			return true;
 		}
 			
 		else{
-			System.out.println("HELLOOOOO2" + response);
 			return false;
 		}
 	}

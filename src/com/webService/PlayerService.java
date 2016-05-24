@@ -61,9 +61,9 @@ public class PlayerService {
 	
 		//String n = MessagesEncrypter.decrypt(name);
 		//String p = MessagesEncrypter.decrypt(password);
-		int c = Integer.parseInt(MessagesEncrypter.decrypt(chips));
+		//int c = Integer.parseInt(MessagesEncrypter.decrypt(chips));
 	
-		boolean result = new AccessManager().insertPlayer(name, password, c);
+		boolean result = new AccessManager().insertPlayer(name, password, Integer.parseInt(chips));
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Register Failed for: " + name).build();

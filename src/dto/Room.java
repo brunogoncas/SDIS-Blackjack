@@ -3,7 +3,7 @@ package dto;
 public class Room {
 	
 	private int id;
-	private String name;
+	private String name, password;
 	
 	public Room(){
 		
@@ -13,7 +13,7 @@ public class Room {
 		
 		this.id = id;
 		this.name = name;
-	
+		this.password = password;
 	}
 	
 	public int getID(){
@@ -34,6 +34,16 @@ public class Room {
 	public void setName(String name){
 		
 		this.name = name;
+	}
+	
+	public String getPAssword(){
+		
+		return password;
+	}
+	
+	public void setPassword(String password){
+		
+		this.password = password;
 	}
 
 }

@@ -7,17 +7,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Observable;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import org.json.JSONArray;
-
 import logic.Communication;
-import logic.PlayPlayer;
 
 public class MainDealer extends Observable{
 	
@@ -56,8 +50,8 @@ public class MainDealer extends Observable{
 				System.out.println("Qual é o nome da sala que pretende criar? ");
 				NameRoom = reader.nextLine();
 				
-				String[] paramName = { "roomname", "dealername"};
-				String[] paramVal = { NameRoom ,name};
+				String[] paramName = { "roomname", "dealername", "password"};
+				String[] paramVal = { NameRoom ,name, ""};
 				
 				try {
 					rPost = Communication.POST("roomService/room", paramName, paramVal);

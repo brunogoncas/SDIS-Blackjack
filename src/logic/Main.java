@@ -219,6 +219,8 @@ public class Main {
 				String NameRoom = reader.nextLine();
 				String dN = generateDN();
 				
+				//LER PASSWORD A DAR À SALA
+				
 				String[] paramName = { "roomname", "dealername"};
 				String[] paramVal = { NameRoom ,dN};
 				
@@ -230,6 +232,7 @@ public class Main {
 				}
 				
 				//POST PARA ADICIONAR O GAJO QUE CRIA A SALA À SALA
+				
 				
 				//CRIAR THREAD COM A LÓGICA DA SALA
 				PlayerDealer p = new PlayerDealer(dN,NameRoom);

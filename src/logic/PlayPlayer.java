@@ -346,8 +346,26 @@ public class PlayPlayer implements Runnable{
 				String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin"};
 				Communication.POST("playerService/updateState", state , stateVal);
 
-				//System.out.print("Se desejar sair pressione e(exit) ou q(quit) !");
-			
+				System.out.print("Se desejar sair pressione e(exit) ou q(quit) !");
+				int x = 3; // wait 2 seconds at most
+
+				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+				long startTime = System.currentTimeMillis();
+				while ((System.currentTimeMillis() - startTime) < x * 1000
+				        && !in.ready()) {
+				}
+
+				if (in.ready()) {
+					str = in.readLine();
+					if(str.toLowerCase().equals("e") || str.toLowerCase().equals("q")) {
+							System.out.println("Vais sair da sala! ");
+							Communication.DELETE("playerService/removePlayer/"+usernameLogged+"/"+idRoom);
+							break;
+					}
+				} else {
+				    System.out.println("Continuando a jogar! ");
+				    continue;
+				}
 			}
 			else{
 				System.out.println("Esperando para jogar!");

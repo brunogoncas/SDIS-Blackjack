@@ -213,7 +213,7 @@ public class MainDealer extends Observable{
 					String[] paramVal6 = {NameRoom, "done"};
 					rPost = Communication.POST("roomService/room/state", paramName , paramVal6);
 					
-					Thread.sleep(4000);//6 second.
+					Thread.sleep(5000);//5 second.
 					//começar novo jogo -> limpar dados do jogo atual
 					//limpar cartas do jogo.
 					Communication.DELETE("roomService/removeCards/"+NameRoom);

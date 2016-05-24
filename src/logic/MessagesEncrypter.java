@@ -1,57 +1,41 @@
 package logic;
 
 
-import java.security.Key;
-
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
 //https://stackoverflow.com/questions/23561104/how-to-encrypt-and-decrypt-string-with-my-passphrase-in-java-pc-not-mobile-plat
 public class MessagesEncrypter {
-	
-	static String secretKey = "XMzDdG4D03CKm2IxIWQw7g==";
-	 public static String encrypt(String text) {
-         byte[] raw;
-         String encryptedString;
-         SecretKeySpec skeySpec;
-         byte[] encryptText = text.getBytes();
-         Cipher cipher;
-         try {
-             raw = Base64.decodeBase64(secretKey);
-             skeySpec = new SecretKeySpec(raw, "AES");
-             cipher = Cipher.getInstance("AES");
-             cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-             encryptedString = Base64.encodeBase64String(cipher.doFinal(encryptText));
-         } 
-         catch (Exception e) {
-             e.printStackTrace();
-             return "Error";
-         }
-         return encryptedString;
-     }
+	static String key = "1234567891234567";
+	public static String encrypt(String input){
+	  byte[] crypted = null;
+	  try{
+	    SecretKeySpec skey = new SecretKeySpec(key.getBytes(), "AES");
+	      Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+	      cipher.init(Cipher.ENCRYPT_MODE, skey);
+	      crypted = cipher.doFinal(input.getBytes());
+	    }catch(Exception e){
+	    	System.out.println(e.toString());
+	    }
+	    return new String(Base64.encodeBase64(crypted));
+	}
 
-     public static String decrypt(String text) {
-         Cipher cipher;
-         String encryptedString;
-         byte[] encryptText = null;
-         byte[] raw;
-         SecretKeySpec skeySpec;
-         try {
-             raw = Base64.decodeBase64(secretKey);
-             skeySpec = new SecretKeySpec(raw, "AES");
-             encryptText = Base64.decodeBase64(text);
-             cipher = Cipher.getInstance("AES");
-             cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-             encryptedString = new String(cipher.doFinal(encryptText));
-         } catch (Exception e) {
-             e.printStackTrace();
-             return "Error";
-         }
-         return encryptedString;
-     }
-
+	public static String decrypt(String input){
+	    byte[] output = null;
+	    try{
+	      SecretKeySpec skey = new SecretKeySpec(key.getBytes(), "AES");
+	      Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+	      cipher.init(Cipher.DECRYPT_MODE, skey);
+	      output = cipher.doFinal(Base64.decodeBase64(input));
+	    }catch(Exception e){
+	      System.out.println(e.toString());
+	    }
+	    return new String(output);
+	}
 	
+	public static String getKey(){
+		return key;
+	}
 }

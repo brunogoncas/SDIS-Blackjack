@@ -5,6 +5,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.crypto.BadPaddingException;
@@ -12,6 +13,8 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.json.JSONArray;
+
+import DealerLogic.PlayerDealer;
 
 public class Main {
 
@@ -123,7 +126,8 @@ public class Main {
 			System.out.println("3. Depositar dinheiro");
 			System.out.println("4. Levantar dinheiro");
 			System.out.println("5. Ser avisado quando um amigo entrar numa sala");
-			System.out.println("6. Sair\n");
+			System.out.println("6. Criar sala privada");
+			System.out.println("7. Sair\n");
 
 			System.out.print("Escolha: ");
 
@@ -210,6 +214,39 @@ public class Main {
 			}
 			
 			case 6: {
+				
+				System.out.println("Qual é o nome da sala que pretende criar? ");
+				String NameRoom = reader.nextLine();
+				String dN = generateDN();
+				
+				String[] paramName = { "roomname", "dealername"};
+				String[] paramVal = { NameRoom ,dN};
+				
+				//POST PARA CRIAR SALA PRIVADA
+				try {
+					rPost = Communication.POST("roomService/room", paramName, paramVal);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				//POST PARA ADICIONAR O GAJO QUE CRIA A SALA À SALA
+				
+				//CRIAR THREAD COM A LÓGICA DA SALA
+				PlayerDealer p = new PlayerDealer(dN,NameRoom);
+				Thread pLogic = new Thread(p);
+				pLogic.setName(String.valueOf(NameRoom));
+				pLogic.start();
+				
+				try {
+					pLogic.join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+			
+			case 7: {
 				System.out.println("\nA fechar...");
 				
 				int response = 0;
@@ -335,6 +372,19 @@ public class Main {
 		System.out.println(" ===== BLACKJACK ===== ");
 		Main Menu = new Main();
 		Menu.loginMenu();
+	}
+	
+	public String generateDN(){
+		
+		char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < 6; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		
+		return sb.toString();
 	}
 
 }

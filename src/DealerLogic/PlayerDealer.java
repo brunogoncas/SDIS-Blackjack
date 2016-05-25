@@ -34,6 +34,7 @@ public class PlayerDealer  extends Observable implements Runnable{
 	
 	@Override
 	public void run() {
+		
 		Timer timer = new Timer();
 		timer.schedule(new TestPlayers(), 0, 3500);
 		

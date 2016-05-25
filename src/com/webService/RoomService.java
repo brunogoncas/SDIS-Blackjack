@@ -143,6 +143,20 @@ public class RoomService {
 	}
 	
 	@GET
+	@Path("room/id/{nameRoom}")
+	public String getID(@PathParam("nameRoom") String nameRoom) throws Exception {
+		
+		String ID = new AccessManager().getIDroom(nameRoom);
+		
+		if(ID.isEmpty()){
+			return "";
+		}
+		else {
+			return ID;
+		}
+	}
+	
+	@GET
 	@Path("/room/getPlayers/{nameRoom}")
 	@Produces("application/json")
 	public String GetPlayersRoom(@PathParam("nameRoom") String nameRoom) {
@@ -170,27 +184,6 @@ public class RoomService {
 		
 		else {
 			return Response.ok("Cartas dadas com sucesso ao dealer!", MediaType.APPLICATION_JSON).build();
-		}
-	}
-	
-	@POST
-	@Path("/room/getID")
-	@Produces("application/json")
-	public static Response getIdRoom(@FormParam("nameRoom") String nameRoom) throws Exception {
-		
-
-		/*System.out.println("SIMMMM " + Player + "  " + idRoom);
-		String player = MessagesEncrypter.decrypt(Player);
-		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
-		System.out.println("NAOOOoooo " + player + "  " + idroom);*/
-		String result = new AccessManager().getIDroom(nameRoom);
-		
-		if(result==null){
-			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room getID Failed").build();
-		}
-		
-		else {
-			return Response.ok("Room getID Successful", MediaType.APPLICATION_JSON).build();
 		}
 	}
 	

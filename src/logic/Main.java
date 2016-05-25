@@ -151,7 +151,9 @@ public class Main {
 			case 2: {
 				
 				System.out.println("Qual é o nome da sala que pretende criar? ");
+				reader.nextLine();
 				String NameRoom = reader.nextLine();
+			  
 				//LER PASSWORD A DAR À SALA
 				System.out.println("Qual é o password da sala que pretende criar? ");
 				String password = reader.nextLine();
@@ -165,10 +167,9 @@ public class Main {
 				//POST PARA CRIAR SALA PRIVADA
 				try {
 					rPost = Communication.POST("roomService/room", paramName, paramVal);
-					
-					String[] paramName2 = { "roomname"};
-					String[] paramVal2 = { NameRoom};
-					idRoom = Communication.POST("roomService/room/getID", paramName2, paramVal2);
+				
+					idRoom = Integer.valueOf(Communication.GET("roomService/room/id/"+NameRoom));
+					System.out.println("HELLLOOOOOO: " + idRoom);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}	
@@ -179,14 +180,17 @@ public class Main {
 				
 				try {
 					rPost = Communication.POST("roomService/room/player", paramName3 , paramVal3);
+					System.out.println("kapapapap: " + rPost);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
 				//CRIAR THREAD COM A LÓGICA DA SALA
-				PlayerDealer p = new PlayerDealer(dN,NameRoom);
+				PlayPlayer p = new PlayPlayer(idRoom,usernameLogged);
 				Thread pLogic = new Thread(p);
-				pLogic.setName(String.valueOf(NameRoom));
+				PlayerDealer pdealer = new PlayerDealer(dN,NameRoom);
+				Thread pdLogic = new Thread(pdealer);
+				pdLogic.start();
 				pLogic.start();
 				
 				try {
@@ -195,6 +199,7 @@ public class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
 				break;
 			}
 			case 3: {

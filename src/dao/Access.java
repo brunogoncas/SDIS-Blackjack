@@ -384,14 +384,14 @@ public class Access {
 		// create the java mysql update preparedstatement
 		String query2 = "SELECT idroom FROM room where name = ?";
 		PreparedStatement preparedStmt2 = con.prepareStatement(query2);
-		String name = null;
+		String idRoom = null;
 		
 		try {
 			// execute the java preparedstatement
 			preparedStmt2.setString(1, nameRoom);
 			ResultSet rs2 = preparedStmt2.executeQuery();
 			while (rs2.next()) {
-				name = rs2.getString(1);
+				idRoom = rs2.getString(1);
 			}
 			con.close();
 
@@ -401,7 +401,7 @@ public class Access {
 			e.printStackTrace();
 		}
 		
-		return name;
+		return idRoom;
 	}
 	
 	public String getPassRoom(Connection con, int idRoom) throws SQLException {

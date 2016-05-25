@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 
 import dto.Player;
 import dto.Room;
-import logic.MessagesEncrypter;
 import model.AccessManager;
 
 @Path("/roomService")
@@ -143,6 +142,15 @@ public class RoomService {
 	}
 	
 	@GET
+	@Path("/room/getPass/{idRoom}")
+	@Produces("application/json")
+	public static String getPassRoom(@PathParam("idRoom") int idRoom) throws Exception {
+
+		String result = new AccessManager().getPass(idRoom);
+		return result;
+	}
+	
+	@GET
 	@Path("room/id/{nameRoom}")
 	public String getID(@PathParam("nameRoom") String nameRoom) throws Exception {
 		
@@ -185,15 +193,6 @@ public class RoomService {
 		else {
 			return Response.ok("Cartas dadas com sucesso ao dealer!", MediaType.APPLICATION_JSON).build();
 		}
-	}
-	
-	@POST
-	@Path("/room/getPass")
-	@Produces("application/json")
-	public static String getPassRoom(@FormParam("idRoom") int idRoom) throws Exception {
-
-		String result = new AccessManager().getPass(idRoom);
-		return result;
 	}
 	
 	@POST

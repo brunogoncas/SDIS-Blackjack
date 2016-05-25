@@ -98,7 +98,7 @@ public class Access {
 		
 		int idd = getIdDealer(con, dealer);
 		
-		if(password == "") {
+		if(password == null || password.isEmpty()) {
 			String query2 = "INSERT INTO room (name, iddealer)" + "VALUES (?, ?)";
 			PreparedStatement Stmt2;
 			try {

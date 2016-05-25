@@ -169,7 +169,7 @@ public class Main {
 					rPost = Communication.POST("roomService/room", paramName, paramVal);
 				
 					idRoom = Integer.valueOf(Communication.GET("roomService/room/id/"+NameRoom));
-					System.out.println("HELLLOOOOOO: " + idRoom);
+					//System.out.println("HELLLOOOOOO: " + idRoom);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}	
@@ -180,7 +180,7 @@ public class Main {
 				
 				try {
 					rPost = Communication.POST("roomService/room/player", paramName3 , paramVal3);
-					System.out.println("kapapapap: " + rPost);
+					//System.out.println("kapapapap: " + rPost);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -312,7 +312,7 @@ public class Main {
 			e.printStackTrace();
 		}
 		
-		System.out.println(response);
+		//System.out.println(response);
 	
 		JSONArray jArray = new JSONArray(response);
 		 for(int i = 0; i < jArray.length(); i++){
@@ -325,8 +325,9 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			 String password = jArray.getJSONObject(i).getString("password");
-			 if(password == null) 
+			 System.out.println(jArray.getJSONObject(i));
+			 
+			 if(!jArray.getJSONObject(i).has("password")) 
 				 System.out.println(idroom + " :> (" + capacity + "/6) -> " + nameroom);  
 			 else 
 				 System.out.println(idroom + " :> (" + capacity + "/6) -> " + nameroom + "  PRIVATE!"); 
@@ -350,16 +351,14 @@ public class Main {
 				skip=true;
 				
 				//verifica se a sala é privada, vendo se tem pass "/room/getPass"
-				String[] paramName = { "idRoom"};
-				String[] paramVal = { Integer.toString(RoomChoose) };
-				int pass=0; 
+				String pass = null; 
 				try {
-					pass = Communication.POST("roomService/room/getPass", paramName, paramVal);
+					pass = Communication.GET("roomService/room/getPass/"+Integer.toString(RoomChoose));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				
-				if(Integer.toString(pass) != null) {
+				if(pass != null) {
 					String input2;
 					System.out.println("Qual é password da Room que pretende escolher (id="+Integer.toString(RoomChoose)+") ?");
 					reader.nextLine();
@@ -375,7 +374,7 @@ public class Main {
 					}
 					String[] paramName4 = { "name", "password" };
 					String[] paramVal4 = { Integer.toString(RoomChoose), passSha256 };
-					int respons=0;
+					int respons;
 					try {
 						respons = Communication.POST("roomService/room/CheckPass", paramName4, paramVal4);
 					} catch (Exception e) {
@@ -393,10 +392,10 @@ public class Main {
 					e.printStackTrace();
 				}
 				
-				System.out.println("NUM: " + temp);
+				//System.out.println("NUM: " + temp);
 				
 				if(temp >= 6){
-					System.out.println("There are too many players in the room already!");
+					System.out.println("Demasiados jogadores na sala!");
 					
 				}
 				
@@ -428,7 +427,9 @@ public class Main {
 	}
 
 	public static void main(String[] args) throws IOException {
+		System.out.println(" ===================== ");
 		System.out.println(" ===== BLACKJACK ===== ");
+		System.out.println(" ===================== ");
 		Main Menu = new Main();
 		Menu.loginMenu();
 	}

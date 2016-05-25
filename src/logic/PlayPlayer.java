@@ -67,14 +67,14 @@ public class PlayPlayer implements Runnable{
 			numberT = Communication.GET("playerService/getTimeouts/"+idRoom+"/"+usernameLogged);
 			Thread.sleep(500);//0,5 second.
 			
-			System.out.println("response:" + response + " " + responseP + " " + numberT);
+			//System.out.println("response:" + response + " " + responseP + " " + numberT);
 				
 			if(responseP.equals("Iddle")){
 				
 				if(Integer.parseInt(numberT) == 2){
 					
 					//SAIR DA SALA
-					System.out.println("Falhaste 2 tentativas de voltar á sala, a ser removido!");
+					System.out.println("|P| Falhou 2 tentativas de voltar á sala, a ser removido! |IDDLE|");
 					
 					Communication.DELETE("playerService/removePlayer/"+usernameLogged+"/"+idRoom);
 					break;
@@ -85,7 +85,7 @@ public class PlayPlayer implements Runnable{
 				
 					int x = 5; // wait 5 seconds at most
 					
-					System.out.println("Please say something!");
+					System.out.println("|P| Por favor, mostre-nos que ainda cá está!");
 					
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 					long startTime = System.currentTimeMillis();
@@ -97,14 +97,14 @@ public class PlayPlayer implements Runnable{
 
 						if (in.ready()) {
 							
-						    System.out.println("You are back!!!");
+						    System.out.println("|P| Voltou!!!");
 						    String[] state = {"idRoom","namePlayer","state"};
 							String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin"};
 							Communication.POST("playerService/updateState", state , stateVal);
 						    continue;
 						    
 						} else {
-						    System.out.println("You did not enter something! :(");
+						    System.out.println("|P| Não inseriu algo! :(");
 						    
 						    String[] paramName3 = {"name", "idRoom"};
 							String[] paramVal3 = {usernameLogged, String.valueOf(idRoom)};
@@ -124,13 +124,13 @@ public class PlayPlayer implements Runnable{
 			}
 			else if(response.equals("Bet") && responseP.equals("Bet")) {
 		
-				System.out.println("Aposta: ");
+				System.out.println("|P| Tempo de Apostar! ");
 						
 				int x = 10; // wait 2 seconds at most
 
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 				long startTime = System.currentTimeMillis();
-				System.out.println("Insira a sua aposta: ");
+				System.out.println("|P| Insira a sua aposta: ");
 					while ((System.currentTimeMillis() - startTime) < x * 1000
 					        && !in.ready()) {
 					}
@@ -139,7 +139,7 @@ public class PlayPlayer implements Runnable{
 						str = in.readLine();
 
 					    if(!isInteger(str)){
-							System.out.println("You did not enter a valid number to bet! Remember that next round.");
+							System.out.println("|P| Não inseriu um valor válido para apostar!");
 							try {
 								String[] state = {"idRoom","namePlayer","state"};
 								String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin"};
@@ -152,7 +152,7 @@ public class PlayPlayer implements Runnable{
 						}
 						else{
 					
-					        System.out.println( "you have entered: "+ str ); 
+					        System.out.println("|P| Inseriu: "+ str ); 
 					        betmoney = Integer.parseInt(str);
 							
 					        String[] paramName2 = {"name","addBet"};
@@ -167,7 +167,7 @@ public class PlayPlayer implements Runnable{
 						String[] state = {"idRoom","namePlayer","state"};
 						String[] stateVal = {String.valueOf(idRoom),usernameLogged,"Iddle"};
 						Communication.POST("playerService/updateState", state , stateVal);
-						System.out.println("Please enter something next time!");
+						System.out.println("|P| Por favor insira algo da próxima vez!");
 					    continue;
 					}
 				
@@ -187,10 +187,10 @@ public class PlayPlayer implements Runnable{
 					 String suit = jArray.getJSONObject(i).getString("suit");
 					 String figure = jArray.getJSONObject(i).getString("figure");
 					 pPoints += jArray.getJSONObject(i).getInt("card_value");
-					 System.out.println("You got an"+ figure + " of " + suit); 
+					 System.out.println("|P| CARTAS: "+ figure + " de " + suit); 
 				  }
 				 
-				 System.out.println("Tens " + pPoints + " pontos!");
+				 System.out.println("|P| Tens " + pPoints + " pontos!");
 				 String[] state = {"idRoom","namePlayer","state"};
 				 String[] stateVal = {String.valueOf(idRoom),usernameLogged,"myturn"};
 				 Communication.POST("playerService/updateState", state , stateVal);					
@@ -206,7 +206,8 @@ public class PlayPlayer implements Runnable{
 				String suit = jArray.getJSONObject(0).getString("suit");
 				String figure = jArray.getJSONObject(0).getString("figure");
 				int pointsD = jArray.getJSONObject(0).getInt("card_value");
-				System.out.println("Dealer got an "+ figure + " of " + suit + " Points: " + pointsD); 
+				System.out.println("|P| CARTA DO DEALER: "+ figure + " de " + suit); 
+				System.out.println("|P| PONTOS DO DEALER: "+ pointsD); 
 			
 				
 				if(pPoints >= 21) {
@@ -219,7 +220,7 @@ public class PlayPlayer implements Runnable{
 				//ciclo player
 				String resp = "x";
 				while (!resp.toLowerCase().equals("s")){
-					System.out.println("You got " + pPoints +"! O que queres fazer? ( S(Stand) ; H (Hit); D (Double) ).");
+					System.out.println("|P| Tens " + pPoints + " Pontos! O que queres fazer? ( S(Stand) ; H (Hit); D (Double) ).");
 					resp = reader.nextLine();
 										
 					//se for hit -> pedir +1carta
@@ -241,11 +242,12 @@ public class PlayPlayer implements Runnable{
 						 for(int i = 0; i < jArray2.length(); i++){
 							 suit = jArray2.getJSONObject(i).getString("suit");
 							 figure = jArray2.getJSONObject(i).getString("figure");
-							 pPoints += jArray2.getJSONObject(i).getInt("card_value");
-							 System.out.println("You got an"+ figure + " of " + suit); 
+							 pPoints += jArray2.getJSONObject(i).getInt("card_value"); 
+							 System.out.println("|P| OBTEVE: "+ figure + " de " + suit); 
+							  
 						  }
 						 
-						 System.out.println("Tens " + pPoints + " pontos!");
+						 System.out.println("|P| OS SEUS PONTOS: "+ pPoints);
 						 if(pPoints > 21) {
 							 resp = "s";
 						 }
@@ -274,10 +276,10 @@ public class PlayPlayer implements Runnable{
 							 suit = jArray3.getJSONObject(i).getString("suit");
 							 figure = jArray3.getJSONObject(i).getString("figure");
 							 pPoints += jArray3.getJSONObject(i).getInt("card_value");
-							 System.out.println("You got an"+ figure + " of " + suit); 
+							 System.out.println("|P| OBTEVE: "+ figure + " de " + suit);
 						  }
 						 
-						 System.out.println("Tens " + pPoints + " pontos!");
+						 System.out.println("|P| OS SEUS PONTOS: "+ pPoints);
 						 resp = "s";
 					}	
 				}	
@@ -303,9 +305,10 @@ public class PlayPlayer implements Runnable{
 					 String suit = jArray2.getJSONObject(i).getString("suit");
 					 String figure = jArray2.getJSONObject(i).getString("figure");
 					 pointsD += jArray2.getJSONObject(i).getInt("card_value");
-					 System.out.println("Dealer got an"+ figure + " of " + suit); 
+					System.out.println("|P| CARTA DO DEALER: "+ figure + " de " + suit); 
+					
 				  }
-				System.out.println("Dealer got " + pointsD +" Points!"); 
+				System.out.println("|P| PONTOS DO DEALER: "+ pointsD); 
 				
 				if((pointsD < pPoints && pointsD < 22 && pPoints < 22)
 						|| (pointsD > 21 && pPoints < 22)){
@@ -315,7 +318,7 @@ public class PlayPlayer implements Runnable{
 					
 					Communication.POST("playerService/addChips", paramName3 , paramVal3);
 					
-					System.out.println("Ganhou! Ganhou: " + 2*betmoney + "chips com:" + pPoints);
+					System.out.println("|P| GANHOU: " + 2*betmoney + "chips com:" + pPoints + " pontos!");
 					
 				}
 				
@@ -326,13 +329,12 @@ public class PlayPlayer implements Runnable{
 				
 					Communication.POST("playerService/addChips", paramName4 , paramVal4);
 
-					
-					System.out.println("Empatou!");
+					System.out.println("|P| EMPATOU: "+ "REEMBOLSADO COM " + betmoney);
 				}
 				
 				else{
 					
-					System.out.println("Perdeu!");
+					System.out.println("|P| PERDEU: "+ betmoney + " chips!");
 				}
 				String[] state = {"idRoom","namePlayer","state"};
 				String[] stateVal = {String.valueOf(idRoom),usernameLogged,"done"};
@@ -346,7 +348,7 @@ public class PlayPlayer implements Runnable{
 				String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin"};
 				Communication.POST("playerService/updateState", state , stateVal);
 
-				System.out.print("Se desejar sair pressione e(exit) ou q(quit) !");
+				System.out.print("|P| Se desejar sair pressione e(EXIT) ou q(QUIT) !");
 				int x = 3; // wait 2 seconds at most
 
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -358,17 +360,17 @@ public class PlayPlayer implements Runnable{
 				if (in.ready()) {
 					str = in.readLine();
 					if(str.toLowerCase().equals("e") || str.toLowerCase().equals("q")) {
-							System.out.println("Vais sair da sala! ");
+							System.out.println("|P| A sair da sala! ");
 							Communication.DELETE("playerService/removePlayer/"+usernameLogged+"/"+idRoom);
 							break;
 					}
 				} else {
-				    System.out.println("Continuando a jogar! ");
+				    System.out.println("|P| Continuando a jogar! ");
 				    continue;
 				}
 			}
 			else{
-				System.out.println("Esperando para jogar!");
+				System.out.println("|P| Esperando para jogar!");
 				try {
 				    Thread.sleep(1000);//two second.
 				} catch(InterruptedException ex) {

@@ -85,11 +85,10 @@ public class MainDealer extends Observable{
 		}
 	}
 	
-	// And From your main() method or any other method
-
-	
 	public static void main(String[] args) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
-		System.out.println(" ===== Dealer - BLACKJACK ===== ");
+		System.out.println(" ===================== ");
+		System.out.println(" ====== DEALING ====== ");
+		System.out.println(" ===================== ");
 		MainDealer Menu = new MainDealer();
 		Menu.mainMenu();
 	}

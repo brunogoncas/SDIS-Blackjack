@@ -108,7 +108,7 @@ public class PlayerDealer  extends Observable implements Runnable{
 						e.printStackTrace();
 					}
 					
-					System.out.println(players);
+					//System.out.println(players);
 
 					JSONArray jArrays = new JSONArray(players);
 					 for(int i = 0; i < jArrays.length(); i++){
@@ -125,7 +125,7 @@ public class PlayerDealer  extends Observable implements Runnable{
 							e.printStackTrace();
 						}
 						//6 second.
-						System.out.println(nameplayer); 
+						System.out.println("|D| Turno de: " + nameplayer); 
 					  }
 				
 					// mostrar a segunda carta do dealer -> jogar dealer
@@ -143,7 +143,8 @@ public class PlayerDealer  extends Observable implements Runnable{
 						 String suit = jArray.getJSONObject(i).getString("suit");
 						 String figure = jArray.getJSONObject(i).getString("figure");
 						 points += jArray.getJSONObject(i).getInt("card_value");
-						 System.out.println("You got an"+ figure + " of " + suit + " Points: " + points +"PRINT 1"); 
+						 System.out.println("|D| You got a "+ figure + " of " + suit);
+						 System.out.println("|D| Points: " + points); 
 					}
 					
 					try {
@@ -179,8 +180,11 @@ public class PlayerDealer  extends Observable implements Runnable{
 							 String suit = jArray.getJSONObject(i).getString("suit");
 							 String figure = jArray.getJSONObject(i).getString("figure");
 							 points += jArray.getJSONObject(i).getInt("card_value");
-							 System.out.println("You got an"+ figure + " of " + suit + " Points: " + points +"PRINT 2"); 
+							 System.out.println("|D| You got a "+ figure + " of " + suit);
+							  
 						}	
+						System.out.println("|D| Points: " + points);
+						
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
@@ -232,7 +236,7 @@ public class PlayerDealer  extends Observable implements Runnable{
 				
 			    } while(getnumJogadoresMesa() != 0);
 			} else {
-			    System.out.println("NOT ENOUGH PLAYERS!!! :(");
+			    System.out.println("|D| NÃO EXISTEM JOGADORES SUFICIENTES!!! :(");
 			    try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e) {
@@ -265,7 +269,7 @@ public class PlayerDealer  extends Observable implements Runnable{
 			String response=null;
 			try {
 				response = Communication.GET("roomService/room/"+NameRoom+"/player");
-				System.out.println("Numero de Jogadores na Sala: " + response);
+				System.out.println("|D| Numero de Jogadores na Sala "+ NameRoom + " : " + response);
 				int temp = Integer.parseInt(response);
 				setnumJogadoresMesa(temp);
 			} catch (IOException e) {

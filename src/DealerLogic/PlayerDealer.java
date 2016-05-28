@@ -117,7 +117,7 @@ public class PlayerDealer  extends Observable implements Runnable{
 						String[] paramVal4 = {NameRoom, nameplayer};
 						try {
 							rPost = Communication.POST("roomService/room/state", paramName , paramVal4);
-							Thread.sleep(6000);
+							Thread.sleep(8000); //8s para cada jogador
 						} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException
 								| NoSuchPaddingException | InvalidAlgorithmParameterException
 								| IllegalBlockSizeException | BadPaddingException | IOException | InterruptedException e) {
@@ -143,9 +143,9 @@ public class PlayerDealer  extends Observable implements Runnable{
 						 String suit = jArray.getJSONObject(i).getString("suit");
 						 String figure = jArray.getJSONObject(i).getString("figure");
 						 points += jArray.getJSONObject(i).getInt("card_value");
-						 System.out.println("|D| You got a "+ figure + " of " + suit);
-						 System.out.println("|D| Points: " + points); 
+						 System.out.println("|D| You got a "+ figure + " of " + suit); 
 					}
+					 System.out.println("|D| Points: " + points);
 					
 					try {
 						Thread.sleep(1000);

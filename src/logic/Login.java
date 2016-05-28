@@ -12,12 +12,12 @@ import javax.crypto.NoSuchPaddingException;
 
 public class Login {
 	
-	public static boolean login(String username, String pass) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
+	public static boolean login(String username, String pass, String token) throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException{
 			
 		int response = 0;
 		
 		String passSha256 = Communication.sha256(pass);
-		String token = issueToken(username);
+		token = issueToken(username);
 		String[] paramName = { "name", "password", "token"};
 		String[] paramVal = { username, passSha256, token};
 		
@@ -28,13 +28,11 @@ public class Login {
 		}
 				
 		if(response == 200){
-			System.out.println("HELLOOOOO1" + response);
-			Globals.token = token;
+			Main.token = token;
 			return true;
 		}
 			
 		else{
-			System.out.println("HELLOOOOO2" + response);
 			return false;
 		}
 

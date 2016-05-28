@@ -20,7 +20,7 @@ public class Main {
 
 	Scanner reader = new Scanner(System.in);
 	String usernameLogged=null;
-	
+	static String token = null;
 	int rPost = 0;
 	
 	private FindThread findThread;
@@ -86,7 +86,7 @@ public class Main {
 		usernameLogged = username;
 		
 		try {
-			if (!Login.login(username, password))
+			if (!Login.login(username, password, token))
 				System.out.println("Username/Password Erradas");
 			else { 
 				System.out.println("Bem Vindo");
@@ -175,8 +175,8 @@ public class Main {
 				}	
 				
 				//POST PARA ADICIONAR O GAJO QUE CRIA A SALA À SALA
-				String[] paramName3 = { "name", "idRoom" };
-				String[] paramVal3 = {usernameLogged, Integer.toString(idRoom) };
+				String[] paramName3 = { "name", "idRoom", "token" };
+				String[] paramVal3 = {usernameLogged, Integer.toString(idRoom), token};
 				
 				try {
 					rPost = Communication.POST("roomService/room/player", paramName3 , paramVal3);
@@ -186,7 +186,7 @@ public class Main {
 				}
 				
 				//CRIAR THREAD COM A LÓGICA DA SALA
-				PlayPlayer p = new PlayPlayer(idRoom,usernameLogged);
+				PlayPlayer p = new PlayPlayer(idRoom,usernameLogged, token);
 				Thread pLogic = new Thread(p);
 				PlayerDealer pdealer = new PlayerDealer(dN,NameRoom);
 				Thread pdLogic = new Thread(pdealer);
@@ -221,8 +221,8 @@ public class Main {
 				input = reader.nextLine();
 				AddChips = Integer.parseInt(input);
 				
-				String[] paramName = { "name", "addChips"};
-				String[] paramVal = { usernameLogged, Integer.toString(AddChips) };
+				String[] paramName = { "name", "addChips", "token"};
+				String[] paramVal = { usernameLogged, Integer.toString(AddChips), token };
 				
 				try {
 					rPost = Communication.POST("playerService/addChips", paramName, paramVal);
@@ -240,8 +240,8 @@ public class Main {
 				input = reader.nextLine();
 				RemoveChips = Integer.parseInt(input);
 				
-				String[] paramName = { "name", "removeChips"};
-				String[] paramVal = { usernameLogged, Integer.toString(RemoveChips) };
+				String[] paramName = { "name", "removeChips", "token"};
+				String[] paramVal = { usernameLogged, Integer.toString(RemoveChips), token };
 				
 				try {
 					rPost = Communication.POST("playerService/removeChips", paramName, paramVal);
@@ -273,7 +273,7 @@ public class Main {
 				int response = 0;
 				
 				String[] paramName = {"token"};
-				String[] paramVal = {Globals.token};
+				String[] paramVal = {token};
 				
 				try {
 					response = Communication.POST("playerService/logout", paramName, paramVal);
@@ -401,8 +401,8 @@ public class Main {
 				
 				else{
 
-				String[] paramName3 = { "name", "idRoom" };
-				String[] paramVal3 = {usernameLogged, Integer.toString(RoomChoose) };
+				String[] paramName3 = { "name", "idRoom","token"};
+				String[] paramVal3 = {usernameLogged, Integer.toString(RoomChoose),token };
 				
 				try {
 					rPost = Communication.POST("roomService/room/player", paramName3 , paramVal3);
@@ -410,7 +410,7 @@ public class Main {
 					e.printStackTrace();
 				}
 				
-					PlayPlayer p = new PlayPlayer(RoomChoose,usernameLogged);
+					PlayPlayer p = new PlayPlayer(RoomChoose,usernameLogged, token);
 					Thread pLogic = new Thread(p);
 					pLogic.setName(String.valueOf(RoomChoose));
 					pLogic.start();

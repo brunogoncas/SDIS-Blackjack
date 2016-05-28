@@ -27,12 +27,13 @@ CREATE TABLE `room` (
   `name` varchar(45) NOT NULL,
   `iddealer` int(11) NOT NULL,
   `state` varchar(100) NOT NULL DEFAULT 'begin',
+  `password` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idroom`),
   UNIQUE KEY `idroom_UNIQUE` (`idroom`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `iddealer_idx` (`iddealer`),
   CONSTRAINT `iddealer` FOREIGN KEY (`iddealer`) REFERENCES `dealer` (`iddealer`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +42,7 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
+INSERT INTO `room` VALUES (54,'Sala Privada do Xico',55,'getcards','03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4');
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-18 18:23:39
+-- Dump completed on 2016-05-26 23:57:03

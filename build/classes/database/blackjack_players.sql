@@ -28,11 +28,11 @@ CREATE TABLE `players` (
   `chips` int(11) DEFAULT NULL,
   `password` varchar(256) NOT NULL,
   `betmoney` int(11) DEFAULT NULL,
-  `token` varchar(256) DEFAULT NULL,
+  `token` varchar(256) UNIQUE,
   PRIMARY KEY (`idplayers`),
   UNIQUE KEY `idplayers_UNIQUE` (`idplayers`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,6 @@ CREATE TABLE `players` (
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
-INSERT INTO `players` VALUES (21,'Francisco',2436,'03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',32,'cKobwWmDYQU3LnshMow37bjElCLBqXBfDUExRk0V H68wUewYsch8GcPhoUZ1ghrWY6vLYVBmt4tkddtyQiXSg=='),(22,'Andre',2500,'03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4',NULL,'vTz2I3T9IeZI3 FQyswohyQAYAle3fgY/xk93Q1SWC0Vi6P9 PlKaWvUJttBFGKbd0POCLYpScYn3G0mXDGr4g==');
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-26 23:57:03
+-- Dump completed on 2016-05-18 18:23:39

@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 
 import dto.Player;
 import dto.Room;
-import logic.MessagesEncrypter;
 import model.AccessManager;
 
 @Path("/roomService")
@@ -72,8 +71,8 @@ public class RoomService {
 			@FormParam("password") String password ) throws Exception {
 
 		/*System.out.println("FDPPSAPDPSAP " + roomname + "  " + dealername);
-		String roomn = messagesEncrypter.decrypt(roomname);
-		String dealern = messagesEncrypter.decrypt(dealername);
+		String roomn = MessagesEncrypter.decrypt(roomname);
+		String dealern = MessagesEncrypter.decrypt(dealername);
 		System.out.println("CRLLLLLLLLLLLLLLLLL " + roomn + "  " + dealern);*/
 		boolean result = new AccessManager().insertRoom(roomname, dealername, password);
 		
@@ -92,12 +91,12 @@ public class RoomService {
 	public static Response addPlayerRoom(@FormParam("name") String Player,
 			@FormParam("idRoom") String idRoom) throws Exception {
 		
-		MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
-		//System.out.println("SIMMMM " + Player + "  " + idRoom);
-		String player = messagesEncrypter.decrypt(Player);
-		int idroom = Integer.parseInt(messagesEncrypter.decrypt(idRoom));
-		//System.out.println("NAOOOoooo " + player + "  " + idroom);
-		boolean result = new AccessManager().AddPlayerInRoom(player, idroom);
+
+		/*System.out.println("SIMMMM " + Player + "  " + idRoom);
+		String player = MessagesEncrypter.decrypt(Player);
+		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
+		System.out.println("NAOOOoooo " + player + "  " + idroom);*/
+		boolean result = new AccessManager().AddPlayerInRoom(Player, Integer.parseInt(idRoom));
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed").build();
@@ -114,11 +113,10 @@ public class RoomService {
 	public static Response UpdateState(@FormParam("nameRoom") String nameRoom,
 			@FormParam("state") String stateRoom) throws Exception {
 		
-		MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
-		String nR = messagesEncrypter.decrypt(nameRoom);
-		String sR = messagesEncrypter.decrypt(stateRoom);
+		//String nR = MessagesEncrypter.decrypt(nameRoom);
+		//String sR = MessagesEncrypter.decrypt(stateRoom);
 	
-		boolean result = new AccessManager().updateRoomState(nR, sR);
+		boolean result = new AccessManager().updateRoomState(nameRoom, stateRoom);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to update room state").build();
@@ -200,13 +198,10 @@ public class RoomService {
 	@POST
 	@Path("/room/CheckPass")
 	@Produces("application/json")
-	public static Response newPlayer(@FormParam("idRoom") String idRoom, 
+	public static Response newPlayer(@FormParam("idRoom") int idRoom, 
 			@FormParam("password") String password) throws Exception {
-		
-		MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
-		int idroom = Integer.parseInt(messagesEncrypter.decrypt(idRoom));
-		
-		boolean result = new AccessManager().checkpassRoom(idroom, password);
+	
+		boolean result = new AccessManager().checkpassRoom(idRoom, password);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Register Room Failed for: " + idRoom).build();

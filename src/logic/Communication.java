@@ -72,17 +72,14 @@ public class Communication {
 		      writer.write(paramName[i]);
 		      writer.write("=");
 	  
-		      //String value = paramVal[i];
-		      String value = null;
-		      
+		      String value = paramVal[i];
+		      /*
 		      if(paramName[i].equals("password"))
 		    	 value = paramVal[i];
 		      
-		      else {
-		    	  MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
-		    	  value = messagesEncrypter.encrypt(paramVal[i]);
-		      }
-		      
+		      else
+		    	  value = MessagesEncrypter.encrypt(paramVal[i]);
+		      */
 		      writer.write(value);
 		        
 		      writer.write("&");

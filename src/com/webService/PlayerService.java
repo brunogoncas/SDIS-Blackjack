@@ -48,6 +48,7 @@ public class PlayerService {
 			@FormParam("password") String password, 
 			@FormParam("chips") String chips) throws Exception {
 
+
 		//String n = MessagesEncrypter.decrypt(name);
 		//String p = MessagesEncrypter.decrypt(password);
 		//int c = Integer.parseInt(MessagesEncrypter.decrypt(chips));
@@ -68,9 +69,10 @@ public class PlayerService {
 	@Produces("application/json")
 	public static String  newPlayer(@FormParam("token") String token) throws Exception {
 	
-		//String t = MessagesEncrypter.decrypt(token);
+		MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
+		String t = messagesEncrypter.decrypt(token);
 		
-		new AccessManager().logoutPlayer(token);
+		new AccessManager().logoutPlayer(t);
 		
 		return "Sucess";
 	}
@@ -89,7 +91,7 @@ public class PlayerService {
 		// Issue a token for the user
         //String token = issueToken(name);
 		
-		boolean result = new AccessManager().loginPlayer(name, password, token);
+		boolean result = new AccessManager().loginPlayer(n, password, t);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Login Failed for: " + name).build();
@@ -116,8 +118,9 @@ public class PlayerService {
 			@FormParam("token") String token,
 			@FormParam("addChips") String addChips) throws Exception {
 	
-		//String n = MessagesEncrypter.decrypt(name);
-		//int c = Integer.parseInt(MessagesEncrypter.decrypt(addChips));
+		MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
+		String n = messagesEncrypter.decrypt(name);
+		int c = Integer.parseInt(messagesEncrypter.decrypt(addChips));
 		
 		boolean tokenresult = new AccessManager().existToken(name, token);
 		if(tokenresult==false) {
@@ -144,10 +147,11 @@ public class PlayerService {
 	public String editTimeout(@FormParam("name") String name, 
 			@FormParam("idRoom") String idRoom) throws Exception {
 		
-		//String n = MessagesEncrypter.decrypt(name);
-		//int id = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
+		MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
+		String n = messagesEncrypter.decrypt(name);
+		int id = Integer.parseInt(messagesEncrypter.decrypt(idRoom));
 	
-		new AccessManager().updateTPlayer(name, Integer.parseInt(idRoom));
+		new AccessManager().updateTPlayer(n, id);
 		return "Sucess";
 	}
 	
@@ -157,6 +161,7 @@ public class PlayerService {
 	public static Response RemoveChips(@FormParam("name") String name, 
 			@FormParam("token") String token,
 			@FormParam("removeChips") String removeChips) throws Exception {
+
 		
 		//String n = MessagesEncrypter.decrypt(name);
 		//int c = Integer.parseInt(MessagesEncrypter.decrypt(removeChips));
@@ -244,6 +249,7 @@ public class PlayerService {
 		}
 		
 		boolean result = new AccessManager().addCards(name, Integer.parseInt(idRoom), Integer.parseInt(numCards));
+
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas.").build();
 		}

@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 
 import dto.Player;
 import dto.Room;
+import logic.MessagesEncrypter;
 import model.AccessManager;
 
 @Path("/roomService")
@@ -71,8 +72,8 @@ public class RoomService {
 			@FormParam("password") String password ) throws Exception {
 
 		/*System.out.println("FDPPSAPDPSAP " + roomname + "  " + dealername);
-		String roomn = MessagesEncrypter.decrypt(roomname);
-		String dealern = MessagesEncrypter.decrypt(dealername);
+		String roomn = messagesEncrypter.decrypt(roomname);
+		String dealern = messagesEncrypter.decrypt(dealername);
 		System.out.println("CRLLLLLLLLLLLLLLLLL " + roomn + "  " + dealern);*/
 		boolean result = new AccessManager().insertRoom(roomname, dealername, password);
 		
@@ -92,6 +93,7 @@ public class RoomService {
 			@FormParam("token") String token,
 			@FormParam("idRoom") String idRoom) throws Exception {
 		
+
 		/*System.out.println("SIMMMM " + Player + "  " + idRoom);
 		String player = MessagesEncrypter.decrypt(Player);
 		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
@@ -120,10 +122,11 @@ public class RoomService {
 	public static Response UpdateState(@FormParam("nameRoom") String nameRoom,
 			@FormParam("state") String stateRoom) throws Exception {
 		
-		//String nR = MessagesEncrypter.decrypt(nameRoom);
-		//String sR = MessagesEncrypter.decrypt(stateRoom);
+		MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
+		String nR = messagesEncrypter.decrypt(nameRoom);
+		String sR = messagesEncrypter.decrypt(stateRoom);
 	
-		boolean result = new AccessManager().updateRoomState(nameRoom, stateRoom);
+		boolean result = new AccessManager().updateRoomState(nR, sR);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to update room state").build();
@@ -205,10 +208,13 @@ public class RoomService {
 	@POST
 	@Path("/room/CheckPass")
 	@Produces("application/json")
-	public static Response newPlayer(@FormParam("idRoom") int idRoom, 
+	public static Response newPlayer(@FormParam("idRoom") String idRoom, 
 			@FormParam("password") String password) throws Exception {
-	
-		boolean result = new AccessManager().checkpassRoom(idRoom, password);
+		
+		MessagesEncrypter messagesEncrypter = new MessagesEncrypter();
+		int idroom = Integer.parseInt(messagesEncrypter.decrypt(idRoom));
+		
+		boolean result = new AccessManager().checkpassRoom(idroom, password);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Register Room Failed for: " + idRoom).build();

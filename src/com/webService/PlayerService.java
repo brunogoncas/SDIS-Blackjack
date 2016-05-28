@@ -7,7 +7,6 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,7 +18,6 @@ import org.json.JSONArray;
 
 import com.google.gson.Gson;
 
-//import model.AccessManager;
 
 import dto.Player;
 import logic.MessagesEncrypter;
@@ -46,15 +44,15 @@ public class PlayerService {
 	@POST
 	@Path("/register")
 	@Produces("application/json")
-	public static Response newPlayer(@FormParam("name") String name, 
+	public static Response newPlayer(@FormParam("name") String name,
 			@FormParam("password") String password, 
 			@FormParam("chips") String chips) throws Exception {
-	
+
 		String n = MessagesEncrypter.decrypt(name,12);
 		String p = MessagesEncrypter.decrypt(password,12);
 		int c = Integer.parseInt(MessagesEncrypter.decrypt(chips,12));
 	
-		boolean result = new AccessManager().insertPlayer(n, p, c);
+		boolean result = new AccessManager().insertPlayer(name, password, Integer.parseInt(chips));
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Register Failed for: " + name).build();
@@ -81,7 +79,7 @@ public class PlayerService {
 	@Path("/login")
 	@Produces("application/json")
 	@Consumes("application/x-www-form-urlencoded")
-	public static Response  newLogin(@FormParam("name") String name, 
+	public static Response  newLogin(@FormParam("name") String name,
 			@FormParam("password") String password, @FormParam("token") String token) throws Exception {
 		
 		System.out.println("FDPPSAPDPSAP " + name + "  " + password);
@@ -103,17 +101,7 @@ public class PlayerService {
 			return Response.ok("Login Successful", MediaType.APPLICATION_JSON).build();
 		}
 	}
-	
-	@PUT
-	@Path("/editMoney")
-	@Produces("application/json")
-	public String editMoney(@FormParam("name") String name, 
-			@FormParam("chips") int chips) throws Exception {
-	
-		new AccessManager().updatePlayer(name, chips);
-		return "Sucess";
-	}
-	
+		
 	@GET
 	@Path("/getMoney")
 	public int getMoney(@QueryParam("name") String name) throws Exception {
@@ -125,14 +113,22 @@ public class PlayerService {
 	@POST
 	@Path("/addChips")
 	@Produces("application/json")
-	public static String AddChips(@FormParam("name") String name, 
+	public static Response AddChips(@FormParam("name") String name, 
+			@FormParam("token") String token,
 			@FormParam("addChips") String addChips) throws Exception {
 	
 		String n = MessagesEncrypter.decrypt(name,12);
 		int c = Integer.parseInt(MessagesEncrypter.decrypt(addChips,12));
 		
-		new AccessManager().AddChips(n, c);
-		return "Sucess";
+		boolean tokenresult = new AccessManager().existToken(name, token);
+		if(tokenresult==false) {
+			System.out.println("ERRO NO ADD CHIPS");
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Add Chips Failed Because Token FALSE").build();
+		}
+		
+		new AccessManager().AddChips(name, Integer.parseInt(addChips));
+		
+		return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Sucess add chips player!").build();
 	}
 	
 	@GET
@@ -160,12 +156,21 @@ public class PlayerService {
 	@Path("/removeChips")
 	@Produces("application/json")
 	public static Response RemoveChips(@FormParam("name") String name, 
+			@FormParam("token") String token,
 			@FormParam("removeChips") String removeChips) throws Exception {
+
 	
 		String n = MessagesEncrypter.decrypt(name,12);
 		int c = Integer.parseInt(MessagesEncrypter.decrypt(removeChips,12));
-	
-		boolean result = new AccessManager().RemoveChips(n, c);
+
+		
+		boolean tokenresult = new AccessManager().existToken(name, token);
+		if(tokenresult==false) {
+			System.out.println("ERRO NO REMOVE CHIPS");
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Remove Chips Failed Because Token FALSE").build();
+		}
+		
+		boolean result = new AccessManager().RemoveChips(name, Integer.parseInt(removeChips));
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Não têm saldo suficiente para efetuar o levantamento de "+removeChips+" chips.").build();
@@ -180,12 +185,20 @@ public class PlayerService {
 	@Path("/addBet")
 	@Produces("application/json")
 	public static Response addBet(@FormParam("name") String name, 
+			@FormParam("token") String token,
 			@FormParam("addBet") String addBet) throws Exception {
+
 	
 		String n = MessagesEncrypter.decrypt(name,12);
 		int c = Integer.parseInt(MessagesEncrypter.decrypt(addBet,12));
-	
-		Boolean result = new AccessManager().AddBet(n, c);
+		
+		boolean tokenresult = new AccessManager().existToken(name, token);
+		if(tokenresult==false) {
+			System.out.println("ERRO NO ADD BET");
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Add BET Failed Because Token FALSE").build();
+		}
+		
+		Boolean result = new AccessManager().AddBet(name, Integer.parseInt(addBet)	);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Não tem saldo suficiente para efetuar a aposta que pretende.").build();
@@ -199,8 +212,9 @@ public class PlayerService {
 	@GET
 	@Path("/getCards/{idRoom}/{name}")
 	@Produces("application/json")
-	public String getCards(@PathParam("name") String name, @PathParam("idRoom") int idRoom) throws Exception {
-		
+	public String getCards(@PathParam("name") String name,
+			@PathParam("idRoom") int idRoom) throws Exception {
+				
 		JSONArray cards = new AccessManager().getCards(name, idRoom);
 		return cards.toString();
 	}
@@ -208,7 +222,8 @@ public class PlayerService {
 	@GET
 	@Path("/getTimeouts/{idRoom}/{namePlayer}")
 	@Produces("application/json")
-	public String getTimeouts(@PathParam("idRoom") int idRoom,@PathParam("namePlayer") String namePlayer) throws Exception {
+	public String getTimeouts(@PathParam("idRoom") int idRoom,
+			@PathParam("namePlayer") String namePlayer) throws Exception {
 		
 		int timeouts = new AccessManager().getTimeouts(namePlayer,idRoom);
 		return String.valueOf(timeouts);
@@ -218,14 +233,22 @@ public class PlayerService {
 	@Path("/addCards")
 	@Produces("application/json")
 	public static Response AddCards(@FormParam("name") String name, 
+			@FormParam("token") String token,
 			@FormParam("idRoom") String idRoom,
 			@FormParam("numCards") String numCards ) throws Exception {
 		
 		String n = MessagesEncrypter.decrypt(name,12);
 		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom,12));
 		int ncards = Integer.parseInt(MessagesEncrypter.decrypt(numCards,12));
-	
-		boolean result = new AccessManager().addCards(n, idroom, ncards);
+		
+		boolean tokenresult = new AccessManager().existToken(name, token);
+		if(tokenresult==false) {
+			System.out.println("ERRO NO ADD CARDS");
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Add Cards Failed Because Token FALSE").build();
+		}
+		
+		boolean result = new AccessManager().addCards(name, Integer.parseInt(idRoom), Integer.parseInt(numCards));
+
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas.").build();
 		}
@@ -240,13 +263,20 @@ public class PlayerService {
 	@Produces("application/json")
 	public static Response UpdateState(@FormParam("idRoom") String idRoom,
 			@FormParam("namePlayer") String namePlayer,
+			@FormParam("token") String token,
 			@FormParam("state") String stateRoom) throws Exception {
 		
 		String n = MessagesEncrypter.decrypt(namePlayer,12);
 		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom,12));
 		String sRoom = MessagesEncrypter.decrypt(stateRoom,12);
-	
-		boolean result = new AccessManager().updatePlayerState(idroom, sRoom, n);
+
+		boolean tokenresult = new AccessManager().existToken(namePlayer, token);
+		if(tokenresult==false) {
+			System.out.println("ERRO NO Update State");
+			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Add Cards Failed Because Token FALSE").build();
+		}
+		
+		boolean result = new AccessManager().updatePlayerState(Integer.parseInt(idRoom), stateRoom, namePlayer);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to update player state").build();
@@ -259,8 +289,9 @@ public class PlayerService {
 	
 	@GET
 	@Path("/getState/{idRoom}/{namePlayer}")
-	public Response getState(@PathParam("idRoom") int idRoom, @PathParam("namePlayer") String namePlayer) throws Exception {
-		
+	public Response getState(@PathParam("idRoom") int idRoom,
+			@PathParam("namePlayer") String namePlayer) throws Exception {
+	
 		String state = new AccessManager().getStatePlayer(idRoom, namePlayer);
 		
 		if(state == null){
@@ -271,12 +302,12 @@ public class PlayerService {
 		}
 	}
 	
-	 @DELETE
-	   @Path("/removePlayer/{namePlayer}/{idRoom}")
-	   @Produces("application/json")
-	   public Response RemovePlayerRoom(@PathParam("namePlayer") String namePlayer,
-	       @PathParam("idRoom") int idRoom) throws Exception {
-	   
+   @DELETE
+   @Path("/removePlayer/{namePlayer}/{idRoom}/{token}")
+   @Produces("application/json")
+   public Response RemovePlayerRoom(@PathParam("namePlayer") String namePlayer,
+       @PathParam("idRoom") int idRoom) throws Exception {
+   
 	      boolean result = new AccessManager().RemovePlayerRoom(namePlayer, idRoom);
 	     if(result==false){
 	       return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel remover o jogador da sala.").build();

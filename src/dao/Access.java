@@ -851,7 +851,6 @@ public class Access {
 		
 		long time = System.currentTimeMillis();
 		
-		System.out.println("HELLOOOOOOOOOOOOOOOOOOO: " + time);
 
 		try {
 			PreparedStatement stmt = con.prepareStatement("SELECT t1.iduser FROM requests as t1 WHERE (? - t1.lastreq) >= 30000");
@@ -913,5 +912,42 @@ public class Access {
 					
 			
 			return val;
+	}
+	 
+	public boolean existToken(Connection con, String namePlayer, String token) {
+		String query = "select token from players where name = ?";
+		boolean exists = false;
+		String tokenRecebido = null;
+		try {
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.setString(1, namePlayer);
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				tokenRecebido = rs.getString(1);
+			}
+			
+			System.out.println("TOKEN : " + token + "  E  " + tokenRecebido + " NOME " + namePlayer);
+			
+			if(tokenRecebido.equals("")) {
+				System.out.println("Utilizador não Registado");
+				return exists;
+			}
+			else if(tokenRecebido.equals(token)){
+				exists=true;
+			}
+			else {
+				System.out.println("Utilizador não logado");
+				return exists;
+			}
+			
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		
+		return exists;
 	}
 }

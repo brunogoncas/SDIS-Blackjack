@@ -257,4 +257,11 @@ public class AccessManager {
 		con.close();
 		return result;
 	}
+	
+	public boolean existToken(String namePlayer, String token) throws Exception {
+		Connection con = db.getConnection();
+		boolean result = access.existToken(con, namePlayer, token);
+		con.close();
+		return result;		
+	}
 }

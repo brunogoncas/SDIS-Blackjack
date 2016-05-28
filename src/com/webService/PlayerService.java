@@ -1,15 +1,7 @@
 package com.webService;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -30,7 +22,6 @@ import com.google.gson.Gson;
 //import model.AccessManager;
 
 import dto.Player;
-import logic.Globals;
 import logic.MessagesEncrypter;
 import model.AccessManager;
 
@@ -59,11 +50,11 @@ public class PlayerService {
 			@FormParam("password") String password, 
 			@FormParam("chips") String chips) throws Exception {
 	
-		//String n = MessagesEncrypter.decrypt(name);
-		//String p = MessagesEncrypter.decrypt(password);
-		//int c = Integer.parseInt(MessagesEncrypter.decrypt(chips));
+		String n = MessagesEncrypter.decrypt(name,12);
+		String p = MessagesEncrypter.decrypt(password,12);
+		int c = Integer.parseInt(MessagesEncrypter.decrypt(chips,12));
 	
-		boolean result = new AccessManager().insertPlayer(name, password, Integer.parseInt(chips));
+		boolean result = new AccessManager().insertPlayer(n, p, c);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Register Failed for: " + name).build();
@@ -79,9 +70,9 @@ public class PlayerService {
 	@Produces("application/json")
 	public static String  newPlayer(@FormParam("token") String token) throws Exception {
 	
-		//String t = MessagesEncrypter.decrypt(token);
+		String t = MessagesEncrypter.decrypt(token,12);
 		
-		new AccessManager().logoutPlayer(token);
+		new AccessManager().logoutPlayer(t);
 		
 		return "Sucess";
 	}
@@ -92,14 +83,16 @@ public class PlayerService {
 	@Consumes("application/x-www-form-urlencoded")
 	public static Response  newLogin(@FormParam("name") String name, 
 			@FormParam("password") String password, @FormParam("token") String token) throws Exception {
-	
-		//String n = MessagesEncrypter.decrypt(name);
-		//String t = MessagesEncrypter.decrypt(token);
+		
+		System.out.println("FDPPSAPDPSAP " + name + "  " + password);
+		String n = MessagesEncrypter.decrypt(name,12);
+		String t = MessagesEncrypter.decrypt(token,12);
+		System.out.println("CRLLLLLLLLLLLLLLLLL " + n + "  " + t);
 		
 		// Issue a token for the user
         //String token = issueToken(name);
 		
-		boolean result = new AccessManager().loginPlayer(name, password, token);
+		boolean result = new AccessManager().loginPlayer(n, password, t);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Login Failed for: " + name).build();
@@ -135,10 +128,10 @@ public class PlayerService {
 	public static String AddChips(@FormParam("name") String name, 
 			@FormParam("addChips") String addChips) throws Exception {
 	
-		//String n = MessagesEncrypter.decrypt(name);
-		//int c = Integer.parseInt(MessagesEncrypter.decrypt(addChips));
+		String n = MessagesEncrypter.decrypt(name,12);
+		int c = Integer.parseInt(MessagesEncrypter.decrypt(addChips,12));
 		
-		new AccessManager().AddChips(name, Integer.parseInt(addChips));
+		new AccessManager().AddChips(n, c);
 		return "Sucess";
 	}
 	
@@ -156,10 +149,10 @@ public class PlayerService {
 	public String editTimeout(@FormParam("name") String name, 
 			@FormParam("idRoom") String idRoom) throws Exception {
 		
-		//String n = MessagesEncrypter.decrypt(name);
-		//int id = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
+		String n = MessagesEncrypter.decrypt(name,12);
+		int id = Integer.parseInt(MessagesEncrypter.decrypt(idRoom,12));
 	
-		new AccessManager().updateTPlayer(name, Integer.parseInt(idRoom));
+		new AccessManager().updateTPlayer(n, id);
 		return "Sucess";
 	}
 	
@@ -169,10 +162,10 @@ public class PlayerService {
 	public static Response RemoveChips(@FormParam("name") String name, 
 			@FormParam("removeChips") String removeChips) throws Exception {
 	
-		//String n = MessagesEncrypter.decrypt(name);
-		//int c = Integer.parseInt(MessagesEncrypter.decrypt(removeChips));
+		String n = MessagesEncrypter.decrypt(name,12);
+		int c = Integer.parseInt(MessagesEncrypter.decrypt(removeChips,12));
 	
-		boolean result = new AccessManager().RemoveChips(name, Integer.parseInt(removeChips));
+		boolean result = new AccessManager().RemoveChips(n, c);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Não têm saldo suficiente para efetuar o levantamento de "+removeChips+" chips.").build();
@@ -189,10 +182,10 @@ public class PlayerService {
 	public static Response addBet(@FormParam("name") String name, 
 			@FormParam("addBet") String addBet) throws Exception {
 	
-		//String n = MessagesEncrypter.decrypt(name);
-		//int c = Integer.parseInt(MessagesEncrypter.decrypt(addBet));
+		String n = MessagesEncrypter.decrypt(name,12);
+		int c = Integer.parseInt(MessagesEncrypter.decrypt(addBet,12));
 	
-		Boolean result = new AccessManager().AddBet(name, Integer.parseInt(addBet)	);
+		Boolean result = new AccessManager().AddBet(n, c);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Não tem saldo suficiente para efetuar a aposta que pretende.").build();
@@ -228,11 +221,11 @@ public class PlayerService {
 			@FormParam("idRoom") String idRoom,
 			@FormParam("numCards") String numCards ) throws Exception {
 		
-		/*String n = MessagesEncrypter.decrypt(name);
-		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
-		int ncards = Integer.parseInt(MessagesEncrypter.decrypt(numCards));*/
+		String n = MessagesEncrypter.decrypt(name,12);
+		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom,12));
+		int ncards = Integer.parseInt(MessagesEncrypter.decrypt(numCards,12));
 	
-		boolean result = new AccessManager().addCards(name, Integer.parseInt(idRoom), Integer.parseInt(numCards));
+		boolean result = new AccessManager().addCards(n, idroom, ncards);
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas.").build();
 		}
@@ -249,11 +242,11 @@ public class PlayerService {
 			@FormParam("namePlayer") String namePlayer,
 			@FormParam("state") String stateRoom) throws Exception {
 		
-		/*String n = MessagesEncrypter.decrypt(namePlayer);
-		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom));
-		String sRoom = MessagesEncrypter.decrypt(stateRoom);*/
+		String n = MessagesEncrypter.decrypt(namePlayer,12);
+		int idroom = Integer.parseInt(MessagesEncrypter.decrypt(idRoom,12));
+		String sRoom = MessagesEncrypter.decrypt(stateRoom,12);
 	
-		boolean result = new AccessManager().updatePlayerState(Integer.parseInt(idRoom), stateRoom, namePlayer);
+		boolean result = new AccessManager().updatePlayerState(idroom, sRoom, n);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Failed to update player state").build();

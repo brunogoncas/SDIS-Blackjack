@@ -51,7 +51,7 @@ public class Login {
     	String token = null;
     			
 		try {
-			token = messagesEncrypter.encrypt("blackjack_SDIS_" + username + "_" + new java.util.Date());
+			token = messagesEncrypter.encrypt("blackjack_SDIS_" + username + "_" + new java.util.Date(),12);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -73,17 +73,25 @@ public class Communication {
 		      writer.write("=");
 	  
 		      String value = paramVal[i];
-		      /*
+		      System.out.println("DEC: "+ value);
 		      if(paramName[i].equals("password"))
 		    	 value = paramVal[i];
 		      
-		      else
-		    	  value = MessagesEncrypter.encrypt(paramVal[i]);
-		      */
+		      else if(paramName[i].isEmpty()){
+		    	  continue;
+		      }
+		      
+		      else{
+		    	  value = MessagesEncrypter.encrypt(paramVal[i].toString(),12);
+		    	  System.out.println("ENCRYPTED: "+ value);
+		      }
+		      
 		      writer.write(value);
 		        
 		      writer.write("&");
 		    }
+	    
+	    System.out.println("TESTEEEEEEEEE: " + writer.toString().length());
 	    writer.close();
 	    out.close();
 	    

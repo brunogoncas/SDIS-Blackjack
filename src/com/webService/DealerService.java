@@ -23,10 +23,10 @@ public class DealerService {
 	public Response AddCardsDealer(@FormParam("namedealer") String namedealer,
 			@FormParam("numberCards") String numberCards) throws Exception {
 		
-		//String n = MessagesEncrypter.decrypt(namedealer);
-		//int nC = Integer.parseInt(MessagesEncrypter.decrypt(numberCards));
+		String n = MessagesEncrypter.decrypt(namedealer,12);
+		int nC = Integer.parseInt(MessagesEncrypter.decrypt(numberCards,12));
 	
-		boolean result = new AccessManager().AddCardsDealer(namedealer, Integer.parseInt(numberCards));
+		boolean result = new AccessManager().AddCardsDealer(n, nC);
 		if(result==false){
 			return Response.status(Response.Status.NOT_FOUND).entity("Nao foi possivel dar cartas ao dealer.").build();
 		}

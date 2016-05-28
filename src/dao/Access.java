@@ -890,28 +890,30 @@ public class Access {
 	  
 	  public boolean CheckRoomPass(Connection con, int idRoom, String password) {
 		  
-		  String query = "select * from room where idroom = ? and password = ?";
-			boolean val = false;
+		  String query = "select name from room where idroom = ? and password = ?";
+			String name=null;
 			try {
 				PreparedStatement stmt = con.prepareStatement(query);
 				stmt.setInt(1, idRoom);
 				stmt.setString(2, password);
 				ResultSet rs = stmt.executeQuery();
-				val = rs.next(); // next() returns false if there are no-rows
-											// retrieved
-				if (val == false) {
+				while (rs.next()) {
+					name = rs.getString(1);
+				}	
+				if (name == null) {
 					System.out.println("Login Sala Errado"); // prints this message if your
-														// resultset is empty
+					con.close();
+					return false;// resultset is empty
 				}
-				
-				con.close();
+				else {
+					con.close();
+					return true;
+				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-					
-			
-			return val;
+			return false;		
 	}
 	 
 	public boolean existToken(Connection con, String namePlayer, String token) {
@@ -925,9 +927,9 @@ public class Access {
 			
 			while (rs.next()) {
 				tokenRecebido = rs.getString(1);
-			}
+			}		
 			
-			System.out.println("TOKEN : " + token + "  E  " + tokenRecebido + " NOME " + namePlayer);
+			//System.out.println("TOKEN : " + token + "  E  " + tokenRecebido + " NOME " + namePlayer);
 			
 			if(tokenRecebido.equals("")) {
 				System.out.println("Utilizador não Registado");
@@ -950,4 +952,5 @@ public class Access {
 		
 		return exists;
 	}
+
 }

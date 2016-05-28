@@ -76,7 +76,7 @@ public class PlayPlayer implements Runnable{
 					//SAIR DA SALA
 					System.out.println("|P| Falhou 2 tentativas de voltar á sala, a ser removido! |IDDLE|");
 					
-					Communication.DELETE("playerService/removePlayer/"+usernameLogged+"/"+idRoom+"/"+token);
+					Communication.DELETE("playerService/removePlayer/"+usernameLogged+"/"+idRoom);
 					break;
 					
 				}
@@ -361,7 +361,7 @@ public class PlayPlayer implements Runnable{
 					str = in.readLine();
 					if(str.toLowerCase().equals("e") || str.toLowerCase().equals("q")) {
 							System.out.println("|P| A sair da sala! ");
-							Communication.DELETE("playerService/removePlayer/"+usernameLogged+"/"+idRoom+"/"+token);
+							Communication.DELETE("playerService/removePlayer/"+usernameLogged+"/"+idRoom);
 							break;
 					}
 				} else {

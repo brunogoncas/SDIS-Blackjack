@@ -73,8 +73,8 @@ public class Communication {
 		      writer.write("=");
 	  
 		      String value = paramVal[i];
-		      System.out.println("DEC: "+ value);
-		      if(paramName[i].equals("password"))
+		      //System.out.println("DEC: "+ value);
+		      if(paramName[i].equals("password") || paramName[i].equals("token"))
 		    	 value = paramVal[i];
 		      
 		      else if(paramName[i].isEmpty()){
@@ -83,7 +83,7 @@ public class Communication {
 		      
 		      else{
 		    	  value = MessagesEncrypter.encrypt(paramVal[i].toString(),12);
-		    	  System.out.println("ENCRYPTED: "+ value);
+		    	  //System.out.println("ENCRYPTED: "+ value);
 		      }
 		      
 		      writer.write(value);
@@ -91,7 +91,7 @@ public class Communication {
 		      writer.write("&");
 		    }
 	    
-	    System.out.println("TESTEEEEEEEEE: " + writer.toString().length());
+	    //System.out.println("TESTEEEEEEEEE: " + writer.toString().length());
 	    writer.close();
 	    out.close();
 	    

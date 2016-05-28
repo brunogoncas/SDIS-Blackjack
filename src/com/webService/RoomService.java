@@ -102,7 +102,7 @@ public class RoomService {
 		System.out.println("NAOOOoooo " + player + "  " + idroom);
 
 
-		boolean tokenresult = new AccessManager().existToken(Player, token);
+		boolean tokenresult = new AccessManager().existToken(player, token);
 		if(tokenresult==false) {
 			System.out.println("ERRO NO ADDPLAERROOM");
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Room Creation Failed Because Token FALSE").build();
@@ -212,8 +212,9 @@ public class RoomService {
 	@Produces("application/json")
 	public static Response newPlayer(@FormParam("idRoom") int idRoom, 
 			@FormParam("password") String password) throws Exception {
-	
-		boolean result = new AccessManager().checkpassRoom(idRoom, password);
+		
+		int id = Integer.parseInt(MessagesEncrypter.decrypt(String.valueOf(idRoom),12));
+		boolean result = new AccessManager().checkpassRoom(id, password);
 		
 		if(result==false){
 			return Response.status(Response.Status.NOT_ACCEPTABLE).entity("Register Room Failed for: " + idRoom).build();

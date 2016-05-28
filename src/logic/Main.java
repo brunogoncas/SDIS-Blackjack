@@ -363,7 +363,7 @@ public class Main {
 					System.out.println("Qual é password da Room que pretende escolher (id="+Integer.toString(RoomChoose)+") ?");
 					reader.nextLine();
 					input2 = reader.nextLine();
-					
+					//System.out.println("passaaa :" + input2 );
 					//verificar se a passwor está correta
 					String passSha256 = null;
 					try {
@@ -372,7 +372,8 @@ public class Main {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					String[] paramName4 = { "name", "password" };
+					//System.out.println("passaaa :" + input2 + "   " + passSha256);
+					String[] paramName4 = { "idRoom", "password" };
 					String[] paramVal4 = { Integer.toString(RoomChoose), passSha256 };
 					int respons;
 					try {
@@ -380,9 +381,10 @@ public class Main {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					//System.out.println("pass :" + input2);
 				}
 								
-				
+				//System.out.println("idrr :" + RoomChoose);
 				response=null;
 				try {
 					response = Communication.GET("roomService/room/"+RoomChoose+"/number");
@@ -391,16 +393,16 @@ public class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
+				System.out.println("NUMBER " + response);
 				//System.out.println("NUM: " + temp);
 				
 				if(temp >= 6){
 					System.out.println("Demasiados jogadores na sala!");
 					
-				}
-				
+				}				
 				else{
-
+					System.out.println("GAJOOOOOOOOO");
 				String[] paramName3 = { "name", "idRoom","token"};
 				String[] paramVal3 = {usernameLogged, Integer.toString(RoomChoose),token };
 				

@@ -394,7 +394,7 @@ public class Main {
 					e.printStackTrace();
 				}
 
-				System.out.println("NUMBER " + response);
+				System.out.println("N�mero de jogadores na sala agora: " + (Integer.valueOf(response)+1) );
 				//System.out.println("NUM: " + temp);
 				
 				if(temp >= 6){
@@ -402,7 +402,7 @@ public class Main {
 					
 				}				
 				else{
-					System.out.println("GAJOOOOOOOOO");
+					//System.out.println("GAJOOOOOOOOO");
 				String[] paramName3 = { "name", "idRoom","token"};
 				String[] paramVal3 = {usernameLogged, Integer.toString(RoomChoose),token };
 				

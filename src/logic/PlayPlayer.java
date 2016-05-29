@@ -96,7 +96,8 @@ public class PlayPlayer implements Runnable{
 						}
 
 						if (in.ready()) {
-							
+							//in.close();		
+							//in = new BufferedReader(new InputStreamReader(System.in));
 						    System.out.println("|P| Voltou!!!");
 						    String[] state = {"idRoom","namePlayer","state", "token"};
 							String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin",token};
@@ -159,8 +160,17 @@ public class PlayPlayer implements Runnable{
 							String[] paramVal2 = {usernameLogged , Integer.toString(betmoney), token};
 							String[] state = {"idRoom","namePlayer","state","token"};
 							String[] stateVal = {String.valueOf(idRoom),usernameLogged,"getcards",token};
-							Communication.POST("playerService/addBet", paramName2 , paramVal2);
-							Communication.POST("playerService/updateState", state , stateVal);
+							int resposta = Communication.POST("playerService/addBet", paramName2 , paramVal2);
+							
+							//checkar se tem dinheiro disponivel para apostar se n tiver, avança.
+							if(resposta != 200) {
+								System.out.println("Não tem dinheiro disponivel para efetuar essa aposta. Tenha atenção para a próxima.");
+								String[] state2 = {"idRoom","namePlayer","state","token"};
+								String[] stateVal2 = {String.valueOf(idRoom),usernameLogged,"begin",token};
+								Communication.POST("playerService/updateState", state2 , stateVal2);
+							} else {
+								Communication.POST("playerService/updateState", state , stateVal);
+							}
 						}
 					}
 					else {
@@ -255,17 +265,22 @@ public class PlayPlayer implements Runnable{
 					else if (resp.toLowerCase().equals("d")) {
 						
 						pPoints = 0;
+						
+						//remove o dinheiro 
+						String[] paramName2 = { "name", "removeChips", "token"};
+						String[] paramVal2 = { usernameLogged, Integer.toString(betmoney), token };
+						
+						int resposta = Communication.POST("playerService/removeChips", paramName2, paramVal2);
+						if(resposta != 200) {
+							System.out.println("Não conseguiu fazer double por causa do seu dinheiro disponivel! Tenha mais atenção para a próxima.");
+							 resp = "s";
+						}
+						
 						//se double -> pedir só +1 carta e tirar dinheiro da aposta inciial e avançar
 						String[] cards = {"name","idRoom","numCards","token"};
 						String[] cardsVal = {usernameLogged,String.valueOf(idRoom),String.valueOf(1), token};
 						Communication.POST("playerService/addCards", cards , cardsVal);
 								
-						//remove o dinheiro 
-						String[] paramName2 = { "name", "removeChips", "token"};
-						String[] paramVal2 = { usernameLogged, Integer.toString(betmoney), token };
-						
-						Communication.POST("playerService/removeChips", paramName2, paramVal2);
-						
 						//get cartas jogador
 						String cardsPlayer3=null;
 

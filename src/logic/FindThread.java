@@ -30,6 +30,7 @@ public class FindThread extends Thread {
 					
 					if(!arrayRooms.contains(parts[i])) {
 						System.out.println("\n" + name + " is now at room " + parts[i]);
+						System.out.println("Pressione e(exit) ou q(quit) para voltar ao menu principal caso não esteja a jogar ou no menu principal.");
 						arrayRooms.add(parts[i]);
 						temp.add(parts[i]);
 					}
@@ -46,6 +47,7 @@ public class FindThread extends Thread {
 						}
 					}
 				}
+				
 				
 				try {
 	    		    Thread.sleep(5000);                 //5 seconds

@@ -96,8 +96,6 @@ public class PlayPlayer implements Runnable{
 						}
 
 						if (in.ready()) {
-							//in.close();		
-							//in = new BufferedReader(new InputStreamReader(System.in));
 						    System.out.println("|P| Voltou!!!");
 						    String[] state = {"idRoom","namePlayer","state", "token"};
 							String[] stateVal = {String.valueOf(idRoom),usernameLogged,"begin",token};

@@ -36,7 +36,7 @@ public class Main {
 			try {
 				choice = Integer.parseInt(reader.next());
 			} catch (NumberFormatException e) {
-				System.out.println("\nInput invalido!");
+				//System.out.println("\nInput invalido!");
 				System.out.println("");
 
 				continue;
@@ -394,7 +394,7 @@ public class Main {
 					e.printStackTrace();
 				}
 
-				System.out.println("Nï¿½mero de jogadores na sala agora: " + (Integer.valueOf(response)+1) );
+				System.out.println("Número de jogadores na sala agora: " + (Integer.valueOf(response)+1) );
 				//System.out.println("NUM: " + temp);
 				
 				if(temp >= 6){
